@@ -13,6 +13,7 @@
 		3412B3D12525B61400DA446D /* HomeBughTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3412B3D02525B61400DA446D /* HomeBughTests.swift */; };
 		3412B3DC2525B61400DA446D /* HomeBughUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3412B3DB2525B61400DA446D /* HomeBughUITests.swift */; };
 		C1E0BD9E25273D9000B2850C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0BD9D25273D9000B2850C /* LoginView.swift */; };
+		C1E0BDC52527982000B2850C /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0BDC42527982000B2850C /* SignUpView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		3412B3DB2525B61400DA446D /* HomeBughUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBughUITests.swift; sourceTree = "<group>"; };
 		3412B3DD2525B61400DA446D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C1E0BD9D25273D9000B2850C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		C1E0BDC42527982000B2850C /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +99,7 @@
 			children = (
 				3412B3BE2525B61200DA446D /* HomeBughApp.swift */,
 				C1E0BD9D25273D9000B2850C /* LoginView.swift */,
+				C1E0BDC42527982000B2850C /* SignUpView.swift */,
 				3412B3C22525B61400DA446D /* Assets.xcassets */,
 				3412B3C72525B61400DA446D /* Info.plist */,
 				3412B3C42525B61400DA446D /* Preview Content */,
@@ -260,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C1E0BD9E25273D9000B2850C /* LoginView.swift in Sources */,
+				C1E0BDC52527982000B2850C /* SignUpView.swift in Sources */,
 				3412B3BF2525B61200DA446D /* HomeBughApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

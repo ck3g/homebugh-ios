@@ -14,6 +14,8 @@ struct LoginView: View {
     @State var email: String = ""
     @State var password: String = ""
     
+    @EnvironmentObject var auth: Auth
+    
     var body: some View {
         VStack {
             LogoView()
@@ -34,12 +36,9 @@ struct LoginView: View {
                 .frame(width: 220, height: 60)
                 .background(Color.green)
                 .cornerRadius(15.0)
-            Text("Sign up")
-                .font(.headline)
-                .foregroundColor(.green)
-                .padding()
-                .frame(width: 220, height: 60)
-                .background(Color.white)
+            Button(action: { self.auth.setAuthView(view: "SignUp") }) {
+                SignUpButton()
+            }
         }
         .padding()
     }
@@ -57,5 +56,16 @@ struct LogoView: View {
             .font(.largeTitle)
             .fontWeight(.bold)
             .padding(.bottom, 50)
+    }
+}
+
+struct SignUpButton: View {
+    var body: some View {
+        Text("Sign up")
+            .font(.headline)
+            .foregroundColor(.green)
+            .padding()
+            .frame(width: 220, height: 60)
+            .background(Color.white)
     }
 }

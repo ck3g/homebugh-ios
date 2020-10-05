@@ -13,6 +13,8 @@ struct SignUpView: View {
     @State var password: String = ""
     @State var passwordConfirmation: String = ""
     
+    @EnvironmentObject var auth: Auth
+    
     var body: some View {
         VStack {
             LogoView()
@@ -38,12 +40,9 @@ struct SignUpView: View {
                 .frame(width: 220, height: 60)
                 .background(Color.green)
                 .cornerRadius(15.0)
-            Text("Sign in")
-                .font(.headline)
-                .foregroundColor(.green)
-                .padding()
-                .frame(width: 220, height: 60)
-                .background(Color.white)
+            Button(action: { self.auth.setAuthView(view: "Login") }) {
+                SignInButton()
+            }
         }
         .padding()
     }
@@ -52,5 +51,16 @@ struct SignUpView: View {
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
         SignUpView()
+    }
+}
+
+struct SignInButton: View {
+    var body: some View {
+        Text("Sign in")
+            .font(.headline)
+            .foregroundColor(.green)
+            .padding()
+            .frame(width: 220, height: 60)
+            .background(Color.white)
     }
 }

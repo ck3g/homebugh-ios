@@ -12,6 +12,7 @@
 		3412B3C62525B61400DA446D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3412B3C52525B61400DA446D /* Preview Assets.xcassets */; };
 		3412B3D12525B61400DA446D /* HomeBughTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3412B3D02525B61400DA446D /* HomeBughTests.swift */; };
 		3412B3DC2525B61400DA446D /* HomeBughUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3412B3DB2525B61400DA446D /* HomeBughUITests.swift */; };
+		C19D875F252B315700B2433F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19D875E252B315700B2433F /* ContentView.swift */; };
 		C1E0BD9E25273D9000B2850C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0BD9D25273D9000B2850C /* LoginView.swift */; };
 		C1E0BDC52527982000B2850C /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0BDC42527982000B2850C /* SignUpView.swift */; };
 /* End PBXBuildFile section */
@@ -45,6 +46,7 @@
 		3412B3D72525B61400DA446D /* HomeBughUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HomeBughUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3412B3DB2525B61400DA446D /* HomeBughUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBughUITests.swift; sourceTree = "<group>"; };
 		3412B3DD2525B61400DA446D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		C19D875E252B315700B2433F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C1E0BD9D25273D9000B2850C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C1E0BDC42527982000B2850C /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				3412B3BE2525B61200DA446D /* HomeBughApp.swift */,
+				C19D875E252B315700B2433F /* ContentView.swift */,
 				C1E0BD9D25273D9000B2850C /* LoginView.swift */,
 				C1E0BDC42527982000B2850C /* SignUpView.swift */,
 				3412B3C22525B61400DA446D /* Assets.xcassets */,
@@ -264,6 +267,7 @@
 			files = (
 				C1E0BD9E25273D9000B2850C /* LoginView.swift in Sources */,
 				C1E0BDC52527982000B2850C /* SignUpView.swift in Sources */,
+				C19D875F252B315700B2433F /* ContentView.swift in Sources */,
 				3412B3BF2525B61200DA446D /* HomeBughApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -15,6 +15,7 @@ struct LoginView: View {
     @State var password: String = ""
     
     @EnvironmentObject var auth: Auth
+    @EnvironmentObject var userLoggedIn: UserLoggedIn
     
     var body: some View {
         VStack {
@@ -29,13 +30,9 @@ struct LoginView: View {
                 .background(lightGreyColor)
                 .cornerRadius(5.0)
                 .padding(.bottom, 20)
-            Text("Sign in")
-                .font(.headline)
-                .foregroundColor(.white)
-                .padding()
-                .frame(width: 220, height: 60)
-                .background(Color.green)
-                .cornerRadius(15.0)
+            Button(action: { self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: true) }) {
+                LoginButton()
+            }
             Button(action: { self.auth.setAuthView(view: "SignUp") }) {
                 SignUpButton()
             }
@@ -67,5 +64,17 @@ struct SignUpButton: View {
             .padding()
             .frame(width: 220, height: 60)
             .background(Color.white)
+    }
+}
+
+struct LoginButton: View {
+    var body: some View {
+        Text("Sign in")
+            .font(.headline)
+            .foregroundColor(.white)
+            .padding()
+            .frame(width: 220, height: 60)
+            .background(Color.green)
+            .cornerRadius(15.0)
     }
 }

@@ -16,20 +16,29 @@ class Auth: ObservableObject {
       }
 }
 
+class UserLoggedIn: ObservableObject {
+    var isUserLoggedIn: Bool = false
+    
+    func setUserLoggedIn(isUserLoggedIn: Bool) {
+        self.objectWillChange.send()
+        self.isUserLoggedIn = isUserLoggedIn
+      }
+}
+
 struct ContentView: View {
     
-    @State var isUserLoggedIn: Bool = false
+    @ObservedObject var userLoggedIn = UserLoggedIn()
     @ObservedObject var auth = Auth()
     
     var body: some View {
         ZStack {
-            if isUserLoggedIn {
-                Text("Logged in")
+            if self.userLoggedIn.isUserLoggedIn {
+                MainView().environmentObject(auth).environmentObject(userLoggedIn)
             } else {
                 if self.auth.currentView == "Login" {
-                    LoginView().environmentObject(auth)
+                    LoginView().environmentObject(auth).environmentObject(userLoggedIn)
                 } else {
-                    SignUpView().environmentObject(auth)
+                    SignUpView().environmentObject(auth).environmentObject(userLoggedIn)
                 }
                 
             }
@@ -39,6 +48,6 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView().environmentObject(Auth())
+        ContentView().environmentObject(Auth()).environmentObject(UserLoggedIn())
     }
 }

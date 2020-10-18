@@ -9,10 +9,16 @@ import SwiftUI
 
 let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
 
+let storedEmail = "user@example.com"
+let storedPassword = "password"
+
 struct LoginView: View {
     
     @State var email: String = ""
     @State var password: String = ""
+    
+    @State var authenticationDidFail: Bool = false
+    @State var authenticationDidSucceed: Bool = true
     
     @EnvironmentObject var auth: Auth
     @EnvironmentObject var userLoggedIn: UserLoggedIn
@@ -20,17 +26,23 @@ struct LoginView: View {
     var body: some View {
         VStack {
             LogoView()
-            TextField("Email", text: $email)
-                .padding()
-                .background(lightGreyColor)
-                .cornerRadius(5.0)
-                .padding(.bottom, 20)
-            SecureField("Password", text: $password)
-                .padding()
-                .background(lightGreyColor)
-                .cornerRadius(5.0)
-                .padding(.bottom, 20)
-            Button(action: { self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: true) }) {
+            EmailTextField(email: $email)
+            PasswordTextField(password: $password)
+            if authenticationDidFail {
+                Text("Invalid credentials")
+                    .offset(y: -10)
+                    .foregroundColor(.red)
+            }
+            Button(action: {
+                let email = self.email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+                let password = self.password.trimmingCharacters(in: .whitespacesAndNewlines)
+                if email == storedEmail && password == storedPassword {
+                    self.authenticationDidSucceed = true
+                    self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: true)
+                } else {
+                    self.authenticationDidFail = true
+                }
+            }) {
                 LoginButton()
             }
             Button(action: { self.auth.setAuthView(view: "SignUp") }) {
@@ -78,3 +90,28 @@ struct LoginButton: View {
             .cornerRadius(15.0)
     }
 }
+
+struct EmailTextField: View {
+    @Binding var email: String
+    var body: some View {
+        TextField("Email", text: $email)
+            .padding()
+            .background(lightGreyColor)
+            .cornerRadius(5.0)
+            .padding(.bottom, 20)
+            .keyboardType(.emailAddress)
+    }
+}
+
+struct PasswordTextField: View {
+    @Binding var password: String
+    var body: some View {
+        SecureField("Password", text: $password)
+            .padding()
+            .background(lightGreyColor)
+            .cornerRadius(5.0)
+            .padding(.bottom, 20)
+    }
+}
+
+

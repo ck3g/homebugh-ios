@@ -16,25 +16,31 @@ struct SignUpView: View {
     @EnvironmentObject var auth: Auth
     @EnvironmentObject var userLoggedIn: UserLoggedIn
     
+    @State var registrationDidFail: Bool = false
+    @State var registrationDidSucceed: Bool = true
+    
     var body: some View {
         VStack {
             LogoView()
-            TextField("Email", text: $email)
-                .padding()
-                .background(lightGreyColor)
-                .cornerRadius(5.0)
-                .padding(.bottom, 20)
-            SecureField("Password", text: $password)
-                .padding()
-                .background(lightGreyColor)
-                .cornerRadius(5.0)
-                .padding(.bottom, 20)
-            SecureField("Password confirmation", text: $passwordConfirmation)
-                .padding()
-                .background(lightGreyColor)
-                .cornerRadius(5.0)
-                .padding(.bottom, 20)
-            Button(action: { self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: true) }) {
+            SUEmailTextField(email: $email)
+            SUPasswordTextField(password: $password)
+            SUPasswordConfirmationTextField(passwordConfirmation: $passwordConfirmation)
+            if registrationDidFail {
+                Text("Invalid credentials")
+                    .offset(y: -10)
+                    .foregroundColor(.red)
+            }
+            Button(action: {
+                let email = self.email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+                let password = self.password.trimmingCharacters(in: .whitespacesAndNewlines)
+                let confirmedPassword = self.passwordConfirmation.trimmingCharacters(in: .whitespacesAndNewlines)
+                if isEmailValid(enteredEmail: email) && password == confirmedPassword {
+                    self.registrationDidSucceed = true
+                    self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: true)
+                } else {
+                    self.registrationDidFail = true
+                }
+            }) {
                 RegisterButton()
             }
             Button(action: { self.auth.setAuthView(view: "Login") }) {
@@ -42,6 +48,12 @@ struct SignUpView: View {
             }
         }
         .padding()
+    }
+    
+    func isEmailValid(enteredEmail: String) -> Bool {
+        let emailFormat = "^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
+        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
+        return emailPredicate.evaluate(with: enteredEmail)
     }
 }
 
@@ -71,5 +83,39 @@ struct RegisterButton: View {
             .frame(width: 220, height: 60)
             .background(Color.green)
             .cornerRadius(15.0)
+    }
+}
+
+struct SUEmailTextField: View {
+    @Binding var email: String
+    var body: some View {
+        TextField("Email", text: $email)
+            .padding()
+            .background(lightGreyColor)
+            .cornerRadius(5.0)
+            .padding(.bottom, 20)
+            .keyboardType(.emailAddress)
+    }
+}
+
+struct SUPasswordTextField: View {
+    @Binding var password: String
+    var body: some View {
+        SecureField("Password", text: $password)
+            .padding()
+            .background(lightGreyColor)
+            .cornerRadius(5.0)
+            .padding(.bottom, 20)
+    }
+}
+
+struct SUPasswordConfirmationTextField: View {
+    @Binding var passwordConfirmation: String
+    var body: some View {
+        SecureField("Password", text: $passwordConfirmation)
+            .padding()
+            .background(lightGreyColor)
+            .cornerRadius(5.0)
+            .padding(.bottom, 20)
     }
 }

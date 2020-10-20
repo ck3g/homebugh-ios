@@ -9,15 +9,11 @@ import SwiftUI
 
 let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
 
-let storedEmail = "user@example.com"
-let storedPassword = "password"
-
 struct LoginView: View {
     
     @State var email: String = ""
     @State var password: String = ""
     
-    @State var authenticationDidFail: Bool = false
     @State var authenticationDidSucceed: Bool = true
     
     @EnvironmentObject var auth: Auth
@@ -28,19 +24,15 @@ struct LoginView: View {
             LogoView()
             EmailTextField(email: $email)
             PasswordTextField(password: $password)
-            if authenticationDidFail {
+            if !authenticationDidSucceed {
                 Text("Invalid credentials")
                     .offset(y: -10)
                     .foregroundColor(.red)
             }
             Button(action: {
-                let email = self.email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-                let password = self.password.trimmingCharacters(in: .whitespacesAndNewlines)
-                if email == storedEmail && password == storedPassword {
-                    self.authenticationDidSucceed = true
+                self.authenticationDidSucceed = Authentication().loginUser(email: self.email, password: self.password)
+                if self.authenticationDidSucceed {
                     self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: true)
-                } else {
-                    self.authenticationDidFail = true
                 }
             }) {
                 LoginButton()

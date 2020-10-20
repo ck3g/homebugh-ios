@@ -16,7 +16,6 @@ struct SignUpView: View {
     @EnvironmentObject var auth: Auth
     @EnvironmentObject var userLoggedIn: UserLoggedIn
     
-    @State var registrationDidFail: Bool = false
     @State var registrationDidSucceed: Bool = true
     
     var body: some View {
@@ -25,20 +24,15 @@ struct SignUpView: View {
             SUEmailTextField(email: $email)
             SUPasswordTextField(password: $password)
             SUPasswordConfirmationTextField(passwordConfirmation: $passwordConfirmation)
-            if registrationDidFail {
+            if !registrationDidSucceed {
                 Text("Invalid credentials")
                     .offset(y: -10)
                     .foregroundColor(.red)
             }
             Button(action: {
-                let email = self.email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-                let password = self.password.trimmingCharacters(in: .whitespacesAndNewlines)
-                let confirmedPassword = self.passwordConfirmation.trimmingCharacters(in: .whitespacesAndNewlines)
-                if isEmailValid(enteredEmail: email) && password == confirmedPassword {
-                    self.registrationDidSucceed = true
+                self.registrationDidSucceed = Authorization.registerNewUser(email: self.email, password: self.password, confirmedPassword: self.passwordConfirmation)
+                if self.registrationDidSucceed {
                     self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: true)
-                } else {
-                    self.registrationDidFail = true
                 }
             }) {
                 RegisterButton()
@@ -48,12 +42,6 @@ struct SignUpView: View {
             }
         }
         .padding()
-    }
-    
-    func isEmailValid(enteredEmail: String) -> Bool {
-        let emailFormat = "^[a-zA-Z0-9.!#$%&'*+\\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$"
-        let emailPredicate = NSPredicate(format:"SELF MATCHES %@", emailFormat)
-        return emailPredicate.evaluate(with: enteredEmail)
     }
 }
 

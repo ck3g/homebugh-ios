@@ -10,13 +10,9 @@ import Foundation
 class Authorization {
     static func registerNewUser(email: String, password: String, confirmedPassword: String) -> Bool {
         let email = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        let password = password.trimmingCharacters(in: .whitespacesAndNewlines)
-        let confirmedPassword = confirmedPassword.trimmingCharacters(in: .whitespacesAndNewlines)
-        if isEmailValid(enteredEmail: email) && password == confirmedPassword {
-            return true
-        } else {
-            return false
-        }
+        let password = password.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        let confirmedPassword = confirmedPassword.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        return isEmailValid(enteredEmail: email) && password == confirmedPassword
     }
     
     static func isEmailValid(enteredEmail: String) -> Bool {

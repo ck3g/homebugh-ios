@@ -14,11 +14,7 @@ class Authentication {
     
     func loginUser(email: String, password: String) -> Bool {
         let email = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        let password = password.trimmingCharacters(in: .whitespacesAndNewlines)
-        if email == self.storedEmail && password == self.storedPassword {
-            return true
-        } else {
-            return false
-        }
+        let password = password.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        return email == self.storedEmail && password == self.storedPassword
     }
 }

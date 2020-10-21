@@ -33,7 +33,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             if self.userLoggedIn.isUserLoggedIn {
-                MainView().environmentObject(auth).environmentObject(userLoggedIn)
+                AppView().environmentObject(auth).environmentObject(userLoggedIn)
             } else {
                 if self.auth.currentView == "Login" {
                     LoginView().environmentObject(auth).environmentObject(userLoggedIn)

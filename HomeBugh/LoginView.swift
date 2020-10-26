@@ -30,8 +30,10 @@ struct LoginView: View {
                     .foregroundColor(.red)
             }
             Button(action: {
-                self.authenticationDidSucceed = Authentication().loginUser(email: self.email, password: self.password)
+                let token = Authentication().loginUser(email: self.email, password: self.password)
+                self.authenticationDidSucceed = !token.isEmpty
                 if self.authenticationDidSucceed {
+                    AuthToken().setToken(token: Token(token: token))
                     self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: true)
                 }
             }) {

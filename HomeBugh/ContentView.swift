@@ -17,7 +17,7 @@ class Auth: ObservableObject {
 }
 
 class UserLoggedIn: ObservableObject {
-    var isUserLoggedIn: Bool = true
+    var isUserLoggedIn: Bool = AuthToken().isValid()
     
     func setUserLoggedIn(isUserLoggedIn: Bool) {
         self.objectWillChange.send()

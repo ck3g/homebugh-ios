@@ -7,14 +7,15 @@
 
 import Foundation
 
+let fakeEmail = "user@example.com"
+let fakePassword = "password"
+
 class Authentication {
     
-    var storedEmail: String = "user@example.com"
-    var storedPassword: String = "password"
-    
-    func loginUser(email: String, password: String) -> Bool {
+    func loginUser(email: String, password: String) -> String {
         let email = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let password = password.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-        return email == self.storedEmail && password == self.storedPassword
+        return email == fakeEmail && password == fakePassword ? "fakeToken" : ""
     }
+    
 }

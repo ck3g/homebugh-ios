@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct TransactionsView: View {
+    
+    let transactionsArray = [
+        Transaction(date: "October 20, 2020", amount: "18,23$", category: "Sport", categoryType: "Spending", account: "Deutsche Bank", comment: "Magnesium"),
+        Transaction(date: "October 20, 2020", amount: "5$", category: "Food", categoryType: "Spending", account: "Bar", comment: "")
+    ]
+    
     var body: some View {
-        let transactionOne = Transaction(date: "October 20, 2020", amount: "18,23$", category: "Sport", account: "Deutsche Bank", comment: "Magnesium")
-        let transactionTwo = Transaction(date: "October 20, 2020", amount: "5$", category: "Food", account: "Bar", comment: "")
-        let transactionsArray = [transactionOne, transactionTwo]
-        return List(transactionsArray) { transaction in
+        List(transactionsArray) { transaction in
             TransactionCell(transaction: transaction)
         }
     }

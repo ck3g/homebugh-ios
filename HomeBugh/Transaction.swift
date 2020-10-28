@@ -12,6 +12,7 @@ struct Transaction: Identifiable {
     var date: String
     var amount: String
     var category: String
+    var categoryType: String
     var account: String
     var comment: String
 }

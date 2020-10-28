@@ -15,27 +15,36 @@ struct TransactionCell: View {
         VStack {
             HStack {
                 Text(transaction.date)
-                    .padding()
+                    .font(.footnote)
+                Spacer()
                 Text(transaction.amount)
-                    .padding()
+                    .foregroundColor(amountTextColor())
             }
+            
             HStack {
                 Text(transaction.category)
-                    .padding()
+                Spacer()
                 Text(transaction.account)
-                    .padding()
             }
+            
             if transaction.comment != "" {
-                Text(transaction.comment)
-                    .padding()
+                HStack {
+                    Text(transaction.comment)
+                    Spacer()
+                }
             }
         }
-        
+        .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
     }
+    
+    func amountTextColor() -> Color {
+        return transaction.categoryType == "Spending" ? .red : .green
+    }
+    
 }
 
 struct TransactionCell_Previews: PreviewProvider {
     static var previews: some View {
-        TransactionCell(transaction: Transaction(date: "October 20, 2020", amount: "18,23$", category: "Sport", account: "Deutsche Bank", comment: "Magnesium"))
+        TransactionCell(transaction: Transaction(date: "October 20, 2020", amount: "18,23$", category: "Sport", categoryType: "Spending", account: "Deutsche Bank", comment: "Magnesium"))
     }
 }

@@ -18,6 +18,7 @@ struct TransactionsView: View {
         List(transactionsArray) { transaction in
             TransactionCell(transaction: transaction)
         }
+        .navigationBarTitle("Transactions")
     }
 }
 

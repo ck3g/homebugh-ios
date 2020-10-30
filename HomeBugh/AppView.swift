@@ -14,13 +14,11 @@ struct AppView: View {
     
     var body: some View {
         TabView {
-            NavigationView {
-                TransactionsView()
-            }
-            .tabItem {
-                Image(systemName: "list.dash")
-                Text("Transactions")
-            }
+            TransactionsView()
+                .tabItem {
+                    Image(systemName: "list.dash")
+                    Text("Transactions")
+                }
             
             MainView().environmentObject(auth).environmentObject(userLoggedIn)
                 .tabItem {

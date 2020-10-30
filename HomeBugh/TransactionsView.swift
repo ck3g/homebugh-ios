@@ -7,18 +7,36 @@
 
 import SwiftUI
 
+class Transactions: ObservableObject {
+  @Published var items = [
+    Transaction(date: "October 20, 2020", amount: "18,23$", category: "Sport", categoryType: "Spending", account: "Deutsche Bank", comment: "Magnesium"),
+    Transaction(date: "October 20, 2020", amount: "5$", category: "Food", categoryType: "Spending", account: "Bar", comment: "")
+]
+}
+
 struct TransactionsView: View {
     
-    let transactionsArray = [
-        Transaction(date: "October 20, 2020", amount: "18,23$", category: "Sport", categoryType: "Spending", account: "Deutsche Bank", comment: "Magnesium"),
-        Transaction(date: "October 20, 2020", amount: "5$", category: "Food", categoryType: "Spending", account: "Bar", comment: "")
-    ]
+    @ObservedObject var transactions = Transactions()
+    
+    @State private var addTransactionViewVisible = false
     
     var body: some View {
-        List(transactionsArray) { transaction in
-            TransactionCell(transaction: transaction)
+        NavigationView {
+            List(transactions.items) { transaction in
+                TransactionCell(transaction: transaction)
+            }
+            .navigationBarTitle("Transactions")
+            .navigationBarItems(trailing:
+                                    Button(action: {
+                                        self.addTransactionViewVisible = true
+                                    }) {
+                                        Image(systemName: "plus")
+                                    }
+            )
         }
-        .navigationBarTitle("Transactions")
+        .sheet(isPresented: $addTransactionViewVisible) {
+            AddTransactionView(transactions: self.transactions)
+        }
     }
 }
 

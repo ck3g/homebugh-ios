@@ -83,6 +83,7 @@ struct SUEmailTextField: View {
             .cornerRadius(5.0)
             .padding(.bottom, 20)
             .keyboardType(.emailAddress)
+            .autocapitalization(.none)
     }
 }
 

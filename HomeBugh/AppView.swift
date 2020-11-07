@@ -20,7 +20,7 @@ struct AppView: View {
                     Text("Transactions")
                 }
             
-            MainView().environmentObject(auth).environmentObject(userLoggedIn)
+            SettingsView().environmentObject(auth).environmentObject(userLoggedIn)
                 .tabItem {
                     Image(systemName: "square.and.pencil")
                     Text("Settings")

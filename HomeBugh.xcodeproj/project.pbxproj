@@ -21,7 +21,9 @@
 		C14EE7BC254214F600D63C67 /* TransactionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14EE7BB254214F600D63C67 /* TransactionCell.swift */; };
 		C14EE7C12542193D00D63C67 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14EE7C02542193D00D63C67 /* Transaction.swift */; };
 		C153C11C253226EA0064BD6D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C153C11B253226EA0064BD6D /* SettingsView.swift */; };
+		C154795E2587A87A00E3B915 /* AccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C154795D2587A87A00E3B915 /* AccountCell.swift */; };
 		C19D875F252B315700B2433F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19D875E252B315700B2433F /* ContentView.swift */; };
+		C1DA6CAF2587A55A00679706 /* AccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DA6CAE2587A55A00679706 /* AccountsView.swift */; };
 		C1E0BD9E25273D9000B2850C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0BD9D25273D9000B2850C /* LoginView.swift */; };
 		C1E0BDC52527982000B2850C /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0BDC42527982000B2850C /* SignUpView.swift */; };
 /* End PBXBuildFile section */
@@ -64,7 +66,9 @@
 		C14EE7BB254214F600D63C67 /* TransactionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCell.swift; sourceTree = "<group>"; };
 		C14EE7C02542193D00D63C67 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		C153C11B253226EA0064BD6D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		C154795D2587A87A00E3B915 /* AccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCell.swift; sourceTree = "<group>"; };
 		C19D875E252B315700B2433F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C1DA6CAE2587A55A00679706 /* AccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsView.swift; sourceTree = "<group>"; };
 		C1E0BD9D25273D9000B2850C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C1E0BDC42527982000B2850C /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -133,6 +137,8 @@
 				C14EE7C02542193D00D63C67 /* Transaction.swift */,
 				C10153822547015A0082845C /* AuthToken.swift */,
 				C146892E254B01A8009CCAD1 /* AddTransactionView.swift */,
+				C1DA6CAE2587A55A00679706 /* AccountsView.swift */,
+				C154795D2587A87A00E3B915 /* AccountCell.swift */,
 			);
 			path = HomeBugh;
 			sourceTree = "<group>";
@@ -296,12 +302,14 @@
 				C1E0BD9E25273D9000B2850C /* LoginView.swift in Sources */,
 				C1E0BDC52527982000B2850C /* SignUpView.swift in Sources */,
 				C19D875F252B315700B2433F /* ContentView.swift in Sources */,
+				C1DA6CAF2587A55A00679706 /* AccountsView.swift in Sources */,
 				C153C11C253226EA0064BD6D /* SettingsView.swift in Sources */,
 				C14EE7AC2540BD8E00D63C67 /* AppView.swift in Sources */,
 				C14EE7B12540BEB500D63C67 /* TransactionsView.swift in Sources */,
 				3412B3BF2525B61200DA446D /* HomeBughApp.swift in Sources */,
 				C14EE7A1253F0B6500D63C67 /* Authorization.swift in Sources */,
 				C14EE7BC254214F600D63C67 /* TransactionCell.swift in Sources */,
+				C154795E2587A87A00E3B915 /* AccountCell.swift in Sources */,
 				C146892F254B01A8009CCAD1 /* AddTransactionView.swift in Sources */,
 				C10153832547015A0082845C /* AuthToken.swift in Sources */,
 				C14EE79C253F0B4C00D63C67 /* Authentication.swift in Sources */,

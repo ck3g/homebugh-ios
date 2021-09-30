@@ -44,7 +44,7 @@ struct TransactionsView: View {
                         secondaryButton: .cancel())
                 }
             }
-            .navigationBarTitle("Transactions")
+            .navigationTitle("Transactions")
             .navigationBarItems(trailing:
                                     Button(action: {
                                         self.addTransactionViewVisible = true
@@ -53,6 +53,7 @@ struct TransactionsView: View {
                                     }
             )
         }
+        .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $addTransactionViewVisible) {
             AddTransactionView(transactions: self.transactions)
         }

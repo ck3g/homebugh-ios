@@ -11,26 +11,23 @@ let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255
 
 struct LoginView: View {
     
-    @State var email: String = ""
-    @State var password: String = ""
-    
     @State var authenticationDidSucceed: Bool = true
-    
+    @State var user = User()
     @EnvironmentObject var auth: Auth
     @EnvironmentObject var userLoggedIn: UserLoggedIn
     
     var body: some View {
         VStack {
             LogoView()
-            EmailTextField(email: $email)
-            PasswordTextField(password: $password)
+            EmailTextField(email: $user.email)
+            PasswordTextField(password: $user.password)
             if !authenticationDidSucceed {
                 Text("Invalid credentials")
                     .offset(y: -10)
                     .foregroundColor(.red)
             }
             Button(action: {
-                let token = Authentication().loginUser(email: self.email, password: self.password)
+                let token = Authentication().loginUser(email: self.user.email, password: self.user.password)
                 self.authenticationDidSucceed = !token.isEmpty
                 if self.authenticationDidSucceed {
                     AuthToken().setToken(token: Token(token: token))
@@ -95,6 +92,7 @@ struct EmailTextField: View {
             .padding(.bottom, 20)
             .keyboardType(.emailAddress)
             .autocapitalization(.none)
+            .disableAutocorrection(true)
     }
 }
 

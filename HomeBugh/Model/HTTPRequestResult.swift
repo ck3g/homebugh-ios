@@ -13,6 +13,9 @@ struct HTTPRequestResultOK: Codable {
 }
 
 struct HTTPRequestResultError: Codable {
-    let result: String
-    let message: String
+    let error: Err
+    
+    struct Err: Codable {
+        let token: String
+    }
 }

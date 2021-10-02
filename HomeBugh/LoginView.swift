@@ -12,7 +12,7 @@ let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255
 struct LoginView: View {
     
     @EnvironmentObject var auth: Auth
-    
+    @EnvironmentObject var userLoggedIn: UserLoggedIn
     @StateObject var viewModel = Authentication()
     
     var body: some View {
@@ -26,10 +26,11 @@ struct LoginView: View {
                     .foregroundColor(.red)
             }
             Button(action: {
-//                if viewModel.authenticationDidSucceed {
-//                    AuthToken().setToken(token: Token(token: token))
-                    viewModel.loginUser(email: viewModel.email, password: viewModel.password)
-//                }
+                viewModel.loginUser(email: viewModel.email, password: viewModel.password) { success in
+                    if success {
+                        self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: viewModel.authenticationDidSucceed)
+                    }
+                }
             }) {
                 LoginButton()
             }

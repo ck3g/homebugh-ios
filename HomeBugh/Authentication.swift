@@ -19,10 +19,8 @@ final class Authentication: ObservableObject {
     @Published var user = User()
     @Published var alertItem: String = ""
     @Published var isLoading = false
-
-    @EnvironmentObject var userLoggedIn: UserLoggedIn
     
-    func loginUser(email: String, password: String) {
+    func loginUser(email: String, password: String, completed: @escaping (Bool) -> Void) {
         isLoading = true
         NetworkManager.shared.loginUser(email: email, password: password) { [self] (success, value) in
             DispatchQueue.main.async {
@@ -31,36 +29,12 @@ final class Authentication: ObservableObject {
                     self.token = value
                     self.authenticationDidSucceed = !value.isEmpty
                     AppState.CurrentUser = User(email: email, password: password, token: value)
-//                    Authentication().environmentObject(self.userLoggedIn)
-//                    self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: authenticationDidSucceed)
+                    AuthToken().setToken(token: Token(token: value))
+                    completed(self.authenticationDidSucceed)
                 } else {
                     alertItem = value
+                    completed(false)
                 }
-//                switch result {
-//                case .success(let token):
-//                    self.token = token
-//                    self.authenticationDidSucceed = !token.isEmpty
-//                    AppState.CurrentUser = User(email: email, password: password, token: token)
-//                    self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: authenticationDidSucceed)
-//                case .failure(let error):
-//                    self.authenticationDidSucceed = false
-//                    switch error {
-//                    case .notAllCredentialsProvided:
-//                        alertItem = "Not all credentials are provided"
-//
-//                    case .invalidResponse:
-//                        alertItem = "AlertContext.invalidResponse"
-//
-//                    case .invalidURL:
-//                        alertItem = "AlertContext.invalidURL"
-//
-//                    case .invalidData:
-//                        alertItem = "AlertContext.invalidData"
-//
-//                    case .unableToComplete:
-//                        alertItem = "AlertContext.unableToComplete"
-//                    }
-//                }
             }
         }
     }

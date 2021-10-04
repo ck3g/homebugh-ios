@@ -12,8 +12,8 @@ let fakePassword = "password"
 
 final class Authentication: ObservableObject {
     
-    @Published var email: String = ""
-    @Published var password: String = ""
+    @Published var email: String = AppState.CurrentUser.email
+    @Published var password: String = AppState.CurrentUser.password
     @Published var token: String?
     @Published var authenticationDidSucceed: Bool = false
     @Published var user = User()
@@ -28,7 +28,7 @@ final class Authentication: ObservableObject {
                 if success {
                     self.token = value
                     self.authenticationDidSucceed = !value.isEmpty
-                    AppState.CurrentUser = User(email: email, password: password, token: value)
+                    AppState.CurrentUser = User(email: email, password: password)
                     AuthTokenStorage().setToken(.init(token: value))
                     completed(self.authenticationDidSucceed)
                 } else {

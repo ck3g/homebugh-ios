@@ -23,9 +23,10 @@ final class NetworkManager {
             return
         }
         
-        // pre-set username+password in model to make autoAuth working:
-        AppState.CurrentUser.email = email
-        AppState.CurrentUser.password = password
+        if !email.isEmailValid {
+            completed(false, "The email is invalid")
+            return
+        }
         
         let appUserLoginRequestData = User(email: email, password: password)
         
@@ -39,21 +40,24 @@ final class NetworkManager {
                     rawData: jsonData as NSData,
                     completionHandler: {
                         (error, data, dateLastModified, statusCode) in
-                        if let _ = error {
-                            completed(false, "Server Error: Unable To Complete")
-                            return
-                        }
-                        
-                        guard statusCode == 201 else {
-                            completed(false, "Server Error: Invalid Response")
-                            return
-                        }
                         
                         guard let data = data else {
                             completed(false, "Server Error: Invalid Data")
                             return
                         }
-                        // print(String(decoding: data, as: UTF8.self))
+                        
+                        guard statusCode == 201 else {
+                            do {
+                                let decoder = JSONDecoder()
+                                let decodedResponse = try decoder.decode(HTTPRequestResultError.self, from: data)
+                                completed(false, decodedResponse.error.token)
+                                return
+                            } catch {
+                                completed(false, "Server Error: Invalid Response")
+                                return
+                            }
+                        }
+                        
                         do {
                             let decoder = JSONDecoder()
                             let decodedResponse = try decoder.decode(HTTPRequestResultOK.self, from: data)

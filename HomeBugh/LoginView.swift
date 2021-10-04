@@ -91,6 +91,9 @@ struct EmailTextField: View {
             .keyboardType(.emailAddress)
             .autocapitalization(.none)
             .disableAutocorrection(true)
+            .modifier(ClearButton(text: $email))
+//            .modifier(TextFieldClearButton(text: $email))
+//            .multilineTextAlignment(.leading)
     }
 }
 
@@ -102,7 +105,49 @@ struct PasswordTextField: View {
             .background(lightGreyColor)
             .cornerRadius(5.0)
             .padding(.bottom, 20)
+            .modifier(ClearButton(text: $password))
+//            .modifier(TextFieldClearButton(text: $password))
+//            .multilineTextAlignment(.leading)
     }
 }
 
+struct TextFieldClearButton: ViewModifier {
+    @Binding var text: String
+    
+    func body(content: Content) -> some View {
+        HStack {
+            content
+            
+            if !text.isEmpty {
+                Button(
+                    action: { self.text = "" },
+                    label: {
+                        Image(systemName: "delete.left")
+                            .foregroundColor(Color(UIColor.opaqueSeparator))
+                    }
+                )
+            }
+        }
+    }
+}
+
+struct ClearButton: ViewModifier {
+    @Binding var text: String
+    
+    public func body(content: Content) -> some View {
+        ZStack(alignment: .trailing) {
+            content
+            
+            if !text.isEmpty {
+                Button(action: { self.text = "" })
+                {
+                    Image(systemName: "delete.left")
+                        .foregroundColor(Color(UIColor.opaqueSeparator))
+                }
+                .padding(.trailing, 8)
+                .padding(.bottom, 16)
+            }
+        }
+    }
+}
 

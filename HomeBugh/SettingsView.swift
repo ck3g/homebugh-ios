@@ -19,7 +19,7 @@ struct SettingsView: View {
                     Text("Accounts")
                 }
                 
-                NavigationLink(destination: Text("Add category view")) {
+                NavigationLink(destination: CategoryView()) {
                     Text("Categories")
                 }
                 

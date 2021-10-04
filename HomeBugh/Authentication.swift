@@ -29,7 +29,7 @@ final class Authentication: ObservableObject {
                     self.token = value
                     self.authenticationDidSucceed = !value.isEmpty
                     AppState.CurrentUser = User(email: email, password: password, token: value)
-                    AuthToken().setToken(token: Token(token: value))
+                    AuthTokenStorage().setToken(.init(token: value))
                     completed(self.authenticationDidSucceed)
                 } else {
                     alertItem = value

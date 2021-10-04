@@ -13,6 +13,7 @@
 		3412B3D12525B61400DA446D /* HomeBughTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3412B3D02525B61400DA446D /* HomeBughTests.swift */; };
 		3412B3DC2525B61400DA446D /* HomeBughUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3412B3DB2525B61400DA446D /* HomeBughUITests.swift */; };
 		749836D52708EDD900954765 /* AuthTokenStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749836D42708EDD900954765 /* AuthTokenStorageTests.swift */; };
+		9D3627DB270AF60C006D0268 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3627DA270AF60C006D0268 /* CategoryView.swift */; };
 		C10153832547015A0082845C /* AuthTokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10153822547015A0082845C /* AuthTokenStorage.swift */; };
 		C132F5DA26139FE7004D889B /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C132F5D926139FE7004D889B /* String+Ext.swift */; };
 		C146892F254B01A8009CCAD1 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C146892E254B01A8009CCAD1 /* AddTransactionView.swift */; };
@@ -68,6 +69,7 @@
 		3412B3DB2525B61400DA446D /* HomeBughUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBughUITests.swift; sourceTree = "<group>"; };
 		3412B3DD2525B61400DA446D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		749836D42708EDD900954765 /* AuthTokenStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenStorageTests.swift; sourceTree = "<group>"; };
+		9D3627DA270AF60C006D0268 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		C10153822547015A0082845C /* AuthTokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenStorage.swift; sourceTree = "<group>"; };
 		C132F5D926139FE7004D889B /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		C146892E254B01A8009CCAD1 /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 				C17CC2F426138BA1000C5F74 /* AppState.swift */,
 				C15D19F62705E213003B9952 /* NetworkManager.swift */,
 				C17412E22705E6A700CD7508 /* HBError.swift */,
+				9D3627DA270AF60C006D0268 /* CategoryView.swift */,
 			);
 			path = HomeBugh;
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				C132F5DA26139FE7004D889B /* String+Ext.swift in Sources */,
 				C17412E32705E6A700CD7508 /* HBError.swift in Sources */,
 				C14EE7AC2540BD8E00D63C67 /* AppView.swift in Sources */,
+				9D3627DB270AF60C006D0268 /* CategoryView.swift in Sources */,
 				C14EE7B12540BEB500D63C67 /* TransactionsView.swift in Sources */,
 				3412B3BF2525B61200DA446D /* HomeBughApp.swift in Sources */,
 				C1502ABC261F38AA00544803 /* HTTPRequestResult.swift in Sources */,

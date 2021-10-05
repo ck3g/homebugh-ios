@@ -26,6 +26,7 @@ struct LoginView: View {
                     .foregroundColor(.red)
             }
             Button(action: {
+                hideKeyboard()
                 viewModel.loginUser(email: viewModel.email, password: viewModel.password) { success in
                     if success {
                         self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: viewModel.authenticationDidSucceed)
@@ -34,7 +35,9 @@ struct LoginView: View {
             }) {
                 LoginButton()
             }
-            Button(action: { self.auth.setAuthView(view: "SignUp") }) {
+            Button(action: {
+                    hideKeyboard()
+                    self.auth.setAuthView(view: "SignUp") }) {
                 SignUpButton()
             }
         }
@@ -91,6 +94,7 @@ struct EmailTextField: View {
             .keyboardType(.emailAddress)
             .autocapitalization(.none)
             .disableAutocorrection(true)
+            .modifier(ClearButton(text: $email))
     }
 }
 
@@ -102,7 +106,27 @@ struct PasswordTextField: View {
             .background(lightGreyColor)
             .cornerRadius(5.0)
             .padding(.bottom, 20)
+            .modifier(ClearButton(text: $password))
     }
 }
 
+struct ClearButton: ViewModifier {
+    @Binding var text: String
+    
+    public func body(content: Content) -> some View {
+        ZStack(alignment: .trailing) {
+            content
+            
+            if !text.isEmpty {
+                Button(action: { self.text = "" })
+                {
+                    Image(systemName: "delete.left")
+                        .foregroundColor(Color(UIColor.opaqueSeparator))
+                }
+                .padding(.trailing, 8)
+                .padding(.bottom, 16)
+            }
+        }
+    }
+}
 

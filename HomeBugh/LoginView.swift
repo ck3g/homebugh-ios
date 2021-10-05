@@ -26,6 +26,7 @@ struct LoginView: View {
                     .foregroundColor(.red)
             }
             Button(action: {
+                hideKeyboard()
                 viewModel.loginUser(email: viewModel.email, password: viewModel.password) { success in
                     if success {
                         self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: viewModel.authenticationDidSucceed)
@@ -34,7 +35,9 @@ struct LoginView: View {
             }) {
                 LoginButton()
             }
-            Button(action: { self.auth.setAuthView(view: "SignUp") }) {
+            Button(action: {
+                    hideKeyboard()
+                    self.auth.setAuthView(view: "SignUp") }) {
                 SignUpButton()
             }
         }

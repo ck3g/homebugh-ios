@@ -33,6 +33,7 @@
 		C17CC2F526138BA1000C5F74 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17CC2F426138BA1000C5F74 /* AppState.swift */; };
 		C17CC2FA26138C03000C5F74 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17CC2F926138C03000C5F74 /* User.swift */; };
 		C19D875F252B315700B2433F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19D875E252B315700B2433F /* ContentView.swift */; };
+		C1D32D0F270C2F5C00662E49 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D32D0E270C2F5C00662E49 /* View+Ext.swift */; };
 		C1DA6CAF2587A55A00679706 /* AccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DA6CAE2587A55A00679706 /* AccountsView.swift */; };
 		C1E0BD9E25273D9000B2850C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0BD9D25273D9000B2850C /* LoginView.swift */; };
 		C1E0BDC52527982000B2850C /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0BDC42527982000B2850C /* SignUpView.swift */; };
@@ -88,6 +89,7 @@
 		C17CC2F426138BA1000C5F74 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		C17CC2F926138C03000C5F74 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C19D875E252B315700B2433F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C1D32D0E270C2F5C00662E49 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
 		C1DA6CAE2587A55A00679706 /* AccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsView.swift; sourceTree = "<group>"; };
 		C1E0BD9D25273D9000B2850C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C1E0BDC42527982000B2850C /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				C132F5D926139FE7004D889B /* String+Ext.swift */,
+				C1D32D0E270C2F5C00662E49 /* View+Ext.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -351,6 +354,7 @@
 				C17CC2EB26138966000C5F74 /* ApiEndpoint.swift in Sources */,
 				C1E0BDC52527982000B2850C /* SignUpView.swift in Sources */,
 				C17CC2F026138999000C5F74 /* HttpMethod.swift in Sources */,
+				C1D32D0F270C2F5C00662E49 /* View+Ext.swift in Sources */,
 				C19D875F252B315700B2433F /* ContentView.swift in Sources */,
 				C1DA6CAF2587A55A00679706 /* AccountsView.swift in Sources */,
 				C17CC2FA26138C03000C5F74 /* User.swift in Sources */,

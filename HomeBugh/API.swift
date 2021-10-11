@@ -13,6 +13,7 @@ class API {
         static let Authentication: ApiEndpoint = ApiEndpoint(Method: .Post, Url: "https://api.homebugh.info:8080/token")
     }
     
+    @discardableResult
     static func sendRequestAsync(url:String, method:HttpMethod, autoAuth:Bool = false, authByAppId:Bool = false, parameters:NSDictionary? = nil, headers:NSDictionary? = nil, noCache:Bool = false, rawData:NSData? = nil, trackProgress:Bool? = false, completionHandler:((_ error:NSError?, _ data:Data?, _ dateLastModified:String?, _ statusCode:Int?)->Void)?=nil) -> URLSessionDataTask? {
         
         // swift4: to do -> track progress !!

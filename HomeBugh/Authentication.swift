@@ -7,9 +7,6 @@
 
 import SwiftUI
 
-let fakeEmail = "user@example.com"
-let fakePassword = "password"
-
 final class Authentication: ObservableObject {
     
     @Published var email: String = AppState.CurrentUser.email

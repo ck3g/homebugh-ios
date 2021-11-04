@@ -35,6 +35,10 @@ final class AuthTokenStorage {
     func checkToken() -> Bool {
         token != nil
     }
+    
+    func getToken() -> String {
+        return loadToken()?.token ?? ""
+    }
 
     private func saveToken() {
         guard let data = try? JSONEncoder().encode(token) else {

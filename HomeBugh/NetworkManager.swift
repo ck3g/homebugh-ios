@@ -14,6 +14,7 @@ final class NetworkManager {
     private init() {}
 
     enum Error: Swift.Error {
+        case unableToComplete
         case missingEmail
         case missingPassword
         case invalidEmail
@@ -84,12 +85,56 @@ final class NetworkManager {
             }
         }
     }
+    
+    func getCategoriesList(
+        pageSize: Int,
+        page: Int,
+        then completion: @escaping (Result<CategoryData, Error>) -> Void
+    ) {
+        API.sendRequestAsync(
+            url: API.Endpoints.Categories.Url,
+            method: API.Endpoints.Categories.Method,
+            autoAuth: false,
+            parameters: ["page_size": "\(pageSize)", "page": "\(page)"],
+            headers: ["Authorization": "Bearer \(AuthTokenStorage().getToken())"]
+        ) { (error, data, dateLastModified, statusCode) in
+            
+            if let _ = error {
+                completion(.failure(.unableToComplete))
+                return
+            }
+            
+            guard statusCode == 200 else {
+                completion(.failure(.invalidResponseData))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(.missingResponseData))
+                return
+            }
+            
+//            print(String(decoding: data, as: UTF8.self))
+            
+            do  {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let decodedResponse = try decoder.decode(CategoryData.self, from: data)
+                completion(.success(decodedResponse))
+            } catch {
+                print(error)
+                completion(.failure(.invalidResponseData))
+            }
+        }
+    }
 }
 
 extension NetworkManager.Error: LocalizedError {
     public var errorDescription: String? {
         // TODO: maybe, more specialized descriptions should be provided
         switch self {
+        case .unableToComplete:
+            return "Server Error: Unable to complete your request at this time. Please check your internet connection."
         case .missingEmail, .missingPassword:
             return "Not all credentials are provided"
         case .invalidEmail:

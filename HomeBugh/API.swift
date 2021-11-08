@@ -11,6 +11,7 @@ class API {
     
     class Endpoints {
         static let Authentication: ApiEndpoint = ApiEndpoint(Method: .Post, Url: "https://api.homebugh.info:8080/token")
+        static let Categories: ApiEndpoint = ApiEndpoint(Method: .Get, Url: "https://api.homebugh.info:8080/categories")
     }
     
     @discardableResult

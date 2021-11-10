@@ -27,6 +27,8 @@
 		C153C11C253226EA0064BD6D /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C153C11B253226EA0064BD6D /* SettingsView.swift */; };
 		C154795E2587A87A00E3B915 /* AccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C154795D2587A87A00E3B915 /* AccountCell.swift */; };
 		C15D19F72705E213003B9952 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C15D19F62705E213003B9952 /* NetworkManager.swift */; };
+		C1685CCE273BF0040044C761 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1685CCD273BF0040044C761 /* AccountViewModel.swift */; };
+		C1685CD0273BF0AF0044C761 /* AccountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1685CCF273BF0AF0044C761 /* AccountData.swift */; };
 		C178D0962721DA160091CB76 /* CategoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C178D0952721DA160091CB76 /* CategoryViewModel.swift */; };
 		C178D098272AC5330091CB76 /* CategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = C178D097272AC5330091CB76 /* CategoryData.swift */; };
 		C178D09A273164980091CB76 /* EmptyState.swift in Sources */ = {isa = PBXBuildFile; fileRef = C178D099273164980091CB76 /* EmptyState.swift */; };
@@ -37,7 +39,7 @@
 		C17CC2FA26138C03000C5F74 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = C17CC2F926138C03000C5F74 /* User.swift */; };
 		C19D875F252B315700B2433F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C19D875E252B315700B2433F /* ContentView.swift */; };
 		C1D32D0F270C2F5C00662E49 /* View+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D32D0E270C2F5C00662E49 /* View+Ext.swift */; };
-		C1DA6CAF2587A55A00679706 /* AccountsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DA6CAE2587A55A00679706 /* AccountsView.swift */; };
+		C1DA6CAF2587A55A00679706 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DA6CAE2587A55A00679706 /* AccountView.swift */; };
 		C1E0BD9E25273D9000B2850C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0BD9D25273D9000B2850C /* LoginView.swift */; };
 		C1E0BDC52527982000B2850C /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0BDC42527982000B2850C /* SignUpView.swift */; };
 /* End PBXBuildFile section */
@@ -86,6 +88,8 @@
 		C153C11B253226EA0064BD6D /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C154795D2587A87A00E3B915 /* AccountCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCell.swift; sourceTree = "<group>"; };
 		C15D19F62705E213003B9952 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		C1685CCD273BF0040044C761 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		C1685CCF273BF0AF0044C761 /* AccountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountData.swift; sourceTree = "<group>"; };
 		C178D0952721DA160091CB76 /* CategoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModel.swift; sourceTree = "<group>"; };
 		C178D097272AC5330091CB76 /* CategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryData.swift; sourceTree = "<group>"; };
 		C178D099273164980091CB76 /* EmptyState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyState.swift; sourceTree = "<group>"; };
@@ -96,7 +100,7 @@
 		C17CC2F926138C03000C5F74 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C19D875E252B315700B2433F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C1D32D0E270C2F5C00662E49 /* View+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Ext.swift"; sourceTree = "<group>"; };
-		C1DA6CAE2587A55A00679706 /* AccountsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsView.swift; sourceTree = "<group>"; };
+		C1DA6CAE2587A55A00679706 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		C1E0BD9D25273D9000B2850C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C1E0BDC42527982000B2850C /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -168,9 +172,8 @@
 				C14EE7C02542193D00D63C67 /* Transaction.swift */,
 				C10153822547015A0082845C /* AuthTokenStorage.swift */,
 				C146892E254B01A8009CCAD1 /* AddTransactionView.swift */,
-				C1DA6CAE2587A55A00679706 /* AccountsView.swift */,
-				C154795D2587A87A00E3B915 /* AccountCell.swift */,
 				C17CC2E52613892D000C5F74 /* API.swift */,
+				C16A6E63273BE8C300F1B0B2 /* AccountView */,
 				C178D09E273168C70091CB76 /* CategoryView */,
 				C17CC2F426138BA1000C5F74 /* AppState.swift */,
 				C15D19F62705E213003B9952 /* NetworkManager.swift */,
@@ -222,8 +225,19 @@
 				C17CC2F926138C03000C5F74 /* User.swift */,
 				C1502ABB261F38AA00544803 /* HTTPRequestResult.swift */,
 				C178D097272AC5330091CB76 /* CategoryData.swift */,
+				C1685CCF273BF0AF0044C761 /* AccountData.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		C16A6E63273BE8C300F1B0B2 /* AccountView */ = {
+			isa = PBXGroup;
+			children = (
+				C1DA6CAE2587A55A00679706 /* AccountView.swift */,
+				C1685CCD273BF0040044C761 /* AccountViewModel.swift */,
+				C154795D2587A87A00E3B915 /* AccountCell.swift */,
+			);
+			path = AccountView;
 			sourceTree = "<group>";
 		};
 		C178D09D273168830091CB76 /* Views */ = {
@@ -381,7 +395,7 @@
 				C17CC2F026138999000C5F74 /* HttpMethod.swift in Sources */,
 				C1D32D0F270C2F5C00662E49 /* View+Ext.swift in Sources */,
 				C19D875F252B315700B2433F /* ContentView.swift in Sources */,
-				C1DA6CAF2587A55A00679706 /* AccountsView.swift in Sources */,
+				C1DA6CAF2587A55A00679706 /* AccountView.swift in Sources */,
 				C17CC2FA26138C03000C5F74 /* User.swift in Sources */,
 				C153C11C253226EA0064BD6D /* SettingsView.swift in Sources */,
 				C178D0962721DA160091CB76 /* CategoryViewModel.swift in Sources */,
@@ -394,8 +408,10 @@
 				3412B3BF2525B61200DA446D /* HomeBughApp.swift in Sources */,
 				C1502ABC261F38AA00544803 /* HTTPRequestResult.swift in Sources */,
 				C14EE7A1253F0B6500D63C67 /* Authorization.swift in Sources */,
+				C1685CCE273BF0040044C761 /* AccountViewModel.swift in Sources */,
 				C14EE7BC254214F600D63C67 /* TransactionCell.swift in Sources */,
 				C154795E2587A87A00E3B915 /* AccountCell.swift in Sources */,
+				C1685CD0273BF0AF0044C761 /* AccountData.swift in Sources */,
 				C146892F254B01A8009CCAD1 /* AddTransactionView.swift in Sources */,
 				C10153832547015A0082845C /* AuthTokenStorage.swift in Sources */,
 				C17CC2E62613892D000C5F74 /* API.swift in Sources */,

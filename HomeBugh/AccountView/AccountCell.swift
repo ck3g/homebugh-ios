@@ -15,7 +15,7 @@ struct AccountCell: View {
         HStack {
             Text(account.name)
             Spacer()
-            Text(account.amount)
+            Text(String(account.balance) + " " + account.currency.unit)
         }
     }
 }

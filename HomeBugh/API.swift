@@ -10,8 +10,10 @@ import Foundation
 class API {
     
     class Endpoints {
-        static let Authentication: ApiEndpoint = ApiEndpoint(Method: .Post, Url: "https://api.homebugh.info:8080/token")
-        static let Categories: ApiEndpoint = ApiEndpoint(Method: .Get, Url: "https://api.homebugh.info:8080/categories")
+        static let baseURL = "https://api.homebugh.info:8080"
+        static let Accounts: ApiEndpoint = ApiEndpoint(Method: .Get, Url: baseURL + "/accounts")
+        static let Authentication: ApiEndpoint = ApiEndpoint(Method: .Post, Url: baseURL + "/token")
+        static let Categories: ApiEndpoint = ApiEndpoint(Method: .Get, Url: baseURL + "/categories")
     }
     
     @discardableResult

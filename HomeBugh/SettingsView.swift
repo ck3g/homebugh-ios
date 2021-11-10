@@ -15,7 +15,7 @@ struct SettingsView: View {
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: AccountsView()) {
+                NavigationLink(destination: AccountView()) {
                     Text("Accounts")
                 }
                 

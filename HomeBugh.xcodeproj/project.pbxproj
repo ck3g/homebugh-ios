@@ -153,30 +153,14 @@
 		3412B3BD2525B61200DA446D /* HomeBugh */ = {
 			isa = PBXGroup;
 			children = (
-				C178D09D273168830091CB76 /* Views */,
-				C132F5E72613B5A3004D889B /* Extensions */,
+				C178D09D273168830091CB76 /* Custom Views */,
 				C157BCF926139C21006839DC /* Model */,
+				C1A2AD9E281A9176006BE81D /* Screens */,
+				C1A2AD9A281A8D10006BE81D /* Utilities */,
 				3412B3BE2525B61200DA446D /* HomeBughApp.swift */,
-				C19D875E252B315700B2433F /* ContentView.swift */,
-				C153C11B253226EA0064BD6D /* SettingsView.swift */,
-				C1E0BDC42527982000B2850C /* SignUpView.swift */,
 				3412B3C22525B61400DA446D /* Assets.xcassets */,
 				3412B3C72525B61400DA446D /* Info.plist */,
 				3412B3C42525B61400DA446D /* Preview Content */,
-				C14EE79B253F0B4C00D63C67 /* Authentication.swift */,
-				C14EE7A0253F0B6500D63C67 /* Authorization.swift */,
-				C1E0BD9D25273D9000B2850C /* LoginView.swift */,
-				C14EE7AB2540BD8E00D63C67 /* AppView.swift */,
-				C14EE7B02540BEB500D63C67 /* TransactionsView.swift */,
-				C14EE7BB254214F600D63C67 /* TransactionCell.swift */,
-				C14EE7C02542193D00D63C67 /* Transaction.swift */,
-				C10153822547015A0082845C /* AuthTokenStorage.swift */,
-				C146892E254B01A8009CCAD1 /* AddTransactionView.swift */,
-				C17CC2E52613892D000C5F74 /* API.swift */,
-				C16A6E63273BE8C300F1B0B2 /* AccountView */,
-				C178D09E273168C70091CB76 /* CategoryView */,
-				C17CC2F426138BA1000C5F74 /* AppState.swift */,
-				C15D19F62705E213003B9952 /* NetworkManager.swift */,
 			);
 			path = HomeBugh;
 			sourceTree = "<group>";
@@ -220,12 +204,10 @@
 		C157BCF926139C21006839DC /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				C17CC2EA26138966000C5F74 /* ApiEndpoint.swift */,
-				C17CC2EF26138999000C5F74 /* HttpMethod.swift */,
-				C17CC2F926138C03000C5F74 /* User.swift */,
-				C1502ABB261F38AA00544803 /* HTTPRequestResult.swift */,
-				C178D097272AC5330091CB76 /* CategoryData.swift */,
 				C1685CCF273BF0AF0044C761 /* AccountData.swift */,
+				C178D097272AC5330091CB76 /* CategoryData.swift */,
+				C14EE7C02542193D00D63C67 /* Transaction.swift */,
+				C17CC2F926138C03000C5F74 /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -240,12 +222,12 @@
 			path = AccountView;
 			sourceTree = "<group>";
 		};
-		C178D09D273168830091CB76 /* Views */ = {
+		C178D09D273168830091CB76 /* Custom Views */ = {
 			isa = PBXGroup;
 			children = (
 				C178D099273164980091CB76 /* EmptyState.swift */,
 			);
-			path = Views;
+			path = "Custom Views";
 			sourceTree = "<group>";
 		};
 		C178D09E273168C70091CB76 /* CategoryView */ = {
@@ -255,6 +237,88 @@
 				C178D0952721DA160091CB76 /* CategoryViewModel.swift */,
 			);
 			path = CategoryView;
+			sourceTree = "<group>";
+		};
+		C1A2AD9A281A8D10006BE81D /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				C17CC2F426138BA1000C5F74 /* AppState.swift */,
+				C10153822547015A0082845C /* AuthTokenStorage.swift */,
+				C132F5E72613B5A3004D889B /* Extensions */,
+				C1A2AD9B281A8D64006BE81D /* Managers */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		C1A2AD9B281A8D64006BE81D /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				C1A2AD9D281A9113006BE81D /* Network Manager */,
+			);
+			path = Managers;
+			sourceTree = "<group>";
+		};
+		C1A2AD9D281A9113006BE81D /* Network Manager */ = {
+			isa = PBXGroup;
+			children = (
+				C17CC2E52613892D000C5F74 /* API.swift */,
+				C17CC2EA26138966000C5F74 /* ApiEndpoint.swift */,
+				C17CC2EF26138999000C5F74 /* HttpMethod.swift */,
+				C1502ABB261F38AA00544803 /* HTTPRequestResult.swift */,
+				C15D19F62705E213003B9952 /* NetworkManager.swift */,
+			);
+			path = "Network Manager";
+			sourceTree = "<group>";
+		};
+		C1A2AD9E281A9176006BE81D /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				C14EE7AB2540BD8E00D63C67 /* AppView.swift */,
+				C19D875E252B315700B2433F /* ContentView.swift */,
+				C16A6E63273BE8C300F1B0B2 /* AccountView */,
+				C178D09E273168C70091CB76 /* CategoryView */,
+				C1A2AD9F281A91A8006BE81D /* LoginView */,
+				C1A2ADA0281A91CC006BE81D /* TransactionsView */,
+				C1A2ADA2281A94B3006BE81D /* SettingsView */,
+				C1A2ADA1281A9405006BE81D /* SignUpView */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		C1A2AD9F281A91A8006BE81D /* LoginView */ = {
+			isa = PBXGroup;
+			children = (
+				C14EE79B253F0B4C00D63C67 /* Authentication.swift */,
+				C1E0BD9D25273D9000B2850C /* LoginView.swift */,
+			);
+			path = LoginView;
+			sourceTree = "<group>";
+		};
+		C1A2ADA0281A91CC006BE81D /* TransactionsView */ = {
+			isa = PBXGroup;
+			children = (
+				C146892E254B01A8009CCAD1 /* AddTransactionView.swift */,
+				C14EE7B02540BEB500D63C67 /* TransactionsView.swift */,
+				C14EE7BB254214F600D63C67 /* TransactionCell.swift */,
+			);
+			path = TransactionsView;
+			sourceTree = "<group>";
+		};
+		C1A2ADA1281A9405006BE81D /* SignUpView */ = {
+			isa = PBXGroup;
+			children = (
+				C14EE7A0253F0B6500D63C67 /* Authorization.swift */,
+				C1E0BDC42527982000B2850C /* SignUpView.swift */,
+			);
+			path = SignUpView;
+			sourceTree = "<group>";
+		};
+		C1A2ADA2281A94B3006BE81D /* SettingsView */ = {
+			isa = PBXGroup;
+			children = (
+				C153C11B253226EA0064BD6D /* SettingsView.swift */,
+			);
+			path = SettingsView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

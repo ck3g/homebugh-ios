@@ -8,67 +8,55 @@
 import Foundation
 
 final class NetworkManager {
-
+    
     static let shared = NetworkManager()
-
+    
     private init() {}
-
-    enum Error: Swift.Error {
-        case unableToComplete
-        case missingEmail
-        case missingPassword
-        case invalidEmail
-        case invalidRequestData
-        case missingResponseData
-        case invalidResponseData
-        case invalidErrorResponse
-        case errorResponse
-    }
-
+    
     func loginUser(
         email: String,
         password: String,
-        then completion: @escaping (Result<String, Error>) -> Void
+        then completion: @escaping (Result<String, HBError>) -> Void
     ) {
         let email = email.trimmedLowercased
         let password = password.trimmedLowercased
-
+        
         guard !email.isEmpty else {
             completion(.failure(.missingEmail))
             return
         }
-
+        
         guard !password.isEmpty else {
             completion(.failure(.missingPassword))
             return
         }
-
+        
         guard email.isEmailValid else {
             completion(.failure(.invalidEmail))
             return
         }
-
+        
         let user = User(email: email, password: password)
-
+        
         guard let jsonData = try? JSONEncoder().encode(user) else {
             completion(.failure(.invalidRequestData))
             return
         }
-
+        
         API.sendRequestAsync(
             url: API.Endpoints.Authentication.Url,
             method: API.Endpoints.Authentication.Method,
             autoAuth: false,
             rawData: jsonData as NSData
         ) { (error, data, dateLastModified, statusCode) in
-
+            
             guard let data = data else {
                 completion(.failure(.missingResponseData))
                 return
             }
-
+            
             let decoder = JSONDecoder()
-
+            
             switch statusCode {
             case 201:
                 guard let response = try? decoder.decode(HTTPRequestResultOK.self, from: data) else {
@@ -89,7 +77,7 @@ final class NetworkManager {
     func getCategoriesList(
         pageSize: Int,
         page: Int,
-        then completion: @escaping (Result<CategoryData, Error>) -> Void
+        then completion: @escaping (Result<CategoryData, HBError>) -> Void
     ) {
         API.sendRequestAsync(
             url: API.Endpoints.Categories.Url,
@@ -114,7 +102,7 @@ final class NetworkManager {
                 return
             }
             
-//            print(String(decoding: data, as: UTF8.self))
+            //            print(String(decoding: data, as: UTF8.self))
             
             do  {
                 let decoder = JSONDecoder()
@@ -131,7 +119,7 @@ final class NetworkManager {
     func getAccountsList(
         pageSize: Int,
         page: Int,
-        then completion: @escaping (Result<AccountData, Error>) -> Void
+        then completion: @escaping (Result<AccountData, HBError>) -> Void
     ) {
         API.sendRequestAsync(
             url: API.Endpoints.Accounts.Url,
@@ -156,7 +144,7 @@ final class NetworkManager {
                 return
             }
             
-//            print(String(decoding: data, as: UTF8.self))
+            //            print(String(decoding: data, as: UTF8.self))
             
             do  {
                 let decoder = JSONDecoder()
@@ -170,24 +158,4 @@ final class NetworkManager {
         }
     }
     
-}
-
-extension NetworkManager.Error: LocalizedError {
-    public var errorDescription: String? {
-        // TODO: maybe, more specialized descriptions should be provided
-        switch self {
-        case .unableToComplete:
-            return "Server Error: Unable to complete your request at this time. Please check your internet connection."
-        case .missingEmail, .missingPassword:
-            return "Not all credentials are provided"
-        case .invalidEmail:
-            return "The email is invalid"
-        case .invalidRequestData, .missingResponseData, .invalidResponseData:
-            return "Server Error: Invalid Data"
-        case .invalidErrorResponse:
-            return "Server Error: Invalid Response"
-        case .errorResponse:
-            return "Server Error: Unauthorized"
-        }
-    }
 }

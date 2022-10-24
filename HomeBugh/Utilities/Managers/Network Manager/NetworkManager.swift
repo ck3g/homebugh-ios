@@ -191,9 +191,3 @@ extension NetworkManager.Error: LocalizedError {
         }
     }
 }
-
-private extension String {
-    var trimmedLowercased: String {
-        trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
-    }
-}

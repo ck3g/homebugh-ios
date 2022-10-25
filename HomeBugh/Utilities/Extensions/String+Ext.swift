@@ -14,4 +14,8 @@ extension String {
         let emailPredicate      = NSPredicate(format: "SELF MATCHES %@", emailFormat)
         return emailPredicate.evaluate(with: self)
     }
+    
+    var trimmedLowercased: String {
+        trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+    }
 }

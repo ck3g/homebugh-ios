@@ -16,6 +16,7 @@
 		9D3627DB270AF60C006D0268 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3627DA270AF60C006D0268 /* CategoryView.swift */; };
 		C10153832547015A0082845C /* AuthTokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10153822547015A0082845C /* AuthTokenStorage.swift */; };
 		C132F5DA26139FE7004D889B /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C132F5D926139FE7004D889B /* String+Ext.swift */; };
+		C13FF73D29070C320015595E /* HBError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13FF73C29070C320015595E /* HBError.swift */; };
 		C146892F254B01A8009CCAD1 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C146892E254B01A8009CCAD1 /* AddTransactionView.swift */; };
 		C14EE79C253F0B4C00D63C67 /* Authentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14EE79B253F0B4C00D63C67 /* Authentication.swift */; };
 		C14EE7A1253F0B6500D63C67 /* Authorization.swift in Sources */ = {isa = PBXBuildFile; fileRef = C14EE7A0253F0B6500D63C67 /* Authorization.swift */; };
@@ -77,6 +78,7 @@
 		9D3627DA270AF60C006D0268 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		C10153822547015A0082845C /* AuthTokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenStorage.swift; sourceTree = "<group>"; };
 		C132F5D926139FE7004D889B /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
+		C13FF73C29070C320015595E /* HBError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HBError.swift; sourceTree = "<group>"; };
 		C146892E254B01A8009CCAD1 /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
 		C14EE79B253F0B4C00D63C67 /* Authentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authentication.swift; sourceTree = "<group>"; };
 		C14EE7A0253F0B6500D63C67 /* Authorization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authorization.swift; sourceTree = "<group>"; };
@@ -201,6 +203,14 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		C13FF73B29070BC10015595E /* Alerts */ = {
+			isa = PBXGroup;
+			children = (
+				C13FF73C29070C320015595E /* HBError.swift */,
+			);
+			path = Alerts;
+			sourceTree = "<group>";
+		};
 		C157BCF926139C21006839DC /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -244,6 +254,7 @@
 			children = (
 				C17CC2F426138BA1000C5F74 /* AppState.swift */,
 				C10153822547015A0082845C /* AuthTokenStorage.swift */,
+				C13FF73B29070BC10015595E /* Alerts */,
 				C132F5E72613B5A3004D889B /* Extensions */,
 				C1A2AD9B281A8D64006BE81D /* Managers */,
 			);
@@ -475,6 +486,7 @@
 				C1685CCE273BF0040044C761 /* AccountViewModel.swift in Sources */,
 				C14EE7BC254214F600D63C67 /* TransactionCell.swift in Sources */,
 				C154795E2587A87A00E3B915 /* AccountCell.swift in Sources */,
+				C13FF73D29070C320015595E /* HBError.swift in Sources */,
 				C1685CD0273BF0AF0044C761 /* AccountData.swift in Sources */,
 				C146892F254B01A8009CCAD1 /* AddTransactionView.swift in Sources */,
 				C10153832547015A0082845C /* AuthTokenStorage.swift in Sources */,
@@ -567,7 +579,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -622,7 +634,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -642,7 +654,7 @@
 				DEVELOPMENT_TEAM = 9487RPB949;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = HomeBugh/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -664,7 +676,7 @@
 				DEVELOPMENT_TEAM = 9487RPB949;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = HomeBugh/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -684,7 +696,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9487RPB949;
 				INFOPLIST_FILE = HomeBughTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -706,7 +718,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 9487RPB949;
 				INFOPLIST_FILE = HomeBughTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

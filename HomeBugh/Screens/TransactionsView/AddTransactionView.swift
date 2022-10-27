@@ -58,7 +58,11 @@ struct AddTransactionView: View {
             .navigationBarTitle("New transaction")
             .navigationBarItems(
                 trailing: Button("Save") {
-                    let transaction = Transaction(date: dateFormatter.string(from: date), amount: amount, category: categories[selectedCategory], categoryType: "Spending", account: accounts[selectedAccount], comment: comment)
+                    let transaction = Transaction(id: 3,
+                                                  amount: amount,
+                                                  comment: comment,
+                                                  category: Category(id: 0, name: categories[selectedCategory], categoryType: CategoryType(id: 0, name: "Spending"), inactive: false),
+                                                  account: Account(id: 0, name: accounts[selectedAccount], balance: 100000.0, currency: Currency(id: 0, name: "Euro", unit: "Euro"), status: "active", showInSummary: true))
                     self.transactions.items.append(transaction)
                     self.presentationMode.wrappedValue.dismiss()
                 }

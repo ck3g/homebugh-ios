@@ -15,13 +15,6 @@ struct Account: Codable, Hashable {
     var status: String
     var showInSummary: Bool
     
-    struct Currency: Codable, Hashable {
-        var id: Int
-        var name: String
-        var unit: String
-    }
-    
-    
     static func == (lhs: Account, rhs: Account) -> Bool {
         return lhs.id == rhs.id
             && lhs.name == rhs.name
@@ -30,6 +23,12 @@ struct Account: Codable, Hashable {
             && lhs.status == rhs.status
             && lhs.showInSummary == rhs.showInSummary
     }
+}
+
+struct Currency: Codable, Hashable {
+    var id: Int
+    var name: String
+    var unit: String
 }
 
 struct AccountData: Codable {

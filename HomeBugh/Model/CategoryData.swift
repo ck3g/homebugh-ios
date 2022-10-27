@@ -13,17 +13,17 @@ struct Category: Codable, Hashable {
     var categoryType: CategoryType
     var inactive: Bool
     
-    struct CategoryType: Codable, Hashable {
-        var id: Int
-        var name: String
-    }
-    
     static func == (lhs: Category, rhs: Category) -> Bool {
         return lhs.id == rhs.id
             && lhs.name == rhs.name
             && lhs.inactive == rhs.inactive
             && lhs.categoryType == rhs.categoryType
     }
+}
+
+struct CategoryType: Codable, Hashable {
+    var id: Int
+    var name: String
 }
 
 struct CategoryData: Codable {

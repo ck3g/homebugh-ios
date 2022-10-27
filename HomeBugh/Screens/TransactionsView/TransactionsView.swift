@@ -9,8 +9,16 @@ import SwiftUI
 
 class Transactions: ObservableObject {
     @Published var items = [
-        Transaction(date: "October 20, 2020", amount: "18,23$", category: "Sport", categoryType: "Spending", account: "Deutsche Bank", comment: "Magnesium"),
-        Transaction(date: "October 20, 2020", amount: "5$", category: "Food", categoryType: "Spending", account: "Bar", comment: "")
+        Transaction(id: 0,
+                    amount: "18,23$",
+                    comment: "Magnesium",
+                    category: Category(id: 0, name: "Food", categoryType: CategoryType(id: 0, name: "Spending"), inactive: false),
+                    account: Account(id: 0, name: "Deutsche Bank", balance: 100000.0, currency: Currency(id: 0, name: "Euro", unit: "Euro"), status: "active", showInSummary: true)),
+        Transaction(id: 1,
+                    amount: "5$",
+                    comment: "",
+                    category: Category(id: 1, name: "Food", categoryType: CategoryType(id: 1, name: "Spending"), inactive: false),
+                    account: Account(id: 1, name: "Bar", balance: 1000.0, currency: Currency(id: 1, name: "Euro", unit: "Euro"), status: "active", showInSummary: true))
     ]
 }
 

@@ -29,12 +29,4 @@ struct Category: Codable, Hashable {
 struct CategoryData: Codable {
     var categories: [Category]
     var metadata: Metadata
-    
-    struct Metadata: Codable {
-        var currentPage: Int
-        var pageSize: Int
-        var firstPage: Int
-        var lastPage: Int
-        var totalRecords: Int
-    }
 }

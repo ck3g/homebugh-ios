@@ -35,12 +35,12 @@ struct Account: Codable, Hashable {
 struct AccountData: Codable {
     var accounts: [Account]
     var metadata: Metadata
-    
-    struct Metadata: Codable {
-        var currentPage: Int
-        var pageSize: Int
-        var firstPage: Int
-        var lastPage: Int
-        var totalRecords: Int
-    }
+}
+
+struct Metadata: Codable {
+    var currentPage: Int
+    var pageSize: Int
+    var firstPage: Int
+    var lastPage: Int
+    var totalRecords: Int
 }

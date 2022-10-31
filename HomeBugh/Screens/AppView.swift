@@ -11,10 +11,11 @@ struct AppView: View {
     
     @EnvironmentObject var userLoggedIn: UserLoggedIn
     @EnvironmentObject var auth: Auth
+    var transactions = Transactions()
     
     var body: some View {
         TabView {
-            TransactionsView()
+            TransactionsView().environmentObject(transactions)
                 .tabItem {
                     Image(systemName: "list.dash")
                     Text("Transactions")

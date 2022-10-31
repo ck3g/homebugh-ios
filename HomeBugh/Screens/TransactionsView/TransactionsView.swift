@@ -7,16 +7,9 @@
 
 import SwiftUI
 
-class Transactions: ObservableObject {
-    @Published var items = [
-        Transaction(date: "October 20, 2020", amount: "18,23$", category: "Sport", categoryType: "Spending", account: "Deutsche Bank", comment: "Magnesium"),
-        Transaction(date: "October 20, 2020", amount: "5$", category: "Food", categoryType: "Spending", account: "Bar", comment: "")
-    ]
-}
-
 struct TransactionsView: View {
     
-    @ObservedObject var transactions = Transactions()
+    @EnvironmentObject var transactions: Transactions
     
     @State private var addTransactionViewVisible = false
     @State private var showingAlert = false
@@ -55,7 +48,7 @@ struct TransactionsView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $addTransactionViewVisible) {
-            AddTransactionView(transactions: self.transactions)
+            AddTransactionView()
         }
     }
     

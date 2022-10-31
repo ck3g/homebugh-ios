@@ -14,6 +14,7 @@ class API {
         static let Accounts: ApiEndpoint = ApiEndpoint(Method: .Get, Url: baseURL + "/accounts")
         static let Authentication: ApiEndpoint = ApiEndpoint(Method: .Post, Url: baseURL + "/token")
         static let Categories: ApiEndpoint = ApiEndpoint(Method: .Get, Url: baseURL + "/categories")
+        static let Transactions: ApiEndpoint = ApiEndpoint(Method: .Get, Url: baseURL + "/transactions")
     }
     
     @discardableResult

@@ -14,7 +14,7 @@ struct TransactionCell: View {
     var body: some View {
         VStack {
             HStack {
-                Text(transaction.date)
+                Text(Date().description)
                     .font(.footnote)
                 Spacer()
                 Text(transaction.amount)
@@ -22,9 +22,9 @@ struct TransactionCell: View {
             }
             
             HStack {
-                Text(transaction.category)
+                Text(transaction.category.name)
                 Spacer()
-                Text(transaction.account)
+                Text(transaction.account.name)
             }
             
             if transaction.comment != "" {
@@ -38,13 +38,17 @@ struct TransactionCell: View {
     }
     
     func amountTextColor() -> Color {
-        return transaction.categoryType == "Spending" ? .red : .green
+        return transaction.category.categoryType.name == "Spending" ? .red : .green
     }
     
 }
 
 struct TransactionCell_Previews: PreviewProvider {
     static var previews: some View {
-        TransactionCell(transaction: Transaction(date: "October 20, 2020", amount: "18,23$", category: "Sport", categoryType: "Spending", account: "Deutsche Bank", comment: "Magnesium"))
+        TransactionCell(transaction: Transaction(id: 0,
+                                                 amount: "18,23$",
+                                                 comment: "Magnesium",
+                                                 category: Category(id: 0, name: "Food", categoryType: CategoryType(id: 0, name: "Spending"), inactive: false),
+                                                 account: Account(id: 0, name: "Deutsche Bank", balance: 100000.0, currency: Currency(id: 0, name: "Euro", unit: "Euro"), status: "active", showInSummary: true)))
     }
 }

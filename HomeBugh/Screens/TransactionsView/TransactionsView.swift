@@ -48,7 +48,7 @@ struct TransactionsView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $addTransactionViewVisible) {
-            AddTransactionView(transactions: self.transactions)
+            AddTransactionView()
         }
     }
     

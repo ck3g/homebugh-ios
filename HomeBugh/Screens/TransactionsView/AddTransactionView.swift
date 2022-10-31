@@ -25,7 +25,7 @@ struct AddTransactionView: View {
     @State private var comment = ""
     
     @Environment(\.presentationMode) var presentationMode
-    @ObservedObject var transactions: Transactions
+    @EnvironmentObject var transactions: Transactions
     
     var body: some View {
         NavigationView {
@@ -63,16 +63,10 @@ struct AddTransactionView: View {
                                                   comment: comment,
                                                   category: Category(id: 0, name: categories[selectedCategory], categoryType: CategoryType(id: 0, name: "Spending"), inactive: false),
                                                   account: Account(id: 0, name: accounts[selectedAccount], balance: 100000.0, currency: Currency(id: 0, name: "Euro", unit: "Euro"), status: "active", showInSummary: true))
-                    self.transactions.items.append(transaction)
+                    self.transactions.add(transaction)
                     self.presentationMode.wrappedValue.dismiss()
                 }
             )
         }
-    }
-}
-
-struct AddTransaction_Previews: PreviewProvider {
-    static var previews: some View {
-        AddTransactionView(transactions: Transactions())
     }
 }

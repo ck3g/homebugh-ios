@@ -23,15 +23,11 @@ final class Transactions: ObservableObject {
                     account: Account(id: 1, name: "Bar", balance: 1000.0, currency: Currency(id: 1, name: "Euro", unit: "Euro"), status: "active", showInSummary: true))
     ]
     
-    //    var totalPrice: Double {
-    //        items.reduce(0) { $0 + $1.price}
-    //    }
-    //
-    //    func add(_ appetizer: Appetizer) {
-    //        items.append(appetizer)
-    //    }
-    //
-    //    func deleteItems(at offsets: IndexSet) {
-    //        items.remove(atOffsets: offsets)
-    //    }
+        func add(_ transaction: Transaction) {
+            items.append(transaction)
+        }
+    
+        func deleteItems(at offsets: IndexSet) {
+            items.remove(atOffsets: offsets)
+        }
 }

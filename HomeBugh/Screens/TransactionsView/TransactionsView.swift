@@ -41,13 +41,13 @@ struct TransactionsView: View {
                 }
             }
             .navigationTitle("Transactions")
-            .navigationBarItems(trailing:
-                                    Button(action: {
-                                        self.addTransactionViewVisible = true
-                                    }) {
-                                        Image(systemName: "plus")
-                                    }
-            )
+//            .navigationBarItems(trailing:
+//                                    Button(action: {
+//                                        self.addTransactionViewVisible = true
+//                                    }) {
+//                                        Image(systemName: "plus")
+//                                    }
+//            )
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $addTransactionViewVisible) {

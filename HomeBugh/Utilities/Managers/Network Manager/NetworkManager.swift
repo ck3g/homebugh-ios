@@ -158,4 +158,43 @@ final class NetworkManager {
         }
     }
     
+    func getTransactionsList(
+        pageSize: Int,
+        page: Int,
+        then completion: @escaping (Result<TransactionData, HBError>) -> Void
+    ) {
+        API.sendRequestAsync(
+            url: API.Endpoints.Transactions.Url,
+            method: API.Endpoints.Transactions.Method,
+            autoAuth: false,
+            parameters: ["page_size": "\(pageSize)", "page": "\(page)"],
+            headers: ["Authorization": "Bearer \(AuthTokenStorage().getToken())"]
+        ) { (error, data, dateLastModified, statusCode) in
+            
+            if let _ = error {
+                completion(.failure(.unableToComplete))
+                return
+            }
+            
+            guard statusCode == 200 else {
+                completion(.failure(.invalidResponseData))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(.missingResponseData))
+                return
+            }
+            //            print(String(decoding: data, as: UTF8.self))
+            do  {
+                let decoder = JSONDecoder()
+                decoder.keyDecodingStrategy = .convertFromSnakeCase
+                let decodedResponse = try decoder.decode(TransactionData.self, from: data)
+                completion(.success(decodedResponse))
+            } catch {
+                print(error)
+                completion(.failure(.invalidResponseData))
+            }
+        }
+    }
 }

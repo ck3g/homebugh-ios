@@ -10,7 +10,7 @@ import SwiftUI
 
 struct Transaction: Codable, Hashable {
     var id: Int
-    var amount: String
+    var amount: Double
     var comment: String
     var category: Category
     var account: Account

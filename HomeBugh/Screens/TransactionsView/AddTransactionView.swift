@@ -59,7 +59,7 @@ struct AddTransactionView: View {
             .navigationBarItems(
                 trailing: Button("Save") {
                     let transaction = Transaction(id: 3,
-                                                  amount: amount,
+                                                  amount: Double(amount) ?? 0.0,
                                                   comment: comment,
                                                   category: Category(id: 0, name: categories[selectedCategory], categoryType: CategoryType(id: 0, name: "Spending"), inactive: false),
                                                   account: Account(id: 0, name: accounts[selectedAccount], balance: 100000.0, currency: Currency(id: 0, name: "Euro", unit: "Euro"), status: "active", showInSummary: true))

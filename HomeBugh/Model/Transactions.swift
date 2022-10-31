@@ -8,26 +8,66 @@
 import SwiftUI
 
 final class Transactions: ObservableObject {
-    
+    @Published var pageSize: Int = 10
+    @Published private var page: Int = 1
     @Published var transactionData: TransactionData?
-    @Published var items = [
-        Transaction(id: 0,
-                    amount: "18,23$",
-                    comment: "Magnesium",
-                    category: Category(id: 0, name: "Food", categoryType: CategoryType(id: 0, name: "Spending"), inactive: false),
-                    account: Account(id: 0, name: "Deutsche Bank", balance: 100000.0, currency: Currency(id: 0, name: "Euro", unit: "Euro"), status: "active", showInSummary: true)),
-        Transaction(id: 1,
-                    amount: "5$",
-                    comment: "",
-                    category: Category(id: 1, name: "Food", categoryType: CategoryType(id: 1, name: "Spending"), inactive: false),
-                    account: Account(id: 1, name: "Bar", balance: 1000.0, currency: Currency(id: 1, name: "Euro", unit: "Euro"), status: "active", showInSummary: true))
-    ]
+    @Published var items = [Transaction]()
+    @Published var isLoadingPage = false
+    @Published var errorMessage: String = ""
+    @Published private var canLoadMorePages = true
     
-        func add(_ transaction: Transaction) {
-            items.append(transaction)
-        }
+    init() {
+        loadMoreContent()
+    }
     
-        func deleteItems(at offsets: IndexSet) {
-            items.remove(atOffsets: offsets)
+    func loadMoreContentIfNeeded(currentItem item: Transaction?) {
+        guard let item = item else {
+            loadMoreContent()
+            return
         }
+        
+        let thresholdIndex = items.index(items.endIndex, offsetBy: -5)
+        if items.firstIndex(where: { $0.id == item.id }) == thresholdIndex {
+            loadMoreContent()
+        }
+    }
+    
+    private func loadMoreContent() {
+        guard !isLoadingPage && canLoadMorePages else {
+            return
+        }
+        isLoadingPage = true
+        getTransactions()
+    }
+    
+    func getTransactions() {
+        NetworkManager.shared.getTransactionsList(
+            pageSize: pageSize,
+            page: page
+        ) { [weak self] result in
+            guard let self = self else { return }
+            
+            DispatchQueue.main.async {
+                self.isLoadingPage = false
+                switch result {
+                case .success(let transactionList):
+                    self.items = self.items + transactionList.transactions
+                    self.canLoadMorePages = transactionList.metadata.currentPage < transactionList.metadata.lastPage
+                    self.page += 1
+                    
+                case .failure (let error):
+                    self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+    
+    func add(_ transaction: Transaction) {
+        items.append(transaction)
+    }
+    
+    func deleteItems(at offsets: IndexSet) {
+        items.remove(atOffsets: offsets)
+    }
+    
 }

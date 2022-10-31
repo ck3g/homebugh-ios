@@ -20,6 +20,9 @@ struct TransactionsView: View {
             List {
                 ForEach(transactions.items, id: \.self) { transaction in
                     TransactionCell(transaction: transaction)
+                        .onAppear {
+                            transactions.loadMoreContentIfNeeded(currentItem: transaction)
+                        }
                 }
                 .onDelete(perform: { indexSet in
                     self.showingAlert = true

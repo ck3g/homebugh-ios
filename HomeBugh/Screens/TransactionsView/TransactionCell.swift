@@ -17,7 +17,7 @@ struct TransactionCell: View {
                 Text(Date().description)
                     .font(.footnote)
                 Spacer()
-                Text(transaction.amount)
+                Text(String(format: "%.2f", transaction.amount))
                     .foregroundColor(amountTextColor())
             }
             
@@ -46,7 +46,7 @@ struct TransactionCell: View {
 struct TransactionCell_Previews: PreviewProvider {
     static var previews: some View {
         TransactionCell(transaction: Transaction(id: 0,
-                                                 amount: "18,23$",
+                                                 amount: 18.23,
                                                  comment: "Magnesium",
                                                  category: Category(id: 0, name: "Food", categoryType: CategoryType(id: 0, name: "Spending"), inactive: false),
                                                  account: Account(id: 0, name: "Deutsche Bank", balance: 100000.0, currency: Currency(id: 0, name: "Euro", unit: "Euro"), status: "active", showInSummary: true)))

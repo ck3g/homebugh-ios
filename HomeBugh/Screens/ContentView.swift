@@ -31,18 +31,20 @@ struct ContentView: View {
     @ObservedObject var auth = Auth()
     
     var body: some View {
-        ZStack {
-            if self.userLoggedIn.isUserLoggedIn {
-                AppView().environmentObject(auth).environmentObject(userLoggedIn)
-            } else {
-                if self.auth.currentView == "Login" {
-                    LoginView().environmentObject(auth).environmentObject(userLoggedIn)
-                } else {
-                    SignUpView().environmentObject(auth).environmentObject(userLoggedIn)
-                }
-                
-            }
-        }
+        // TODO: Re-enable auth flow when backend is available
+        AppView().environmentObject(auth).environmentObject(userLoggedIn)
+//        ZStack {
+//            if self.userLoggedIn.isUserLoggedIn {
+//                AppView().environmentObject(auth).environmentObject(userLoggedIn)
+//            } else {
+//                if self.auth.currentView == "Login" {
+//                    LoginView().environmentObject(auth).environmentObject(userLoggedIn)
+//                } else {
+//                    SignUpView().environmentObject(auth).environmentObject(userLoggedIn)
+//                }
+//                
+//            }
+//        }
     }
 }
 

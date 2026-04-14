@@ -23,6 +23,10 @@
 		238D3BFB2F8E560500C97EA7 /* TransactionRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF52F8E560500C97EA7 /* TransactionRecord.swift */; };
 		238D3BFC2F8E560500C97EA7 /* AccountRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF02F8E560500C97EA7 /* AccountRecord.swift */; };
 		238D3BFD2F8E560500C97EA7 /* TransactionsLocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF62F8E560500C97EA7 /* TransactionsLocalStore.swift */; };
+		238D3C012F8E836700C97EA7 /* AccountsRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BFE2F8E836700C97EA7 /* AccountsRepositoryImpl.swift */; };
+		238D3C022F8E836700C97EA7 /* CategoriesRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BFF2F8E836700C97EA7 /* CategoriesRepositoryImpl.swift */; };
+		238D3C032F8E836700C97EA7 /* TransactionsRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3C002F8E836700C97EA7 /* TransactionsRepositoryImpl.swift */; };
+		238D3C052F8E837800C97EA7 /* RepositoryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3C042F8E837800C97EA7 /* RepositoryProvider.swift */; };
 		3412B3BF2525B61200DA446D /* HomeBughApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3412B3BE2525B61200DA446D /* HomeBughApp.swift */; };
 		3412B3C32525B61400DA446D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3412B3C22525B61400DA446D /* Assets.xcassets */; };
 		3412B3C62525B61400DA446D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3412B3C52525B61400DA446D /* Preview Assets.xcassets */; };
@@ -104,6 +108,10 @@
 		238D3BF42F8E560500C97EA7 /* CategoryRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRecord.swift; sourceTree = "<group>"; };
 		238D3BF52F8E560500C97EA7 /* TransactionRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRecord.swift; sourceTree = "<group>"; };
 		238D3BF62F8E560500C97EA7 /* TransactionsLocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsLocalStore.swift; sourceTree = "<group>"; };
+		238D3BFE2F8E836700C97EA7 /* AccountsRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsRepositoryImpl.swift; sourceTree = "<group>"; };
+		238D3BFF2F8E836700C97EA7 /* CategoriesRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesRepositoryImpl.swift; sourceTree = "<group>"; };
+		238D3C002F8E836700C97EA7 /* TransactionsRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsRepositoryImpl.swift; sourceTree = "<group>"; };
+		238D3C042F8E837800C97EA7 /* RepositoryProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryProvider.swift; sourceTree = "<group>"; };
 		3412B3BB2525B61200DA446D /* HomeBugh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeBugh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3412B3BE2525B61200DA446D /* HomeBughApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBughApp.swift; sourceTree = "<group>"; };
 		3412B3C22525B61400DA446D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -195,6 +203,9 @@
 		238D3BCC2F8CF80E00C97EA7 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
+				238D3BFE2F8E836700C97EA7 /* AccountsRepositoryImpl.swift */,
+				238D3BFF2F8E836700C97EA7 /* CategoriesRepositoryImpl.swift */,
+				238D3C002F8E836700C97EA7 /* TransactionsRepositoryImpl.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -251,6 +262,7 @@
 		238D3BDC2F8CF85400C97EA7 /* DI */ = {
 			isa = PBXGroup;
 			children = (
+				238D3C042F8E837800C97EA7 /* RepositoryProvider.swift */,
 			);
 			path = DI;
 			sourceTree = "<group>";
@@ -622,7 +634,11 @@
 				238D3BF72F8E560500C97EA7 /* CategoriesLocalStore.swift in Sources */,
 				238D3BF82F8E560500C97EA7 /* AppDatabase.swift in Sources */,
 				238D3BF92F8E560500C97EA7 /* AccountsLocalStore.swift in Sources */,
+				238D3C012F8E836700C97EA7 /* AccountsRepositoryImpl.swift in Sources */,
+				238D3C022F8E836700C97EA7 /* CategoriesRepositoryImpl.swift in Sources */,
+				238D3C032F8E836700C97EA7 /* TransactionsRepositoryImpl.swift in Sources */,
 				238D3BFA2F8E560500C97EA7 /* CategoryRecord.swift in Sources */,
+				238D3C052F8E837800C97EA7 /* RepositoryProvider.swift in Sources */,
 				238D3BFB2F8E560500C97EA7 /* TransactionRecord.swift in Sources */,
 				238D3BFC2F8E560500C97EA7 /* AccountRecord.swift in Sources */,
 				238D3BFD2F8E560500C97EA7 /* TransactionsLocalStore.swift in Sources */,

@@ -13,5 +13,5 @@ protocol UpdateTransactionUseCase {
 }
 
 protocol DeleteTransactionUseCase {
-    func execute(id: Int) async throws
+    func execute(id: UUID) async throws
 }

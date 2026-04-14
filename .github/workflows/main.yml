@@ -14,11 +14,14 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Install xcbeautify
       run: brew install xcbeautify
 
-    - name: Test
-      run: set -o pipefail && xcodebuild clean test -project HomeBugh.xcodeproj -scheme HomeBugh -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 12' | xcbeautify
+    - name: List available simulators
+      run: xcrun simctl list devices available
+
+    - name: Build and Test
+      run: set -o pipefail && xcodebuild clean test -project HomeBugh.xcodeproj -scheme HomeBugh -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 16 Pro' | xcbeautify
 

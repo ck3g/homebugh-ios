@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -514,6 +514,9 @@
 				Base,
 			);
 			mainGroup = 3412B3B22525B61200DA446D;
+			packageReferences = (
+				238D3BE62F8D2C6A00C97EA7 /* XCRemoteSwiftPackageReference "GRDB.swift" */,
+			);
 			productRefGroup = 3412B3BC2525B61200DA446D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -912,6 +915,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		238D3BE62F8D2C6A00C97EA7 /* XCRemoteSwiftPackageReference "GRDB.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = 3412B3B32525B61200DA446D /* Project object */;
 }

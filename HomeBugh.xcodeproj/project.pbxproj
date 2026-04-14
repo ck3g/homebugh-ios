@@ -15,6 +15,14 @@
 		238D3BE32F8D113F00C97EA7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BE12F8D113F00C97EA7 /* User.swift */; };
 		238D3BE42F8D113F00C97EA7 /* AccountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BDE2F8D113F00C97EA7 /* AccountData.swift */; };
 		238D3BE52F8D113F00C97EA7 /* TransactionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BE02F8D113F00C97EA7 /* TransactionData.swift */; };
+		238D3BE92F8E4F0100C97EA7 /* GRDB in Frameworks */ = {isa = PBXBuildFile; productRef = 238D3BE82F8E4F0100C97EA7 /* GRDB */; };
+		238D3BF72F8E560500C97EA7 /* CategoriesLocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF32F8E560500C97EA7 /* CategoriesLocalStore.swift */; };
+		238D3BF82F8E560500C97EA7 /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF22F8E560500C97EA7 /* AppDatabase.swift */; };
+		238D3BF92F8E560500C97EA7 /* AccountsLocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF12F8E560500C97EA7 /* AccountsLocalStore.swift */; };
+		238D3BFA2F8E560500C97EA7 /* CategoryRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF42F8E560500C97EA7 /* CategoryRecord.swift */; };
+		238D3BFB2F8E560500C97EA7 /* TransactionRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF52F8E560500C97EA7 /* TransactionRecord.swift */; };
+		238D3BFC2F8E560500C97EA7 /* AccountRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF02F8E560500C97EA7 /* AccountRecord.swift */; };
+		238D3BFD2F8E560500C97EA7 /* TransactionsLocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF62F8E560500C97EA7 /* TransactionsLocalStore.swift */; };
 		3412B3BF2525B61200DA446D /* HomeBughApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3412B3BE2525B61200DA446D /* HomeBughApp.swift */; };
 		3412B3C32525B61400DA446D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3412B3C22525B61400DA446D /* Assets.xcassets */; };
 		3412B3C62525B61400DA446D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3412B3C52525B61400DA446D /* Preview Assets.xcassets */; };
@@ -67,6 +75,19 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		238D3BEF2F8E4F0100C97EA7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		238D3BD02F8CF80E00C97EA7 /* AccountsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsRepository.swift; sourceTree = "<group>"; };
 		238D3BD12F8CF80E00C97EA7 /* CategoriesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesRepository.swift; sourceTree = "<group>"; };
@@ -76,6 +97,13 @@
 		238D3BDF2F8D113F00C97EA7 /* CategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryData.swift; sourceTree = "<group>"; };
 		238D3BE02F8D113F00C97EA7 /* TransactionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionData.swift; sourceTree = "<group>"; };
 		238D3BE12F8D113F00C97EA7 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		238D3BF02F8E560500C97EA7 /* AccountRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecord.swift; sourceTree = "<group>"; };
+		238D3BF12F8E560500C97EA7 /* AccountsLocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsLocalStore.swift; sourceTree = "<group>"; };
+		238D3BF22F8E560500C97EA7 /* AppDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
+		238D3BF32F8E560500C97EA7 /* CategoriesLocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesLocalStore.swift; sourceTree = "<group>"; };
+		238D3BF42F8E560500C97EA7 /* CategoryRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRecord.swift; sourceTree = "<group>"; };
+		238D3BF52F8E560500C97EA7 /* TransactionRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRecord.swift; sourceTree = "<group>"; };
+		238D3BF62F8E560500C97EA7 /* TransactionsLocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsLocalStore.swift; sourceTree = "<group>"; };
 		3412B3BB2525B61200DA446D /* HomeBugh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeBugh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3412B3BE2525B61200DA446D /* HomeBughApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBughApp.swift; sourceTree = "<group>"; };
 		3412B3C22525B61400DA446D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -122,6 +150,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				238D3BE92F8E4F0100C97EA7 /* GRDB in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +174,13 @@
 		238D3BCA2F8CF80E00C97EA7 /* Local */ = {
 			isa = PBXGroup;
 			children = (
+				238D3BF02F8E560500C97EA7 /* AccountRecord.swift */,
+				238D3BF12F8E560500C97EA7 /* AccountsLocalStore.swift */,
+				238D3BF22F8E560500C97EA7 /* AppDatabase.swift */,
+				238D3BF32F8E560500C97EA7 /* CategoriesLocalStore.swift */,
+				238D3BF42F8E560500C97EA7 /* CategoryRecord.swift */,
+				238D3BF52F8E560500C97EA7 /* TransactionRecord.swift */,
+				238D3BF62F8E560500C97EA7 /* TransactionsLocalStore.swift */,
 			);
 			path = Local;
 			sourceTree = "<group>";
@@ -227,12 +263,20 @@
 			path = App;
 			sourceTree = "<group>";
 		};
+		238D3BE72F8E4F0100C97EA7 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		3412B3B22525B61200DA446D = {
 			isa = PBXGroup;
 			children = (
 				3412B3BD2525B61200DA446D /* HomeBugh */,
 				3412B3CF2525B61400DA446D /* HomeBughTests */,
 				3412B3DA2525B61400DA446D /* HomeBughUITests */,
+				238D3BE72F8E4F0100C97EA7 /* Frameworks */,
 				3412B3BC2525B61200DA446D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -437,6 +481,7 @@
 				3412B3B72525B61200DA446D /* Sources */,
 				3412B3B82525B61200DA446D /* Frameworks */,
 				3412B3B92525B61200DA446D /* Resources */,
+				238D3BEF2F8E4F0100C97EA7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -574,6 +619,13 @@
 				C19D875F252B315700B2433F /* ContentView.swift in Sources */,
 				C1DA6CAF2587A55A00679706 /* AccountView.swift in Sources */,
 				C153C11C253226EA0064BD6D /* SettingsView.swift in Sources */,
+				238D3BF72F8E560500C97EA7 /* CategoriesLocalStore.swift in Sources */,
+				238D3BF82F8E560500C97EA7 /* AppDatabase.swift in Sources */,
+				238D3BF92F8E560500C97EA7 /* AccountsLocalStore.swift in Sources */,
+				238D3BFA2F8E560500C97EA7 /* CategoryRecord.swift in Sources */,
+				238D3BFB2F8E560500C97EA7 /* TransactionRecord.swift in Sources */,
+				238D3BFC2F8E560500C97EA7 /* AccountRecord.swift in Sources */,
+				238D3BFD2F8E560500C97EA7 /* TransactionsLocalStore.swift in Sources */,
 				C178D0962721DA160091CB76 /* CategoryViewModel.swift in Sources */,
 				C132F5DA26139FE7004D889B /* String+Ext.swift in Sources */,
 				C14EE7AC2540BD8E00D63C67 /* AppView.swift in Sources */,
@@ -926,6 +978,14 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		238D3BE82F8E4F0100C97EA7 /* GRDB */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 238D3BE62F8D2C6A00C97EA7 /* XCRemoteSwiftPackageReference "GRDB.swift" */;
+			productName = GRDB;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 3412B3B32525B61200DA446D /* Project object */;
 }

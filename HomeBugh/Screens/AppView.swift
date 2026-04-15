@@ -9,16 +9,19 @@ import SwiftUI
 
 struct AppView: View {
 
+    @EnvironmentObject var repositoryProvider: RepositoryProvider
     @EnvironmentObject var userLoggedIn: UserLoggedIn
     @EnvironmentObject var auth: Auth
 
     var body: some View {
         TabView {
-            TransactionsView()
-                .tabItem {
-                    Image(systemName: "list.dash")
-                    Text("Transactions")
-                }
+            TransactionsView(viewModel: TransactionsViewModel(
+                repository: repositoryProvider.transactionsRepository()
+            ))
+            .tabItem {
+                Image(systemName: "list.dash")
+                Text("Transactions")
+            }
 
             SettingsView().environmentObject(auth).environmentObject(userLoggedIn)
                 .tabItem {
@@ -26,11 +29,5 @@ struct AppView: View {
                     Text("Settings")
                 }
         }
-    }
-}
-
-struct AppView_Previews: PreviewProvider {
-    static var previews: some View {
-        AppView()
     }
 }

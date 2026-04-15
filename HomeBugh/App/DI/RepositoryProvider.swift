@@ -9,7 +9,7 @@
 import Foundation
 import GRDB
 
-final class RepositoryProvider {
+final class RepositoryProvider: ObservableObject {
 
     private let database: AppDatabase
 

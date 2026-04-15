@@ -12,9 +12,14 @@ final class CategoryViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String = ""
 
+    private let repository: CategoriesRepository
     private let pageSize = 6
     private var page = 1
     private var canLoadMorePages = true
+
+    init(repository: CategoriesRepository) {
+        self.repository = repository
+    }
 
     func loadMoreContentIfNeeded(currentItem item: Category?) {
         guard let item = item else {
@@ -32,7 +37,17 @@ final class CategoryViewModel: ObservableObject {
     func loadMoreContent() {
         guard !isLoading && canLoadMorePages else { return }
         isLoading = true
-        // TODO: Wire to repository in Phase 4
-        isLoading = false
+
+        Task { @MainActor in
+            do {
+                let newItems = try await repository.list(page: page, pageSize: pageSize)
+                items.append(contentsOf: newItems)
+                canLoadMorePages = newItems.count == pageSize
+                page += 1
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+            isLoading = false
+        }
     }
 }

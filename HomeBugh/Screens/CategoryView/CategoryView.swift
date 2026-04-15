@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CategoryView: View {
 
-    @StateObject var viewModel = CategoryViewModel()
+    @ObservedObject var viewModel: CategoryViewModel
 
     var body: some View {
         ZStack {
@@ -37,11 +37,10 @@ struct CategoryView: View {
             }
         }
         .navigationTitle("Categories")
-    }
-}
-
-struct CategoryView_Previews: PreviewProvider {
-    static var previews: some View {
-        CategoryView()
+        .onAppear {
+            if viewModel.items.isEmpty {
+                viewModel.loadMoreContent()
+            }
+        }
     }
 }

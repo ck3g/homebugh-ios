@@ -9,9 +9,21 @@ import SwiftUI
 
 @main
 struct HomeBughApp: App {
+
+    let repositoryProvider: RepositoryProvider
+
+    init() {
+        do {
+            repositoryProvider = try RepositoryProvider.makeDefault()
+        } catch {
+            fatalError("Failed to initialize database: \(error)")
+        }
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(repositoryProvider)
                 .onAppear(perform: UIApplication.shared.addTapGestureRecognizer)
         }
     }
@@ -30,6 +42,6 @@ extension UIApplication {
 
 extension UIApplication: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true // set to `false` if you don't want to detect tap during other gestures
+        return true
     }
 }

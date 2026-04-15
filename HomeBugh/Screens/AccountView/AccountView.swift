@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AccountView: View {
-    @StateObject var viewModel = AccountViewModel()
+    @ObservedObject var viewModel: AccountViewModel
 
     var body: some View {
         ZStack {
@@ -36,11 +36,10 @@ struct AccountView: View {
             }
         }
         .navigationBarTitle(Text("Accounts"))
-    }
-}
-
-struct AccountView_Previews: PreviewProvider {
-    static var previews: some View {
-        AccountView()
+        .onAppear {
+            if viewModel.items.isEmpty {
+                viewModel.loadMoreContent()
+            }
+        }
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct TransactionsView: View {
 
-    @StateObject private var viewModel = TransactionsViewModel()
+    @ObservedObject var viewModel: TransactionsViewModel
 
     @State private var addTransactionViewVisible = false
     @State private var showingAlert = false
@@ -40,16 +40,24 @@ struct TransactionsView: View {
                 }
             }
             .navigationTitle("Transactions")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        addTransactionViewVisible = true
+                    } label: {
+                        Image(systemName: "plus")
+                    }
+                }
+            }
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $addTransactionViewVisible) {
             AddTransactionView().environmentObject(viewModel)
         }
-    }
-}
-
-struct TransactionsView_Previews: PreviewProvider {
-    static var previews: some View {
-        TransactionsView()
+        .onAppear {
+            if viewModel.items.isEmpty {
+                viewModel.loadMoreContent()
+            }
+        }
     }
 }

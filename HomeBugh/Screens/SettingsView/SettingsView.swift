@@ -8,21 +8,30 @@
 import SwiftUI
 
 struct SettingsView: View {
-    
+
+    @EnvironmentObject var repositoryProvider: RepositoryProvider
     @EnvironmentObject var userLoggedIn: UserLoggedIn
     @EnvironmentObject var auth: Auth
-    
+
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: AccountView()) {
+                NavigationLink(destination: AccountView(
+                    viewModel: AccountViewModel(
+                        repository: repositoryProvider.accountsRepository()
+                    )
+                )) {
                     Text("Accounts")
                 }
-                
-                NavigationLink(destination: CategoryView()) {
+
+                NavigationLink(destination: CategoryView(
+                    viewModel: CategoryViewModel(
+                        repository: repositoryProvider.categoriesRepository()
+                    )
+                )) {
                     Text("Categories")
                 }
-                
+
                 Button(action: {
                     self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: false)
                     self.auth.setAuthView(view: "Login")

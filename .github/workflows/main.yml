@@ -14,10 +14,10 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: Install xcbeautify
-      run: brew install xcbeautify
+      run: brew list xcbeautify &>/dev/null || brew install xcbeautify
 
     - name: List available simulators
       run: xcrun simctl list devices available

@@ -1,22 +1,22 @@
 //
-//  CategoryViewModel.swift
+//  TransactionsViewModel.swift
 //  HomeBugh
 //
-//  View model for the categories list screen.
+//  View model for the transactions list screen.
 //
 
 import SwiftUI
 
-final class CategoryViewModel: ObservableObject {
-    @Published var items: [Category] = []
+final class TransactionsViewModel: ObservableObject {
+    @Published var items = [Transaction]()
     @Published var isLoading = false
     @Published var errorMessage: String = ""
 
-    private let pageSize = 6
+    private let pageSize = 10
     private var page = 1
     private var canLoadMorePages = true
 
-    func loadMoreContentIfNeeded(currentItem item: Category?) {
+    func loadMoreContentIfNeeded(currentItem item: Transaction?) {
         guard let item = item else {
             loadMoreContent()
             return
@@ -34,5 +34,13 @@ final class CategoryViewModel: ObservableObject {
         isLoading = true
         // TODO: Wire to repository in Phase 4
         isLoading = false
+    }
+
+    func add(_ transaction: Transaction) {
+        items.append(transaction)
+    }
+
+    func deleteItems(at offsets: IndexSet) {
+        items.remove(atOffsets: offsets)
     }
 }

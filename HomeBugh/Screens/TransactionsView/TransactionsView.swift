@@ -8,34 +8,33 @@
 import SwiftUI
 
 struct TransactionsView: View {
-    
-    @EnvironmentObject var transactions: Transactions
-    
+
+    @StateObject private var viewModel = TransactionsViewModel()
+
     @State private var addTransactionViewVisible = false
     @State private var showingAlert = false
     @State private var deleteIndexSet: IndexSet?
-    
+
     var body: some View {
         NavigationView {
             List {
-                ForEach(transactions.items, id: \.self) { transaction in
+                ForEach(viewModel.items, id: \.id) { transaction in
                     TransactionCell(transaction: transaction)
                         .onAppear {
-                            transactions.loadMoreContentIfNeeded(currentItem: transaction)
+                            viewModel.loadMoreContentIfNeeded(currentItem: transaction)
                         }
                 }
                 .onDelete(perform: { indexSet in
                     self.showingAlert = true
                     self.deleteIndexSet = indexSet
                 })
-
                 .alert(isPresented: self.$showingAlert) {
                     let indexSet = self.deleteIndexSet!
                     return Alert(
                         title: Text("Delete transaction"),
                         message: Text("Are you sure you want to delete the transaction?"),
                         primaryButton: .default(Text("Yes")) {
-                            self.transactions.items.remove(atOffsets: indexSet)
+                            viewModel.deleteItems(at: indexSet)
                         },
                         secondaryButton: .cancel())
                 }
@@ -44,12 +43,8 @@ struct TransactionsView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $addTransactionViewVisible) {
-            AddTransactionView()
+            AddTransactionView().environmentObject(viewModel)
         }
-    }
-    
-    func delete(at offsets: IndexSet) {
-        transactions.items.remove(atOffsets: offsets)
     }
 }
 

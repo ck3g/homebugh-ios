@@ -8,19 +8,18 @@
 import SwiftUI
 
 struct AppView: View {
-    
+
     @EnvironmentObject var userLoggedIn: UserLoggedIn
     @EnvironmentObject var auth: Auth
-    var transactions = Transactions()
-    
+
     var body: some View {
         TabView {
-            TransactionsView().environmentObject(transactions)
+            TransactionsView()
                 .tabItem {
                     Image(systemName: "list.dash")
                     Text("Transactions")
                 }
-            
+
             SettingsView().environmentObject(auth).environmentObject(userLoggedIn)
                 .tabItem {
                     Image(systemName: "square.and.pencil")

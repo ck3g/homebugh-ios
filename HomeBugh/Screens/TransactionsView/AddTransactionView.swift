@@ -25,7 +25,7 @@ struct AddTransactionView: View {
     @State private var comment = ""
     
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var transactions: Transactions
+    @EnvironmentObject var viewModel: TransactionsViewModel
     
     var body: some View {
         NavigationView {
@@ -74,7 +74,7 @@ struct AddTransactionView: View {
                             showInSummary: true
                         )
                     )
-                    self.transactions.add(transaction)
+                    self.viewModel.add(transaction)
                     self.presentationMode.wrappedValue.dismiss()
                 }
             )

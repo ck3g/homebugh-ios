@@ -8,29 +8,29 @@
 import SwiftUI
 
 struct CategoryView: View {
-    
+
     @StateObject var viewModel = CategoryViewModel()
-    
+
     var body: some View {
         ZStack {
             List {
-                ForEach(viewModel.categoryList, id: \.self){ item in
+                ForEach(viewModel.items, id: \.id) { item in
                     Text(item.name)
                         .onAppear {
                             viewModel.loadMoreContentIfNeeded(currentItem: item)
                         }
                 }
             }
-            
-            if viewModel.isLoadingPage {
+
+            if viewModel.isLoading {
                 ProgressView()
             }
-            
-            if viewModel.categoryList.isEmpty && !viewModel.isLoadingPage {
+
+            if viewModel.items.isEmpty && !viewModel.isLoading {
                 EmptyState(imageName: "",
                            message: "The categories list is empty.")
             }
-            
+
             if viewModel.errorMessage != "" {
                 EmptyState(imageName: "",
                            message: viewModel.errorMessage)

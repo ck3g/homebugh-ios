@@ -13,7 +13,7 @@ struct LoginView: View {
     
     @EnvironmentObject var auth: Auth
     @EnvironmentObject var userLoggedIn: UserLoggedIn
-    @StateObject var viewModel = Authentication()
+    @StateObject var viewModel = LoginViewModel()
     
     var body: some View {
         VStack {
@@ -27,7 +27,7 @@ struct LoginView: View {
             }
             Button(action: {
                 hideKeyboard()
-                viewModel.loginUser(email: viewModel.email, password: viewModel.password) { success in
+                viewModel.loginUser { success in
                     if success {
                         self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: viewModel.authenticationDidSucceed)
                     }

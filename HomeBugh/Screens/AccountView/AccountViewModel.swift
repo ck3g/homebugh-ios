@@ -50,4 +50,15 @@ final class AccountViewModel: ObservableObject {
             isLoading = false
         }
     }
+
+    func add(_ account: Account) {
+        Task { @MainActor in
+            do {
+                try await repository.create(account)
+                items.append(account)
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+        }
+    }
 }

@@ -10,6 +10,7 @@ import SwiftUI
 struct CategoryView: View {
 
     @ObservedObject var viewModel: CategoryViewModel
+    @State private var showAddCategory = false
 
     var body: some View {
         ZStack {
@@ -37,6 +38,18 @@ struct CategoryView: View {
             }
         }
         .navigationTitle("Categories")
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showAddCategory = true
+                } label: {
+                    Image(systemName: "plus")
+                }
+            }
+        }
+        .sheet(isPresented: $showAddCategory) {
+            AddCategoryView(viewModel: viewModel)
+        }
         .onAppear {
             if viewModel.items.isEmpty {
                 viewModel.loadMoreContent()

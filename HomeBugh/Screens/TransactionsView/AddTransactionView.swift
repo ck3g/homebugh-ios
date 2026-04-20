@@ -1,83 +1,78 @@
 //
-//  AddTransaction.swift
+//  AddTransactionView.swift
 //  HomeBugh
 //
-//  Created by Nataly Tatarintseva on 10/29/20.
+//  Form to create a new transaction.
 //
 
 import SwiftUI
 
 struct AddTransactionView: View {
-    
-    @State private var date = Date()
-    
-    var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .long
-        return formatter
-    }
-    
-    @State private var selectedAccount = 0
-    @State private var accounts = ["Deutsche Bank", "Postbank", "Cash (Euro)"]
-    @State private var selectedCategory = 0
-    @State private var categories = ["Food", "Sport", "Cafe and restaurants", "Daughter"]
-    @State private var amount = "0.0"
-    @State private var comment = ""
-    
-    @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var viewModel: TransactionsViewModel
-    
+
+    @Environment(\.dismiss) var dismiss
+    @ObservedObject var viewModel: AddTransactionViewModel
+
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Account")) {
-                    Picker(selection: $selectedAccount, label: Text(accounts[selectedAccount])) {
-                        ForEach(0 ..< accounts.count) {
-                            Text(self.accounts[$0]).tag($0)
+                Section(header: Text("Account *")) {
+                    if viewModel.accounts.isEmpty {
+                        Text("No accounts yet. Create one in Settings.")
+                            .foregroundColor(.secondary)
+                    } else {
+                        Picker("Account", selection: $viewModel.selectedAccountId) {
+                            Text("Select account").tag(nil as UUID?)
+                            ForEach(viewModel.accounts, id: \.id) { account in
+                                Text(account.name).tag(account.id as UUID?)
+                            }
                         }
-                    }.pickerStyle(MenuPickerStyle())
+                        .pickerStyle(MenuPickerStyle())
+                    }
                 }
-                
-                Section(header: Text("Category")) {
-                    Picker(selection: $selectedCategory, label: Text(categories[selectedCategory])) {
-                        ForEach(0 ..< categories.count) {
-                            Text(self.categories[$0]).tag($0)
+
+                Section(header: Text("Category *")) {
+                    if viewModel.categories.isEmpty {
+                        Text("No categories yet. Create one in Settings.")
+                            .foregroundColor(.secondary)
+                    } else {
+                        Picker("Category", selection: $viewModel.selectedCategoryId) {
+                            Text("Select category").tag(nil as UUID?)
+                            ForEach(viewModel.categories, id: \.id) { category in
+                                Text(category.name).tag(category.id as UUID?)
+                            }
                         }
-                    }.pickerStyle(MenuPickerStyle())
+                        .pickerStyle(MenuPickerStyle())
+                    }
                 }
-                
-                Section(header: Text("Amount")) {
-                    TextField("Amount", text: $amount)
+
+                Section(header: Text("Amount *")) {
+                    TextField("0.00", text: $viewModel.amount)
+                        .keyboardType(.decimalPad)
                 }
-                
+
                 Section(header: Text("Comment")) {
-                    TextEditor(text: $comment)
+                    TextEditor(text: $viewModel.comment)
                 }
-                
             }
             .navigationBarTitle("New transaction")
-            .navigationBarItems(
-                trailing: Button("Save") {
-                    let transaction = Transaction(
-                        amount: Double(amount) ?? 0.0,
-                        comment: comment,
-                        category: Category(
-                            name: categories[selectedCategory],
-                            categoryType: CategoryType(id: 0, name: "Spending"),
-                            inactive: false
-                        ),
-                        account: Account(
-                            name: accounts[selectedAccount],
-                            balance: 100000.0,
-                            currency: Currency(id: 0, name: "Euro", unit: "Euro"),
-                            status: "active",
-                            showInSummary: true
-                        )
-                    )
-                    self.viewModel.add(transaction)
-                    self.presentationMode.wrappedValue.dismiss()
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("Cancel") {
+                        dismiss()
+                    }
                 }
-            )
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("Save") {
+                        if viewModel.save() {
+                            dismiss()
+                        }
+                    }
+                    .disabled(!viewModel.isValid)
+                }
+            }
+            .onAppear {
+                viewModel.loadData()
+            }
         }
     }
 }

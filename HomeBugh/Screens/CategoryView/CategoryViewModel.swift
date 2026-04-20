@@ -50,4 +50,15 @@ final class CategoryViewModel: ObservableObject {
             isLoading = false
         }
     }
+
+    func add(_ category: Category) {
+        Task { @MainActor in
+            do {
+                try await repository.create(category)
+                items.append(category)
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+        }
+    }
 }

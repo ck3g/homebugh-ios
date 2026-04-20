@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AccountView: View {
     @ObservedObject var viewModel: AccountViewModel
+    @State private var showAddAccount = false
 
     var body: some View {
         ZStack {
@@ -36,6 +37,18 @@ struct AccountView: View {
             }
         }
         .navigationBarTitle(Text("Accounts"))
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showAddAccount = true
+                } label: {
+                    Image(systemName: "plus")
+                }
+            }
+        }
+        .sheet(isPresented: $showAddAccount) {
+            AddAccountView(viewModel: viewModel)
+        }
         .onAppear {
             if viewModel.items.isEmpty {
                 viewModel.loadMoreContent()

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct TransactionsView: View {
 
+    @EnvironmentObject var repositoryProvider: RepositoryProvider
     @ObservedObject var viewModel: TransactionsViewModel
 
     @State private var addTransactionViewVisible = false
@@ -52,7 +53,17 @@ struct TransactionsView: View {
         }
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $addTransactionViewVisible) {
-            AddTransactionView().environmentObject(viewModel)
+            AddTransactionView(viewModel: {
+                let vm = AddTransactionViewModel(
+                    transactionsRepository: repositoryProvider.transactionsRepository(),
+                    accountsRepository: repositoryProvider.accountsRepository(),
+                    categoriesRepository: repositoryProvider.categoriesRepository()
+                )
+                vm.onTransactionAdded = { transaction in
+                    self.viewModel.items.append(transaction)
+                }
+                return vm
+            }())
         }
         .onAppear {
             if viewModel.items.isEmpty {

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-struct Transaction: Codable, Hashable {
+struct Transaction: Codable, Hashable, Identifiable {
     var id: UUID
     var remoteId: Int?
     var amount: Double

@@ -12,8 +12,11 @@ final class CategoryViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String = ""
 
+    var activeItems: [Category] { items.filter { !$0.inactive } }
+    var inactiveItems: [Category] { items.filter { $0.inactive } }
+
     private let repository: CategoriesRepository
-    private let pageSize = 6
+    private let pageSize = 20
     private var page = 1
     private var canLoadMorePages = true
 
@@ -61,4 +64,25 @@ final class CategoryViewModel: ObservableObject {
             }
         }
     }
+
+    func update(_ category: Category) {
+        Task { @MainActor in
+            do {
+                try await repository.update(category)
+                if let index = items.firstIndex(where: { $0.id == category.id }) {
+                    items[index] = category
+                }
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+        }
+    }
+
+    func deactivate(_ category: Category) {
+        var updated = category
+        updated.inactive = true
+        updated.updatedAt = Date()
+        update(updated)
+    }
+
 }

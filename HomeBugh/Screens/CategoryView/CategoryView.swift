@@ -11,15 +11,50 @@ struct CategoryView: View {
 
     @ObservedObject var viewModel: CategoryViewModel
     @State private var showAddCategory = false
+    @State private var categoryToEdit: Category?
 
     var body: some View {
         ZStack {
             List {
-                ForEach(viewModel.items, id: \.id) { item in
-                    Text(item.name)
-                        .onAppear {
-                            viewModel.loadMoreContentIfNeeded(currentItem: item)
+                if !viewModel.activeItems.isEmpty {
+                    Section(header: Text("Active")) {
+                        ForEach(viewModel.activeItems, id: \.id) { item in
+                            CategoryCell(category: item)
+                                .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        viewModel.deactivate(item)
+                                    } label: {
+                                        Image(systemName: "trash")
+                                    }
+
+                                    Button {
+                                        categoryToEdit = item
+                                    } label: {
+                                        Image(systemName: "pencil")
+                                    }
+                                    .tint(.gray)
+                                }
+                                .onAppear {
+                                    viewModel.loadMoreContentIfNeeded(currentItem: item)
+                                }
                         }
+                    }
+                }
+
+                if !viewModel.inactiveItems.isEmpty {
+                    Section(header: Text("Inactive")) {
+                        ForEach(viewModel.inactiveItems, id: \.id) { item in
+                            CategoryCell(category: item)
+                                .swipeActions(edge: .trailing) {
+                                    Button {
+                                        categoryToEdit = item
+                                    } label: {
+                                        Image(systemName: "pencil")
+                                    }
+                                    .tint(.gray)
+                                }
+                        }
+                    }
                 }
             }
 
@@ -49,6 +84,9 @@ struct CategoryView: View {
         }
         .sheet(isPresented: $showAddCategory) {
             AddCategoryView(viewModel: viewModel)
+        }
+        .sheet(item: $categoryToEdit) { category in
+            AddCategoryView(viewModel: viewModel, editingCategory: category)
         }
         .onAppear {
             if viewModel.items.isEmpty {

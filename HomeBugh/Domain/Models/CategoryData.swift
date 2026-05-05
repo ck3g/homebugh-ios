@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Category: Codable, Hashable {
+struct Category: Codable, Hashable, Identifiable {
     var id: UUID
     var remoteId: Int?
     var name: String

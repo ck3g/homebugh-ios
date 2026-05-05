@@ -19,6 +19,10 @@ final class CategoriesRepositoryImpl: CategoriesRepository {
         try localStore.list(page: page, pageSize: pageSize)
     }
 
+    func listActive(page: Int, pageSize: Int) async throws -> [Category] {
+        try localStore.listActive(page: page, pageSize: pageSize)
+    }
+
     func create(_ category: Category) async throws {
         try localStore.create(category)
     }

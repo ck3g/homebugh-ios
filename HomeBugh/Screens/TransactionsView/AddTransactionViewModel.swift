@@ -44,7 +44,7 @@ final class AddTransactionViewModel: ObservableObject {
         Task { @MainActor in
             do {
                 accounts = try await accountsRepository.list(page: 1, pageSize: 100)
-                categories = try await categoriesRepository.list(page: 1, pageSize: 100)
+                categories = try await categoriesRepository.listActive(page: 1, pageSize: 100)
             } catch {
                 errorMessage = error.localizedDescription
             }

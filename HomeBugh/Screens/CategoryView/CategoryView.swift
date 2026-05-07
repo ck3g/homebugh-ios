@@ -12,6 +12,7 @@ struct CategoryView: View {
     @ObservedObject var viewModel: CategoryViewModel
     @State private var showAddCategory = false
     @State private var categoryToEdit: Category?
+    @State private var showErrorAlert = false
 
     var body: some View {
         ZStack {
@@ -22,7 +23,7 @@ struct CategoryView: View {
                             CategoryCell(category: item)
                                 .swipeActions(edge: .trailing) {
                                     Button(role: .destructive) {
-                                        viewModel.deactivate(item)
+                                        viewModel.delete(item)
                                     } label: {
                                         Image(systemName: "trash")
                                     }
@@ -46,6 +47,12 @@ struct CategoryView: View {
                         ForEach(viewModel.inactiveItems, id: \.id) { item in
                             CategoryCell(category: item)
                                 .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        viewModel.delete(item)
+                                    } label: {
+                                        Image(systemName: "trash")
+                                    }
+
                                     Button {
                                         categoryToEdit = item
                                     } label: {
@@ -66,11 +73,6 @@ struct CategoryView: View {
                 EmptyState(imageName: "",
                            message: "The categories list is empty.")
             }
-
-            if viewModel.errorMessage != "" {
-                EmptyState(imageName: "",
-                           message: viewModel.errorMessage)
-            }
         }
         .navigationTitle("Categories")
         .toolbar {
@@ -87,6 +89,18 @@ struct CategoryView: View {
         }
         .sheet(item: $categoryToEdit) { category in
             AddCategoryView(viewModel: viewModel, editingCategory: category)
+        }
+        .alert("Error", isPresented: $showErrorAlert) {
+            Button("OK", role: .cancel) {
+                viewModel.errorMessage = ""
+            }
+        } message: {
+            Text(viewModel.errorMessage)
+        }
+        .onChange(of: viewModel.errorMessage) { newValue in
+            if !newValue.isEmpty {
+                showErrorAlert = true
+            }
         }
         .onAppear {
             if viewModel.items.isEmpty {

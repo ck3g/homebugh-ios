@@ -78,11 +78,15 @@ final class CategoryViewModel: ObservableObject {
         }
     }
 
-    func deactivate(_ category: Category) {
-        var updated = category
-        updated.inactive = true
-        updated.updatedAt = Date()
-        update(updated)
+    /// Soft-delete: sets status to "deleted". Fails if transactions reference this category.
+    func delete(_ category: Category) {
+        Task { @MainActor in
+            do {
+                try await repository.delete(id: category.id)
+                items.removeAll { $0.id == category.id }
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+        }
     }
-
 }

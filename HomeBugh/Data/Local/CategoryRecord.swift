@@ -17,6 +17,7 @@ struct CategoryRecord: Codable, FetchableRecord, PersistableRecord {
     var categoryTypeName: String
     var categoryTypeId: Int
     var inactive: Bool
+    var status: String
     var createdAt: Date
     var updatedAt: Date
     var deletedAt: Date?
@@ -31,6 +32,7 @@ struct CategoryRecord: Codable, FetchableRecord, PersistableRecord {
         self.categoryTypeName = category.categoryType.name
         self.categoryTypeId = category.categoryType.id
         self.inactive = category.inactive
+        self.status = category.status.rawValue
         self.createdAt = category.createdAt
         self.updatedAt = category.updatedAt
         self.deletedAt = category.deletedAt
@@ -46,6 +48,7 @@ struct CategoryRecord: Codable, FetchableRecord, PersistableRecord {
             name: name,
             categoryType: CategoryType(id: categoryTypeId, name: categoryTypeName),
             inactive: inactive,
+            status: CategoryStatus(rawValue: status) ?? .active,
             createdAt: createdAt,
             updatedAt: updatedAt,
             deletedAt: deletedAt,

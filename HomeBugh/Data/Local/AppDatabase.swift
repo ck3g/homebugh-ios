@@ -54,6 +54,7 @@ struct AppDatabase {
                 t.column("categoryTypeName", .text).notNull()
                 t.column("categoryTypeId", .integer).notNull()
                 t.column("inactive", .boolean).notNull().defaults(to: false)
+                t.column("status", .text).notNull().defaults(to: "active")
                 t.column("createdAt", .datetime).notNull()
                 t.column("updatedAt", .datetime).notNull()
                 t.column("deletedAt", .datetime)

@@ -7,12 +7,18 @@
 
 import Foundation
 
+enum CategoryStatus: String, Codable, Hashable {
+    case active = "active"
+    case deleted = "deleted"
+}
+
 struct Category: Codable, Hashable, Identifiable {
     var id: UUID
     var remoteId: Int?
     var name: String
     var categoryType: CategoryType
     var inactive: Bool
+    var status: CategoryStatus
     var createdAt: Date
     var updatedAt: Date
     var deletedAt: Date?
@@ -24,6 +30,7 @@ struct Category: Codable, Hashable, Identifiable {
         name: String,
         categoryType: CategoryType,
         inactive: Bool,
+        status: CategoryStatus = .active,
         createdAt: Date = Date(),
         updatedAt: Date = Date(),
         deletedAt: Date? = nil,
@@ -34,17 +41,21 @@ struct Category: Codable, Hashable, Identifiable {
         self.name = name
         self.categoryType = categoryType
         self.inactive = inactive
+        self.status = status
         self.createdAt = createdAt
         self.updatedAt = updatedAt
         self.deletedAt = deletedAt
         self.isDirty = isDirty
     }
 
+    var isDeleted: Bool { status == .deleted }
+
     enum CodingKeys: String, CodingKey {
         case remoteId = "id"
         case name
         case categoryType
         case inactive
+        case status
         case createdAt
         case updatedAt
         case deletedAt
@@ -57,6 +68,7 @@ struct Category: Codable, Hashable, Identifiable {
         let name = try container.decode(String.self, forKey: .name)
         let categoryType = try container.decode(CategoryType.self, forKey: .categoryType)
         let inactive = try container.decode(Bool.self, forKey: .inactive)
+        let status = try container.decodeIfPresent(CategoryStatus.self, forKey: .status) ?? .active
         let createdAt = try container.decodeIfPresent(Date.self, forKey: .createdAt) ?? Date()
         let updatedAt = try container.decodeIfPresent(Date.self, forKey: .updatedAt) ?? Date()
         let deletedAt = try container.decodeIfPresent(Date.self, forKey: .deletedAt)
@@ -67,6 +79,7 @@ struct Category: Codable, Hashable, Identifiable {
             name: name,
             categoryType: categoryType,
             inactive: inactive,
+            status: status,
             createdAt: createdAt,
             updatedAt: updatedAt,
             deletedAt: deletedAt,
@@ -80,6 +93,7 @@ struct Category: Codable, Hashable, Identifiable {
         try container.encode(name, forKey: .name)
         try container.encode(categoryType, forKey: .categoryType)
         try container.encode(inactive, forKey: .inactive)
+        try container.encode(status, forKey: .status)
         try container.encode(createdAt, forKey: .createdAt)
         try container.encode(updatedAt, forKey: .updatedAt)
         try container.encodeIfPresent(deletedAt, forKey: .deletedAt)

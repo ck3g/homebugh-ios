@@ -94,3 +94,6 @@ iOSInjectionProject/
 
 # Local docs (not for repo)
 docs/
+
+# OpenCode
+.opencode/

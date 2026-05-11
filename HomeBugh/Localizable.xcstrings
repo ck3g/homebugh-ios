@@ -1,0 +1,142 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "0.00" : {
+
+    },
+    "Account" : {
+
+    },
+    "Account *" : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Konto"
+          }
+        }
+      }
+    },
+    "Account name" : {
+
+    },
+    "Accounts" : {
+
+    },
+    "Active" : {
+
+    },
+    "Amount *" : {
+
+    },
+    "Are you sure you want to delete the transaction?" : {
+
+    },
+    "Cancel" : {
+
+    },
+    "Categories" : {
+
+    },
+    "Category" : {
+
+    },
+    "Category *" : {
+
+    },
+    "Category name" : {
+
+    },
+    "Category type *" : {
+
+    },
+    "Comment" : {
+
+    },
+    "Currency" : {
+
+    },
+    "Currency *" : {
+
+    },
+    "Delete transaction" : {
+
+    },
+    "Edit category" : {
+
+    },
+    "Email" : {
+
+    },
+    "Error" : {
+
+    },
+    "HB" : {
+
+    },
+    "Inactive" : {
+
+    },
+    "Invalid credentials" : {
+
+    },
+    "Logout" : {
+
+    },
+    "Name *" : {
+
+    },
+    "New account" : {
+
+    },
+    "New category" : {
+
+    },
+    "New transaction" : {
+
+    },
+    "No accounts yet. Create one in Settings." : {
+
+    },
+    "No categories yet. Create one in Settings." : {
+
+    },
+    "OK" : {
+
+    },
+    "Password" : {
+
+    },
+    "Save" : {
+
+    },
+    "Select account" : {
+
+    },
+    "Select category" : {
+
+    },
+    "Settings" : {
+
+    },
+    "Show in summary" : {
+
+    },
+    "Sign in" : {
+
+    },
+    "Sign up" : {
+
+    },
+    "Transactions" : {
+
+    },
+    "Type" : {
+
+    },
+    "Yes" : {
+
+    }
+  },
+  "version" : "1.1"
+}

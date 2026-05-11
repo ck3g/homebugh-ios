@@ -19,7 +19,7 @@ struct AddAccountView: View {
     private let currencies = [
         Currency(id: 1, name: "EUR", unit: "EUR"),
         Currency(id: 2, name: "USD", unit: "USD"),
-        Currency(id: 1, name: "MDL", unit: "MDL"),
+        Currency(id: 3, name: "MDL", unit: "MDL"),
         Currency(id: 4, name: "RM", unit: "RM"),
     ]
 

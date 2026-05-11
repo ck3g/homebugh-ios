@@ -10,14 +10,16 @@ import SwiftUI
 struct TransactionCell: View {
     
     var transaction: Transaction
+    private let dateFormatter: DateTextFormatterProtocol = DateTextFormatter()
+    private let moneyFormatter: MoneyFormatterProtocol = MoneyFormatter()
     
     var body: some View {
         VStack {
             HStack {
-                Text(Date().description)
+                Text(dateFormatter.abbreviated(transaction.createdAt))
                     .font(.footnote)
                 Spacer()
-                Text(String(format: "%.2f", transaction.amount))
+                Text(moneyFormatter.format(transaction.amount, currencyUnit: transaction.account.currency.unit))
                     .foregroundColor(amountTextColor())
             }
             

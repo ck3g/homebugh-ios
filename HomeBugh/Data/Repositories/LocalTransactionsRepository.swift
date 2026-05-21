@@ -1,5 +1,5 @@
 //
-//  TransactionsRepositoryImpl.swift
+//  LocalTransactionsRepository.swift
 //  HomeBugh
 //
 //  Concrete implementation of TransactionsRepository backed by local storage.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class TransactionsRepositoryImpl: TransactionsRepository {
+final class LocalTransactionsRepository: TransactionsRepository {
 
     private let localStore: TransactionsLocalStore
 

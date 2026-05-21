@@ -1,5 +1,5 @@
 //
-//  AccountsRepositoryImpl.swift
+//  LocalAccountsRepository.swift
 //  HomeBugh
 //
 //  Concrete implementation of AccountsRepository backed by local storage.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class AccountsRepositoryImpl: AccountsRepository {
+final class LocalAccountsRepository: AccountsRepository {
 
     private let localStore: AccountsLocalStore
 

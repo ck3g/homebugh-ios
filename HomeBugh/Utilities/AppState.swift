@@ -7,7 +7,7 @@
 
 import Foundation
 
-class AppState {
+final class AppState {
     
     static var CurrentUser: User {
         get {

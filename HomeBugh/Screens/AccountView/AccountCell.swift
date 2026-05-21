@@ -8,14 +8,15 @@
 import SwiftUI
 
 struct AccountCell: View {
-    
-    var account: Account
-    
+
+    let account: Account
+    private static let moneyFormatter: MoneyFormatterProtocol = MoneyFormatter()
+
     var body: some View {
         HStack {
             Text(account.name)
             Spacer()
-            Text(String(account.balance) + " " + account.currency.unit)
+            Text(Self.moneyFormatter.format(account.balance, currencyUnit: account.currency.unit))
         }
     }
 }

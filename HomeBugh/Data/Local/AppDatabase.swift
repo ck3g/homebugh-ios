@@ -10,6 +10,10 @@ import GRDB
 
 struct AppDatabase {
 
+    private enum Constants {
+        static let databaseFileName = "homebugh.sqlite"
+    }
+
     /// The database queue used for all local persistence.
     let dbQueue: DatabaseQueue
 
@@ -28,7 +32,7 @@ struct AppDatabase {
             appropriateFor: nil,
             create: true
         )
-        let dbURL = appSupportURL.appendingPathComponent("homebugh.sqlite")
+        let dbURL = appSupportURL.appendingPathComponent(Constants.databaseFileName)
         let dbQueue = try DatabaseQueue(path: dbURL.path)
         return try AppDatabase(dbQueue)
     }
@@ -51,7 +55,6 @@ struct AppDatabase {
                 t.column("id", .text).notNull().primaryKey()
                 t.column("remoteId", .integer)
                 t.column("name", .text).notNull()
-                t.column("categoryTypeName", .text).notNull()
                 t.column("categoryTypeId", .integer).notNull()
                 t.column("inactive", .boolean).notNull().defaults(to: false)
                 t.column("status", .text).notNull().defaults(to: "active")

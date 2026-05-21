@@ -26,9 +26,6 @@
 		238D3BFB2F8E560500C97EA7 /* TransactionRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF52F8E560500C97EA7 /* TransactionRecord.swift */; };
 		238D3BFC2F8E560500C97EA7 /* AccountRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF02F8E560500C97EA7 /* AccountRecord.swift */; };
 		238D3BFD2F8E560500C97EA7 /* TransactionsLocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF62F8E560500C97EA7 /* TransactionsLocalStore.swift */; };
-		238D3C012F8E836700C97EA7 /* AccountsRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BFE2F8E836700C97EA7 /* AccountsRepositoryImpl.swift */; };
-		238D3C022F8E836700C97EA7 /* CategoriesRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BFF2F8E836700C97EA7 /* CategoriesRepositoryImpl.swift */; };
-		238D3C032F8E836700C97EA7 /* TransactionsRepositoryImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3C002F8E836700C97EA7 /* TransactionsRepositoryImpl.swift */; };
 		238D3C052F8E837800C97EA7 /* RepositoryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3C042F8E837800C97EA7 /* RepositoryProvider.swift */; };
 		238D3C072F8E8BE200C97EA7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3C062F8E8BE200C97EA7 /* LoginViewModel.swift */; };
 		238D3C092F8E8C5200C97EA7 /* AuthState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3C082F8E8C5200C97EA7 /* AuthState.swift */; };
@@ -37,6 +34,9 @@
 		238D3C0F2F8FD5EB00C97EA7 /* AddAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3C0E2F8FD5EB00C97EA7 /* AddAccountView.swift */; };
 		238D3C112F96184B00C97EA7 /* AddTransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3C102F96184B00C97EA7 /* AddTransactionViewModel.swift */; };
 		238D3C132F965C3B00C97EA7 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3C122F965C3B00C97EA7 /* CategoryCell.swift */; };
+		23CF7D562FBB17E5007FAF25 /* LocalAccountsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CF7D532FBB17E5007FAF25 /* LocalAccountsRepository.swift */; };
+		23CF7D572FBB17E5007FAF25 /* LocalCategoriesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CF7D542FBB17E5007FAF25 /* LocalCategoriesRepository.swift */; };
+		23CF7D582FBB17E5007FAF25 /* LocalTransactionsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23CF7D552FBB17E5007FAF25 /* LocalTransactionsRepository.swift */; };
 		3412B3BF2525B61200DA446D /* HomeBughApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3412B3BE2525B61200DA446D /* HomeBughApp.swift */; };
 		3412B3C32525B61400DA446D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3412B3C22525B61400DA446D /* Assets.xcassets */; };
 		3412B3C62525B61400DA446D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3412B3C52525B61400DA446D /* Preview Assets.xcassets */; };
@@ -119,9 +119,6 @@
 		238D3BF42F8E560500C97EA7 /* CategoryRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryRecord.swift; sourceTree = "<group>"; };
 		238D3BF52F8E560500C97EA7 /* TransactionRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionRecord.swift; sourceTree = "<group>"; };
 		238D3BF62F8E560500C97EA7 /* TransactionsLocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsLocalStore.swift; sourceTree = "<group>"; };
-		238D3BFE2F8E836700C97EA7 /* AccountsRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsRepositoryImpl.swift; sourceTree = "<group>"; };
-		238D3BFF2F8E836700C97EA7 /* CategoriesRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesRepositoryImpl.swift; sourceTree = "<group>"; };
-		238D3C002F8E836700C97EA7 /* TransactionsRepositoryImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsRepositoryImpl.swift; sourceTree = "<group>"; };
 		238D3C042F8E837800C97EA7 /* RepositoryProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryProvider.swift; sourceTree = "<group>"; };
 		238D3C062F8E8BE200C97EA7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		238D3C082F8E8C5200C97EA7 /* AuthState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthState.swift; sourceTree = "<group>"; };
@@ -130,6 +127,9 @@
 		238D3C0E2F8FD5EB00C97EA7 /* AddAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountView.swift; sourceTree = "<group>"; };
 		238D3C102F96184B00C97EA7 /* AddTransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionViewModel.swift; sourceTree = "<group>"; };
 		238D3C122F965C3B00C97EA7 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
+		23CF7D532FBB17E5007FAF25 /* LocalAccountsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAccountsRepository.swift; sourceTree = "<group>"; };
+		23CF7D542FBB17E5007FAF25 /* LocalCategoriesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalCategoriesRepository.swift; sourceTree = "<group>"; };
+		23CF7D552FBB17E5007FAF25 /* LocalTransactionsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalTransactionsRepository.swift; sourceTree = "<group>"; };
 		3412B3BB2525B61200DA446D /* HomeBugh.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HomeBugh.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3412B3BE2525B61200DA446D /* HomeBughApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBughApp.swift; sourceTree = "<group>"; };
 		3412B3C22525B61400DA446D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -228,9 +228,9 @@
 		238D3BCC2F8CF80E00C97EA7 /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
-				238D3BFE2F8E836700C97EA7 /* AccountsRepositoryImpl.swift */,
-				238D3BFF2F8E836700C97EA7 /* CategoriesRepositoryImpl.swift */,
-				238D3C002F8E836700C97EA7 /* TransactionsRepositoryImpl.swift */,
+				23CF7D532FBB17E5007FAF25 /* LocalAccountsRepository.swift */,
+				23CF7D542FBB17E5007FAF25 /* LocalCategoriesRepository.swift */,
+				23CF7D552FBB17E5007FAF25 /* LocalTransactionsRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -663,10 +663,7 @@
 				238D3BF72F8E560500C97EA7 /* CategoriesLocalStore.swift in Sources */,
 				238D3BF82F8E560500C97EA7 /* AppDatabase.swift in Sources */,
 				238D3BF92F8E560500C97EA7 /* AccountsLocalStore.swift in Sources */,
-				238D3C012F8E836700C97EA7 /* AccountsRepositoryImpl.swift in Sources */,
-				238D3C022F8E836700C97EA7 /* CategoriesRepositoryImpl.swift in Sources */,
 				238D3C072F8E8BE200C97EA7 /* LoginViewModel.swift in Sources */,
-				238D3C032F8E836700C97EA7 /* TransactionsRepositoryImpl.swift in Sources */,
 				238D3BFA2F8E560500C97EA7 /* CategoryRecord.swift in Sources */,
 				238D3C052F8E837800C97EA7 /* RepositoryProvider.swift in Sources */,
 				238D3C112F96184B00C97EA7 /* AddTransactionViewModel.swift in Sources */,
@@ -680,6 +677,9 @@
 				C178D09A273164980091CB76 /* EmptyState.swift in Sources */,
 				9D3627DB270AF60C006D0268 /* CategoryView.swift in Sources */,
 				C14EE7B12540BEB500D63C67 /* TransactionsView.swift in Sources */,
+				23CF7D562FBB17E5007FAF25 /* LocalAccountsRepository.swift in Sources */,
+				23CF7D572FBB17E5007FAF25 /* LocalCategoriesRepository.swift in Sources */,
+				23CF7D582FBB17E5007FAF25 /* LocalTransactionsRepository.swift in Sources */,
 				3412B3BF2525B61200DA446D /* HomeBughApp.swift in Sources */,
 				C1502ABC261F38AA00544803 /* HTTPRequestResult.swift in Sources */,
 				C14EE7A1253F0B6500D63C67 /* Authorization.swift in Sources */,

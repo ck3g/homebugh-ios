@@ -28,16 +28,16 @@ final class RepositoryProvider: ObservableObject {
 
     func transactionsRepository() -> TransactionsRepository {
         let localStore = TransactionsLocalStore(dbQueue: database.dbQueue)
-        return TransactionsRepositoryImpl(localStore: localStore)
+        return LocalTransactionsRepository(localStore: localStore)
     }
 
     func accountsRepository() -> AccountsRepository {
         let localStore = AccountsLocalStore(dbQueue: database.dbQueue)
-        return AccountsRepositoryImpl(localStore: localStore)
+        return LocalAccountsRepository(localStore: localStore)
     }
 
     func categoriesRepository() -> CategoriesRepository {
         let localStore = CategoriesLocalStore(dbQueue: database.dbQueue)
-        return CategoriesRepositoryImpl(localStore: localStore)
+        return LocalCategoriesRepository(localStore: localStore)
     }
 }

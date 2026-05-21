@@ -31,7 +31,7 @@ struct CategoriesLocalStore {
     func list(page: Int, pageSize: Int) throws -> [Category] {
         try dbQueue.read { db in
             let records = try CategoryRecord
-                .filter(Column("status") != "deleted")
+                .filter(Column("status") != CategoryStatus.deleted.rawValue)
                 .order(Column("inactive"), Column("name"))
                 .limit(pageSize, offset: (page - 1) * pageSize)
                 .fetchAll(db)
@@ -43,7 +43,7 @@ struct CategoriesLocalStore {
     func listActive(page: Int, pageSize: Int) throws -> [Category] {
         try dbQueue.read { db in
             let records = try CategoryRecord
-                .filter(Column("status") != "deleted")
+                .filter(Column("status") != CategoryStatus.deleted.rawValue)
                 .filter(Column("inactive") == false)
                 .order(Column("name"))
                 .limit(pageSize, offset: (page - 1) * pageSize)
@@ -69,6 +69,17 @@ struct CategoriesLocalStore {
         }
     }
 
+    /// Returns all non-deleted categories without pagination.
+    func fetchAll() throws -> [Category] {
+        try dbQueue.read { db in
+            let records = try CategoryRecord
+                .filter(Column("status") != CategoryStatus.deleted.rawValue)
+                .order(Column("name"))
+                .fetchAll(db)
+            return records.map { $0.toDomainModel() }
+        }
+    }
+
     /// Soft-delete: sets status to "deleted". Fails if transactions reference this category.
     func delete(id: UUID) throws {
         try dbQueue.write { db in
@@ -82,21 +93,11 @@ struct CategoriesLocalStore {
             }
 
             if var record = try CategoryRecord.fetchOne(db, key: id.uuidString) {
-                record.status = "deleted"
+                record.status = CategoryStatus.deleted.rawValue
                 record.updatedAt = Date()
                 record.isDirty = true
                 try record.update(db)
             }
-        }
-    }
-
-    func fetchAll() throws -> [Category] {
-        try dbQueue.read { db in
-            let records = try CategoryRecord
-                .filter(Column("status") != "deleted")
-                .order(Column("name"))
-                .fetchAll(db)
-            return records.map { $0.toDomainModel() }
         }
     }
 }

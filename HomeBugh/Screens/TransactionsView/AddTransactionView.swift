@@ -46,7 +46,7 @@ struct AddTransactionView: View {
                 }
 
                 Section(header: Text("Amount *")) {
-                    TextField("0.00", text: $viewModel.amount)
+                    TextField(viewModel.moneyFormatter.placeholder, text: $viewModel.amount)
                         .keyboardType(.decimalPad)
                 }
 

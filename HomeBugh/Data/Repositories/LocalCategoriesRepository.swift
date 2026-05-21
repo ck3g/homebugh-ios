@@ -1,5 +1,5 @@
 //
-//  CategoriesRepositoryImpl.swift
+//  LocalCategoriesRepository.swift
 //  HomeBugh
 //
 //  Concrete implementation of CategoriesRepository backed by local storage.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class CategoriesRepositoryImpl: CategoriesRepository {
+final class LocalCategoriesRepository: CategoriesRepository {
 
     private let localStore: CategoriesLocalStore
 

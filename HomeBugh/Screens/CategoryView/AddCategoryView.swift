@@ -16,10 +16,8 @@ struct AddCategoryView: View {
     var editingCategory: Category?
 
     @State private var name = ""
-    @State private var selectedType = 0
+    @State private var selectedType: CategoryType = .expense
     @State private var inactive = false
-
-    private let categoryTypes = ["Spending", "Income"]
 
     private var isEditing: Bool { editingCategory != nil }
 
@@ -36,8 +34,8 @@ struct AddCategoryView: View {
 
                 Section(header: Text("Category type *")) {
                     Picker("Type", selection: $selectedType) {
-                        ForEach(0 ..< categoryTypes.count, id: \.self) {
-                            Text(categoryTypes[$0]).tag($0)
+                        ForEach(CategoryType.allCases, id: \.self) { type in
+                            Text(type.name).tag(type)
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
@@ -64,7 +62,7 @@ struct AddCategoryView: View {
             .onAppear {
                 if let category = editingCategory {
                     name = category.name
-                    selectedType = categoryTypes.firstIndex(of: category.categoryType.name) ?? 0
+                    selectedType = category.categoryType
                     inactive = category.inactive
                 }
             }
@@ -73,18 +71,17 @@ struct AddCategoryView: View {
 
     private func save() {
         let trimmedName = name.trimmingCharacters(in: .whitespaces)
-        let type = CategoryType(id: selectedType, name: categoryTypes[selectedType])
 
         if var existing = editingCategory {
             existing.name = trimmedName
-            existing.categoryType = type
+            existing.categoryType = selectedType
             existing.inactive = inactive
             existing.updatedAt = Date()
             viewModel.update(existing)
         } else {
             let category = Category(
                 name: trimmedName,
-                categoryType: type,
+                categoryType: selectedType,
                 inactive: inactive
             )
             viewModel.add(category)

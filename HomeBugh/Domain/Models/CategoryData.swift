@@ -53,7 +53,7 @@ struct Category: Codable, Hashable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case remoteId = "id"
         case name
-        case categoryType
+        case categoryType = "category_type_id"
         case inactive
         case status
         case createdAt
@@ -101,9 +101,18 @@ struct Category: Codable, Hashable, Identifiable {
     }
 }
 
-struct CategoryType: Codable, Hashable {
-    var id: Int
-    var name: String
+enum CategoryType: Int, Codable, Hashable, CaseIterable {
+    case income = 1
+    case expense = 2
+
+    var name: String {
+        switch self {
+        case .income: return "Income"
+        case .expense: return "Expense"
+        }
+    }
+
+    var isExpense: Bool { self == .expense }
 }
 
 struct CategoryData: Codable {

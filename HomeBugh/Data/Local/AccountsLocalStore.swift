@@ -44,16 +44,7 @@ struct AccountsLocalStore {
         }
     }
 
-    func delete(id: UUID) throws {
-        try dbQueue.write { db in
-            if var record = try AccountRecord.fetchOne(db, key: id.uuidString) {
-                record.deletedAt = Date()
-                record.isDirty = true
-                try record.update(db)
-            }
-        }
-    }
-
+    /// Returns all non-deleted accounts without pagination.
     func fetchAll() throws -> [Account] {
         try dbQueue.read { db in
             let records = try AccountRecord
@@ -61,6 +52,16 @@ struct AccountsLocalStore {
                 .order(Column("name"))
                 .fetchAll(db)
             return records.map { $0.toDomainModel() }
+        }
+    }
+
+    func delete(id: UUID) throws {
+        try dbQueue.write { db in
+            if var record = try AccountRecord.fetchOne(db, key: id.uuidString) {
+                record.deletedAt = Date()
+                record.isDirty = true
+                try record.update(db)
+            }
         }
     }
 }

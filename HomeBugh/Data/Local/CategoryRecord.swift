@@ -14,7 +14,6 @@ struct CategoryRecord: Codable, FetchableRecord, PersistableRecord {
     var id: String          // UUID as string
     var remoteId: Int?
     var name: String
-    var categoryTypeName: String
     var categoryTypeId: Int
     var inactive: Bool
     var status: String
@@ -29,8 +28,7 @@ struct CategoryRecord: Codable, FetchableRecord, PersistableRecord {
         self.id = category.id.uuidString
         self.remoteId = category.remoteId
         self.name = category.name
-        self.categoryTypeName = category.categoryType.name
-        self.categoryTypeId = category.categoryType.id
+        self.categoryTypeId = category.categoryType.rawValue
         self.inactive = category.inactive
         self.status = category.status.rawValue
         self.createdAt = category.createdAt
@@ -46,7 +44,7 @@ struct CategoryRecord: Codable, FetchableRecord, PersistableRecord {
             id: UUID(uuidString: id) ?? UUID(),
             remoteId: remoteId,
             name: name,
-            categoryType: CategoryType(id: categoryTypeId, name: categoryTypeName),
+            categoryType: CategoryType(rawValue: categoryTypeId) ?? .expense,
             inactive: inactive,
             status: CategoryStatus(rawValue: status) ?? .active,
             createdAt: createdAt,

@@ -13,10 +13,10 @@ struct CategoryCell: View {
 
     var body: some View {
         HStack(spacing: 10) {
-            Image(systemName: category.categoryType.name == "Spending"
+            Image(systemName: category.categoryType.isExpense
                   ? "arrow.down"
                   : "arrow.up")
-                .foregroundColor(category.categoryType.name == "Spending"
+                .foregroundColor(category.categoryType.isExpense
                                  ? .red
                                  : .green)
                 .font(.footnote)

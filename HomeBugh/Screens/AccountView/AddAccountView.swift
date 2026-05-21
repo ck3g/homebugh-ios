@@ -60,7 +60,7 @@ struct AddAccountView: View {
                             name: name.trimmingCharacters(in: .whitespaces),
                             balance: 0.0,
                             currency: currencies[selectedCurrency],
-                            status: "active",
+                            status: AccountStatus.active,
                             showInSummary: showInSummary
                         )
                         viewModel.add(account)

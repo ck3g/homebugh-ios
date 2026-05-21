@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-class Auth: ObservableObject {
+final class Auth: ObservableObject {
     @Published var currentView: String = "Login"
 
     func setAuthView(view: String) {
@@ -16,7 +16,7 @@ class Auth: ObservableObject {
     }
 }
 
-class UserLoggedIn: ObservableObject {
+final class UserLoggedIn: ObservableObject {
     @Published var isUserLoggedIn: Bool = true  // Always logged in for offline mode
 
     func setUserLoggedIn(isUserLoggedIn: Bool) {

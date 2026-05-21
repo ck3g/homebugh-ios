@@ -8,6 +8,11 @@
 import SwiftUI
 
 final class AddTransactionViewModel: ObservableObject {
+
+    private enum Constants {
+        static let maxPickerItems = 100
+    }
+
     @Published var accounts: [Account] = []
     @Published var categories: [Category] = []
     @Published var selectedAccountId: UUID?
@@ -19,6 +24,7 @@ final class AddTransactionViewModel: ObservableObject {
     private let transactionsRepository: TransactionsRepository
     private let accountsRepository: AccountsRepository
     private let categoriesRepository: CategoriesRepository
+    let moneyFormatter: MoneyFormatterProtocol
 
     /// Called when a transaction is successfully saved
     var onTransactionAdded: ((Transaction) -> Void)?
@@ -26,25 +32,27 @@ final class AddTransactionViewModel: ObservableObject {
     init(
         transactionsRepository: TransactionsRepository,
         accountsRepository: AccountsRepository,
-        categoriesRepository: CategoriesRepository
+        categoriesRepository: CategoriesRepository,
+        moneyFormatter: MoneyFormatterProtocol = MoneyFormatter()
     ) {
         self.transactionsRepository = transactionsRepository
         self.accountsRepository = accountsRepository
         self.categoriesRepository = categoriesRepository
+        self.moneyFormatter = moneyFormatter
     }
 
     var isValid: Bool {
         selectedAccountId != nil &&
         selectedCategoryId != nil &&
         !amount.trimmingCharacters(in: .whitespaces).isEmpty &&
-        (Double(amount) ?? 0) > 0
+        (moneyFormatter.parse(amount) ?? 0) > 0
     }
 
     func loadData() {
         Task { @MainActor in
             do {
-                accounts = try await accountsRepository.list(page: 1, pageSize: 100)
-                categories = try await categoriesRepository.listActive(page: 1, pageSize: 100)
+                accounts = try await accountsRepository.list(page: 1, pageSize: Constants.maxPickerItems)
+                categories = try await categoriesRepository.listActive(page: 1, pageSize: Constants.maxPickerItems)
             } catch {
                 errorMessage = error.localizedDescription
             }
@@ -59,7 +67,7 @@ final class AddTransactionViewModel: ObservableObject {
         else { return false }
 
         let transaction = Transaction(
-            amount: Double(amount) ?? 0.0,
+            amount: moneyFormatter.parse(amount) ?? 0.0,
             comment: comment.trimmingCharacters(in: .whitespaces),
             category: category,
             account: account

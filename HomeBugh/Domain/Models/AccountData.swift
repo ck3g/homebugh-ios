@@ -7,6 +7,10 @@
 
 import Foundation
 
+enum AccountStatus {
+    static let active = "active"
+}
+
 struct Account: Codable, Hashable, Identifiable {
     var id: UUID
     var remoteId: Int?

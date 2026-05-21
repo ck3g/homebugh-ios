@@ -7,7 +7,7 @@
 
 import Foundation
 
-class Authorization {
+final class Authorization {
     static func registerNewUser(email: String, password: String, confirmedPassword: String) -> Bool {
         let email = email.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         let password = password.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()

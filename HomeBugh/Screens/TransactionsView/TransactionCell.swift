@@ -9,17 +9,17 @@ import SwiftUI
 
 struct TransactionCell: View {
     
-    var transaction: Transaction
-    private let dateFormatter: DateTextFormatterProtocol = DateTextFormatter()
-    private let moneyFormatter: MoneyFormatterProtocol = MoneyFormatter()
+    let transaction: Transaction
+    private static let dateFormatter: DateTextFormatterProtocol = DateTextFormatter()
+    private static let moneyFormatter: MoneyFormatterProtocol = MoneyFormatter()
     
     var body: some View {
         VStack {
             HStack {
-                Text(dateFormatter.abbreviated(transaction.createdAt))
+                Text(Self.dateFormatter.abbreviated(transaction.createdAt))
                     .font(.footnote)
                 Spacer()
-                Text(moneyFormatter.format(transaction.amount, currencyUnit: transaction.account.currency.unit))
+                Text(Self.moneyFormatter.format(transaction.amount, currencyUnit: transaction.account.currency.unit))
                     .foregroundColor(amountTextColor())
             }
             
@@ -39,8 +39,8 @@ struct TransactionCell: View {
         .padding(EdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10))
     }
     
-    func amountTextColor() -> Color {
-        return transaction.category.categoryType.name == "Spending" ? .red : .green
+    private func amountTextColor() -> Color {
+        return transaction.category.categoryType.isExpense ? .red : .green
     }
     
 }
@@ -52,7 +52,7 @@ struct TransactionCell_Previews: PreviewProvider {
             comment: "Magnesium",
             category: Category(
                 name: "Food",
-                categoryType: CategoryType(id: 0, name: "Spending"),
+                categoryType: .expense,
                 inactive: false
             ),
             account: Account(

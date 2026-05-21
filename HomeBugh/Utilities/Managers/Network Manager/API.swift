@@ -7,9 +7,9 @@
 
 import Foundation
 
-class API {
+final class API {
     
-    class Endpoints {
+    final class Endpoints {
         static let baseURL = "https://api.homebugh.info:8080"
         static let Accounts: ApiEndpoint = ApiEndpoint(Method: .Get, Url: baseURL + "/accounts")
         static let Authentication: ApiEndpoint = ApiEndpoint(Method: .Post, Url: baseURL + "/token")

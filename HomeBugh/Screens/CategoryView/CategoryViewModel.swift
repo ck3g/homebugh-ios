@@ -9,25 +9,34 @@ import SwiftUI
 
 final class CategoryViewModel: ObservableObject {
 
+    enum ViewState {
+        case idle
+        case loading
+        case loaded(active: [Category], inactive: [Category])
+        case error(String)
+    }
+
     private enum Constants {
         static let pageSize = 20
         static let paginationThreshold = 5
     }
 
-    @Published var items: [Category] = []
-    @Published var isLoading = false
-    @Published var errorMessage: String = ""
-
-    var activeItems: [Category] { items.filter { !$0.inactive } }
-    var inactiveItems: [Category] { items.filter { $0.inactive } }
+    @Published private(set) var state: ViewState = .idle
 
     private let repository: CategoriesRepository
+    private var items: [Category] = []
     private var page = 1
     private var canLoadMorePages = true
+    private var isLoading: Bool {
+        if case .loading = state { return true }
+        return false
+    }
 
     init(repository: CategoriesRepository) {
         self.repository = repository
     }
+
+    // MARK: - Loading
 
     func loadMoreContentIfNeeded(currentItem item: Category?) {
         guard let item = item else {
@@ -44,7 +53,7 @@ final class CategoryViewModel: ObservableObject {
 
     func loadMoreContent() {
         guard !isLoading && canLoadMorePages else { return }
-        isLoading = true
+        state = .loading
 
         Task { @MainActor in
             do {
@@ -52,20 +61,23 @@ final class CategoryViewModel: ObservableObject {
                 items.append(contentsOf: newItems)
                 canLoadMorePages = newItems.count == Constants.pageSize
                 page += 1
+                updateLoadedState()
             } catch {
-                errorMessage = error.localizedDescription
+                state = .error(error.localizedDescription)
             }
-            isLoading = false
         }
     }
+
+    // MARK: - CRUD
 
     func add(_ category: Category) {
         Task { @MainActor in
             do {
                 try await repository.create(category)
                 items.append(category)
+                updateLoadedState()
             } catch {
-                errorMessage = error.localizedDescription
+                state = .error(error.localizedDescription)
             }
         }
     }
@@ -77,8 +89,9 @@ final class CategoryViewModel: ObservableObject {
                 if let index = items.firstIndex(where: { $0.id == category.id }) {
                     items[index] = category
                 }
+                updateLoadedState()
             } catch {
-                errorMessage = error.localizedDescription
+                state = .error(error.localizedDescription)
             }
         }
     }
@@ -89,9 +102,19 @@ final class CategoryViewModel: ObservableObject {
             do {
                 try await repository.delete(id: category.id)
                 items.removeAll { $0.id == category.id }
+                updateLoadedState()
             } catch {
-                errorMessage = error.localizedDescription
+                state = .error(error.localizedDescription)
             }
         }
+    }
+
+    // MARK: - Private
+
+    private func updateLoadedState() {
+        let sorted = items.sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+        let active = sorted.filter { !$0.inactive }
+        let inactive = sorted.filter { $0.inactive }
+        state = .loaded(active: active, inactive: inactive)
     }
 }

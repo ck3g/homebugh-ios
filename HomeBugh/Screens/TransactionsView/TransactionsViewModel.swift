@@ -9,22 +9,34 @@ import SwiftUI
 
 final class TransactionsViewModel: ObservableObject {
 
+    enum ViewState {
+        case idle
+        case loading
+        case loaded([Transaction])
+        case error(String)
+    }
+
     private enum Constants {
         static let pageSize = 10
         static let paginationThreshold = 5
     }
 
-    @Published var items = [Transaction]()
-    @Published var isLoading = false
-    @Published var errorMessage: String = ""
+    @Published private(set) var state: ViewState = .idle
 
     private let repository: TransactionsRepository
+    private var items: [Transaction] = []
     private var page = 1
     private var canLoadMorePages = true
+    private var isLoading: Bool {
+        if case .loading = state { return true }
+        return false
+    }
 
     init(repository: TransactionsRepository) {
         self.repository = repository
     }
+
+    // MARK: - Loading
 
     func loadMoreContentIfNeeded(currentItem item: Transaction?) {
         guard let item = item else {
@@ -41,7 +53,7 @@ final class TransactionsViewModel: ObservableObject {
 
     func loadMoreContent() {
         guard !isLoading && canLoadMorePages else { return }
-        isLoading = true
+        state = .loading
 
         Task { @MainActor in
             do {
@@ -49,32 +61,26 @@ final class TransactionsViewModel: ObservableObject {
                 items.append(contentsOf: newItems)
                 canLoadMorePages = newItems.count == Constants.pageSize
                 page += 1
+                state = .loaded(items)
             } catch {
-                errorMessage = error.localizedDescription
+                state = .error(error.localizedDescription)
             }
-            isLoading = false
         }
     }
+
+    // MARK: - CRUD
 
     func add(_ transaction: Transaction) {
-        Task { @MainActor in
-            do {
-                try await repository.create(transaction)
-                items.append(transaction)
-            } catch {
-                errorMessage = error.localizedDescription
-            }
-        }
+        items.insert(transaction, at: 0)
+        state = .loaded(items)
     }
 
-    func deleteItems(at offsets: IndexSet) {
-        let transactionsToDelete = offsets.map { items[$0] }
-        items.remove(atOffsets: offsets)
+    func delete(_ transaction: Transaction) {
+        items.removeAll { $0.id == transaction.id }
+        state = .loaded(items)
 
         Task {
-            for transaction in transactionsToDelete {
-                try? await repository.delete(id: transaction.id)
-            }
+            try? await repository.delete(id: transaction.id)
         }
     }
 }

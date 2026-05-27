@@ -13,31 +13,49 @@ struct TransactionsView: View {
     @ObservedObject var viewModel: TransactionsViewModel
 
     @State private var addTransactionViewVisible = false
-    @State private var showingAlert = false
-    @State private var deleteIndexSet: IndexSet?
+    @State private var transactionToDelete: Transaction?
+    @State private var showErrorAlert = false
+    @State private var errorMessage = ""
 
     var body: some View {
         NavigationView {
-            List {
-                ForEach(viewModel.items, id: \.id) { transaction in
-                    TransactionCell(transaction: transaction)
-                        .onAppear {
-                            viewModel.loadMoreContentIfNeeded(currentItem: transaction)
+            ZStack {
+                switch viewModel.state {
+                case .idle:
+                    EmptyView()
+
+                case .loading:
+                    ProgressView()
+
+                case .loaded(let transactions):
+                    if transactions.isEmpty {
+                        EmptyState(imageName: "",
+                                   message: "No transactions yet.")
+                    } else {
+                        List {
+                            ForEach(transactions, id: \.id) { transaction in
+                                TransactionCell(transaction: transaction)
+                                    .onAppear {
+                                        viewModel.loadMoreContentIfNeeded(currentItem: transaction)
+                                    }
+                                    .swipeActions(edge: .trailing) {
+                                        Button(role: .destructive) {
+                                            transactionToDelete = transaction
+                                        } label: {
+                                            Image(systemName: "trash")
+                                        }
+                                    }
+                            }
                         }
-                }
-                .onDelete(perform: { indexSet in
-                    self.showingAlert = true
-                    self.deleteIndexSet = indexSet
-                })
-                .alert(isPresented: self.$showingAlert) {
-                    let indexSet = self.deleteIndexSet!
-                    return Alert(
-                        title: Text("Delete transaction"),
-                        message: Text("Are you sure you want to delete the transaction?"),
-                        primaryButton: .default(Text("Yes")) {
-                            viewModel.deleteItems(at: indexSet)
-                        },
-                        secondaryButton: .cancel())
+                    }
+
+                case .error(let message):
+                    EmptyState(imageName: "",
+                               message: "No transactions yet.")
+                        .onAppear {
+                            errorMessage = message
+                            showErrorAlert = true
+                        }
                 }
             }
             .navigationTitle("Transactions")
@@ -60,13 +78,36 @@ struct TransactionsView: View {
                     categoriesRepository: repositoryProvider.categoriesRepository()
                 )
                 vm.onTransactionAdded = { transaction in
-                    self.viewModel.items.append(transaction)
+                    viewModel.add(transaction)
                 }
                 return vm
             }())
         }
+        .alert("Delete transaction",
+               isPresented: Binding(
+                   get: { transactionToDelete != nil },
+                   set: { if !$0 { transactionToDelete = nil } }
+               )
+        ) {
+            Button("Yes", role: .destructive) {
+                if let transaction = transactionToDelete {
+                    viewModel.delete(transaction)
+                    transactionToDelete = nil
+                }
+            }
+            Button("Cancel", role: .cancel) {
+                transactionToDelete = nil
+            }
+        } message: {
+            Text("Are you sure you want to delete the transaction?")
+        }
+        .alert("Error", isPresented: $showErrorAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(errorMessage)
+        }
         .onAppear {
-            if viewModel.items.isEmpty {
+            if case .idle = viewModel.state {
                 viewModel.loadMoreContent()
             }
         }

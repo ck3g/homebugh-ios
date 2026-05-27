@@ -10,30 +10,40 @@ import SwiftUI
 struct AccountView: View {
     @ObservedObject var viewModel: AccountViewModel
     @State private var showAddAccount = false
+    @State private var showErrorAlert = false
+    @State private var errorMessage = ""
 
     var body: some View {
         ZStack {
-            List {
-                ForEach(viewModel.items, id: \.id) { item in
-                    AccountCell(account: item)
-                        .onAppear {
-                            viewModel.loadMoreContentIfNeeded(currentItem: item)
-                        }
-                }
-            }
+            switch viewModel.state {
+            case .idle:
+                EmptyView()
 
-            if viewModel.isLoading {
+            case .loading:
                 ProgressView()
-            }
 
-            if viewModel.items.isEmpty && !viewModel.isLoading {
+            case .loaded(let accounts):
+                if accounts.isEmpty {
+                    EmptyState(imageName: "",
+                               message: "The accounts list is empty.")
+                } else {
+                    List {
+                        ForEach(accounts, id: \.id) { item in
+                            AccountCell(account: item)
+                                .onAppear {
+                                    viewModel.loadMoreContentIfNeeded(currentItem: item)
+                                }
+                        }
+                    }
+                }
+
+            case .error(let message):
                 EmptyState(imageName: "",
                            message: "The accounts list is empty.")
-            }
-
-            if viewModel.errorMessage != "" {
-                EmptyState(imageName: "",
-                           message: viewModel.errorMessage)
+                    .onAppear {
+                        errorMessage = message
+                        showErrorAlert = true
+                    }
             }
         }
         .navigationBarTitle(Text("Accounts"))
@@ -49,8 +59,13 @@ struct AccountView: View {
         .sheet(isPresented: $showAddAccount) {
             AddAccountView(viewModel: viewModel)
         }
+        .alert("Error", isPresented: $showErrorAlert) {
+            Button("OK", role: .cancel) { }
+        } message: {
+            Text(errorMessage)
+        }
         .onAppear {
-            if viewModel.items.isEmpty {
+            if case .idle = viewModel.state {
                 viewModel.loadMoreContent()
             }
         }

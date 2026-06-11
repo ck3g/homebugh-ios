@@ -10,6 +10,16 @@
 		230B4D9D2FB211B6004D65AB /* DateTextFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230B4D9B2FB211B6004D65AB /* DateTextFormatter.swift */; };
 		230B4DA12FB21AD6004D65AB /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 230B4DA02FB21AD6004D65AB /* Localizable.xcstrings */; };
 		230B4DA32FB22028004D65AB /* MoneyFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 230B4DA22FB22028004D65AB /* MoneyFormatter.swift */; };
+		23537A3E2FC85C15004DFD72 /* TransactionsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23537A3D2FC85C15004DFD72 /* TransactionsViewModelTests.swift */; };
+		23537A3F2FC85C15004DFD72 /* TestFactories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23537A392FC85C15004DFD72 /* TestFactories.swift */; };
+		23537A402FC85C15004DFD72 /* AccountViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23537A342FC85C15004DFD72 /* AccountViewModelTests.swift */; };
+		23537A412FC85C15004DFD72 /* TransactionsLocalStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23537A3C2FC85C15004DFD72 /* TransactionsLocalStoreTests.swift */; };
+		23537A422FC85C15004DFD72 /* MoneyFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23537A3B2FC85C15004DFD72 /* MoneyFormatterTests.swift */; };
+		23537A432FC85C15004DFD72 /* MockRepositories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23537A382FC85C15004DFD72 /* MockRepositories.swift */; };
+		23537A442FC85C15004DFD72 /* DateTextFormatterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23537A372FC85C15004DFD72 /* DateTextFormatterTests.swift */; };
+		23537A452FC85C15004DFD72 /* CategoryViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23537A362FC85C15004DFD72 /* CategoryViewModelTests.swift */; };
+		23537A462FC85C15004DFD72 /* AccountsLocalStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23537A332FC85C15004DFD72 /* AccountsLocalStoreTests.swift */; };
+		23537A472FC85C15004DFD72 /* CategoriesLocalStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23537A352FC85C15004DFD72 /* CategoriesLocalStoreTests.swift */; };
 		238D3BD72F8CF80E00C97EA7 /* AccountsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BD02F8CF80E00C97EA7 /* AccountsRepository.swift */; };
 		238D3BD82F8CF80E00C97EA7 /* TransactionsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BD22F8CF80E00C97EA7 /* TransactionsRepository.swift */; };
 		238D3BDA2F8CF80E00C97EA7 /* CategoriesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BD12F8CF80E00C97EA7 /* CategoriesRepository.swift */; };
@@ -40,7 +50,6 @@
 		3412B3BF2525B61200DA446D /* HomeBughApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3412B3BE2525B61200DA446D /* HomeBughApp.swift */; };
 		3412B3C32525B61400DA446D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3412B3C22525B61400DA446D /* Assets.xcassets */; };
 		3412B3C62525B61400DA446D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3412B3C52525B61400DA446D /* Preview Assets.xcassets */; };
-		3412B3D12525B61400DA446D /* HomeBughTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3412B3D02525B61400DA446D /* HomeBughTests.swift */; };
 		3412B3DC2525B61400DA446D /* HomeBughUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3412B3DB2525B61400DA446D /* HomeBughUITests.swift */; };
 		749836D52708EDD900954765 /* AuthTokenStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749836D42708EDD900954765 /* AuthTokenStorageTests.swift */; };
 		9D3627DB270AF60C006D0268 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3627DA270AF60C006D0268 /* CategoryView.swift */; };
@@ -104,6 +113,16 @@
 		230B4D9B2FB211B6004D65AB /* DateTextFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTextFormatter.swift; sourceTree = "<group>"; };
 		230B4DA02FB21AD6004D65AB /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		230B4DA22FB22028004D65AB /* MoneyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyFormatter.swift; sourceTree = "<group>"; };
+		23537A332FC85C15004DFD72 /* AccountsLocalStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsLocalStoreTests.swift; sourceTree = "<group>"; };
+		23537A342FC85C15004DFD72 /* AccountViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModelTests.swift; sourceTree = "<group>"; };
+		23537A352FC85C15004DFD72 /* CategoriesLocalStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesLocalStoreTests.swift; sourceTree = "<group>"; };
+		23537A362FC85C15004DFD72 /* CategoryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewModelTests.swift; sourceTree = "<group>"; };
+		23537A372FC85C15004DFD72 /* DateTextFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTextFormatterTests.swift; sourceTree = "<group>"; };
+		23537A382FC85C15004DFD72 /* MockRepositories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockRepositories.swift; sourceTree = "<group>"; };
+		23537A392FC85C15004DFD72 /* TestFactories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestFactories.swift; sourceTree = "<group>"; };
+		23537A3B2FC85C15004DFD72 /* MoneyFormatterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyFormatterTests.swift; sourceTree = "<group>"; };
+		23537A3C2FC85C15004DFD72 /* TransactionsLocalStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsLocalStoreTests.swift; sourceTree = "<group>"; };
+		23537A3D2FC85C15004DFD72 /* TransactionsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsViewModelTests.swift; sourceTree = "<group>"; };
 		238D3BD02F8CF80E00C97EA7 /* AccountsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsRepository.swift; sourceTree = "<group>"; };
 		238D3BD12F8CF80E00C97EA7 /* CategoriesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesRepository.swift; sourceTree = "<group>"; };
 		238D3BD22F8CF80E00C97EA7 /* TransactionsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsRepository.swift; sourceTree = "<group>"; };
@@ -136,7 +155,6 @@
 		3412B3C52525B61400DA446D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		3412B3C72525B61400DA446D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3412B3CC2525B61400DA446D /* HomeBughTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HomeBughTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		3412B3D02525B61400DA446D /* HomeBughTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBughTests.swift; sourceTree = "<group>"; };
 		3412B3D22525B61400DA446D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3412B3D72525B61400DA446D /* HomeBughUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HomeBughUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3412B3DB2525B61400DA446D /* HomeBughUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBughUITests.swift; sourceTree = "<group>"; };
@@ -202,6 +220,15 @@
 				230B4D9B2FB211B6004D65AB /* DateTextFormatter.swift */,
 			);
 			path = Formatting;
+			sourceTree = "<group>";
+		};
+		23537A3A2FC85C15004DFD72 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				23537A382FC85C15004DFD72 /* MockRepositories.swift */,
+				23537A392FC85C15004DFD72 /* TestFactories.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		238D3BCA2F8CF80E00C97EA7 /* Local */ = {
@@ -357,7 +384,15 @@
 		3412B3CF2525B61400DA446D /* HomeBughTests */ = {
 			isa = PBXGroup;
 			children = (
-				3412B3D02525B61400DA446D /* HomeBughTests.swift */,
+				23537A332FC85C15004DFD72 /* AccountsLocalStoreTests.swift */,
+				23537A342FC85C15004DFD72 /* AccountViewModelTests.swift */,
+				23537A352FC85C15004DFD72 /* CategoriesLocalStoreTests.swift */,
+				23537A362FC85C15004DFD72 /* CategoryViewModelTests.swift */,
+				23537A372FC85C15004DFD72 /* DateTextFormatterTests.swift */,
+				23537A3A2FC85C15004DFD72 /* Helpers */,
+				23537A3B2FC85C15004DFD72 /* MoneyFormatterTests.swift */,
+				23537A3C2FC85C15004DFD72 /* TransactionsLocalStoreTests.swift */,
+				23537A3D2FC85C15004DFD72 /* TransactionsViewModelTests.swift */,
 				749836D42708EDD900954765 /* AuthTokenStorageTests.swift */,
 				3412B3D22525B61400DA446D /* Info.plist */,
 			);
@@ -704,7 +739,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3412B3D12525B61400DA446D /* HomeBughTests.swift in Sources */,
+				23537A3E2FC85C15004DFD72 /* TransactionsViewModelTests.swift in Sources */,
+				23537A3F2FC85C15004DFD72 /* TestFactories.swift in Sources */,
+				23537A402FC85C15004DFD72 /* AccountViewModelTests.swift in Sources */,
+				23537A412FC85C15004DFD72 /* TransactionsLocalStoreTests.swift in Sources */,
+				23537A422FC85C15004DFD72 /* MoneyFormatterTests.swift in Sources */,
+				23537A432FC85C15004DFD72 /* MockRepositories.swift in Sources */,
+				23537A442FC85C15004DFD72 /* DateTextFormatterTests.swift in Sources */,
+				23537A452FC85C15004DFD72 /* CategoryViewModelTests.swift in Sources */,
+				23537A462FC85C15004DFD72 /* AccountsLocalStoreTests.swift in Sources */,
+				23537A472FC85C15004DFD72 /* CategoriesLocalStoreTests.swift in Sources */,
 				749836D52708EDD900954765 /* AuthTokenStorageTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

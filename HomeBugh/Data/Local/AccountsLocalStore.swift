@@ -8,6 +8,17 @@
 import Foundation
 import GRDB
 
+enum AccountDeleteError: LocalizedError, Equatable {
+    case hasBalance
+
+    var errorDescription: String? {
+        switch self {
+        case .hasBalance:
+            return "Cannot delete account with a non-zero balance."
+        }
+    }
+}
+
 struct AccountsLocalStore {
 
     private let dbQueue: DatabaseQueue
@@ -55,9 +66,13 @@ struct AccountsLocalStore {
         }
     }
 
+    /// Soft-delete: sets deletedAt. Fails if the account has a non-zero balance.
     func delete(id: UUID) throws {
         try dbQueue.write { db in
             if var record = try AccountRecord.fetchOne(db, key: id.uuidString) {
+                if record.balance != 0 {
+                    throw AccountDeleteError.hasBalance
+                }
                 record.deletedAt = Date()
                 record.isDirty = true
                 try record.update(db)

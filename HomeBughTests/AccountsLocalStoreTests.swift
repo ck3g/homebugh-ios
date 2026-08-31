@@ -90,7 +90,7 @@ final class AccountsLocalStoreTests: XCTestCase {
 
     func testDeleteSoftDeletesAccount() throws {
         let id = UUID()
-        try sut.create(TestFactory.makeAccount(id: id, name: "ToDelete"))
+        try sut.create(TestFactory.makeAccount(id: id, name: "ToDelete", balance: 0.0))
 
         try sut.delete(id: id)
 
@@ -100,7 +100,7 @@ final class AccountsLocalStoreTests: XCTestCase {
 
     func testDeleteDoesNotAffectOtherAccounts() throws {
         let deleteId = UUID()
-        try sut.create(TestFactory.makeAccount(id: deleteId, name: "Delete Me"))
+        try sut.create(TestFactory.makeAccount(id: deleteId, name: "Delete Me", balance: 0.0))
         try sut.create(TestFactory.makeAccount(name: "Keep Me"))
 
         try sut.delete(id: deleteId)
@@ -110,12 +110,34 @@ final class AccountsLocalStoreTests: XCTestCase {
         XCTAssertEqual(result.first?.name, "Keep Me")
     }
 
+    func testDeleteAccountWithNonZeroBalanceThrows() throws {
+        let id = UUID()
+        try sut.create(TestFactory.makeAccount(id: id, name: "Has Funds", balance: 100.0))
+
+        XCTAssertThrowsError(try sut.delete(id: id)) { error in
+            XCTAssertEqual(error as? AccountDeleteError, .hasBalance)
+        }
+
+        let result = try sut.list(page: 1, pageSize: 20)
+        XCTAssertEqual(result.count, 1, "Account with balance should not be deleted")
+    }
+
+    func testDeleteAccountWithZeroBalanceSucceeds() throws {
+        let id = UUID()
+        try sut.create(TestFactory.makeAccount(id: id, name: "Empty", balance: 0.0))
+
+        XCTAssertNoThrow(try sut.delete(id: id))
+
+        let result = try sut.list(page: 1, pageSize: 20)
+        XCTAssertTrue(result.isEmpty)
+    }
+
     // MARK: - Fetch All
 
     func testFetchAllExcludesDeleted() throws {
         try sut.create(TestFactory.makeAccount(name: "Active"))
         let deletedId = UUID()
-        try sut.create(TestFactory.makeAccount(id: deletedId, name: "Deleted"))
+        try sut.create(TestFactory.makeAccount(id: deletedId, name: "Deleted", balance: 0.0))
         try sut.delete(id: deletedId)
 
         let result = try sut.fetchAll()

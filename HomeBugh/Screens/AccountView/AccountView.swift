@@ -10,6 +10,7 @@ import SwiftUI
 struct AccountView: View {
     @ObservedObject var viewModel: AccountViewModel
     @State private var showAddAccount = false
+    @State private var accountToEdit: Account?
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
 
@@ -30,6 +31,20 @@ struct AccountView: View {
                     List {
                         ForEach(accounts, id: \.id) { item in
                             AccountCell(account: item)
+                                .swipeActions(edge: .trailing) {
+                                    Button(role: .destructive) {
+                                        viewModel.delete(item)
+                                    } label: {
+                                        Image(systemName: "trash")
+                                    }
+
+                                    Button {
+                                        accountToEdit = item
+                                    } label: {
+                                        Image(systemName: "pencil")
+                                    }
+                                    .tint(.gray)
+                                }
                                 .onAppear {
                                     viewModel.loadMoreContentIfNeeded(currentItem: item)
                                 }
@@ -58,6 +73,9 @@ struct AccountView: View {
         }
         .sheet(isPresented: $showAddAccount) {
             AddAccountView(viewModel: viewModel)
+        }
+        .sheet(item: $accountToEdit) { account in
+            AddAccountView(viewModel: viewModel, editingAccount: account)
         }
         .alert("Error", isPresented: $showErrorAlert) {
             Button("OK", role: .cancel) { }

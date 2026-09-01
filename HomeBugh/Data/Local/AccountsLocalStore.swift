@@ -34,12 +34,12 @@ struct AccountsLocalStore {
                 .order(Column("name"))
                 .limit(pageSize, offset: (page - 1) * pageSize)
                 .fetchAll(db)
-            return records.map { $0.toDomainModel() }
+            return records.map { AccountMapper.toDomainModel($0) }
         }
     }
 
     func create(_ account: Account) throws {
-        var record = AccountRecord(from: account)
+        var record = AccountMapper.toRecord(account)
         record.isDirty = true
         try dbQueue.write { db in
             try record.insert(db)
@@ -47,7 +47,7 @@ struct AccountsLocalStore {
     }
 
     func update(_ account: Account) throws {
-        var record = AccountRecord(from: account)
+        var record = AccountMapper.toRecord(account)
         record.updatedAt = Date()
         record.isDirty = true
         try dbQueue.write { db in
@@ -62,7 +62,7 @@ struct AccountsLocalStore {
                 .filter(Column("deletedAt") == nil)
                 .order(Column("name"))
                 .fetchAll(db)
-            return records.map { $0.toDomainModel() }
+            return records.map { AccountMapper.toDomainModel($0) }
         }
     }
 

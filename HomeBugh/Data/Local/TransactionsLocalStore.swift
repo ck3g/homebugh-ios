@@ -27,8 +27,8 @@ struct TransactionsLocalStore {
             return try records.map { record in
                 let category = try CategoryRecord.fetchOne(db, key: record.categoryId)?
                     .toDomainModel()
-                let account = try AccountRecord.fetchOne(db, key: record.accountId)?
-                    .toDomainModel()
+                let account = try AccountRecord.fetchOne(db, key: record.accountId)
+                    .map { AccountMapper.toDomainModel($0) }
 
                 guard let category = category, let account = account else {
                     throw DatabaseError(message: "Missing category or account for transaction \(record.id)")

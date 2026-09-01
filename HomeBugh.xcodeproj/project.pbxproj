@@ -36,6 +36,8 @@
 		238D3BFB2F8E560500C97EA7 /* TransactionRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF52F8E560500C97EA7 /* TransactionRecord.swift */; };
 		238D3BFC2F8E560500C97EA7 /* AccountRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF02F8E560500C97EA7 /* AccountRecord.swift */; };
 		77464B2F1E7349D8AA177F5E /* AccountMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19CFF7F49F64A299054A559 /* AccountMapper.swift */; };
+		A3E2DF17D79E4A9C8368FA63 /* CategoryMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E4851D6D4B4FDEAD1FB348 /* CategoryMapper.swift */; };
+		AFA656F34AD5456C897A5BC3 /* TransactionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B912AEB174A4C22B75608C6 /* TransactionMapper.swift */; };
 		238D3BFD2F8E560500C97EA7 /* TransactionsLocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF62F8E560500C97EA7 /* TransactionsLocalStore.swift */; };
 		238D3C052F8E837800C97EA7 /* RepositoryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3C042F8E837800C97EA7 /* RepositoryProvider.swift */; };
 		238D3C072F8E8BE200C97EA7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3C062F8E8BE200C97EA7 /* LoginViewModel.swift */; };
@@ -134,6 +136,8 @@
 		238D3BE12F8D113F00C97EA7 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		238D3BF02F8E560500C97EA7 /* AccountRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecord.swift; sourceTree = "<group>"; };
 		D19CFF7F49F64A299054A559 /* AccountMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountMapper.swift; sourceTree = "<group>"; };
+		C6E4851D6D4B4FDEAD1FB348 /* CategoryMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMapper.swift; sourceTree = "<group>"; };
+		4B912AEB174A4C22B75608C6 /* TransactionMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionMapper.swift; sourceTree = "<group>"; };
 		238D3BF12F8E560500C97EA7 /* AccountsLocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsLocalStore.swift; sourceTree = "<group>"; };
 		238D3BF22F8E560500C97EA7 /* AppDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
 		238D3BF32F8E560500C97EA7 /* CategoriesLocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesLocalStore.swift; sourceTree = "<group>"; };
@@ -242,7 +246,9 @@
 				238D3BF22F8E560500C97EA7 /* AppDatabase.swift */,
 				238D3BF32F8E560500C97EA7 /* CategoriesLocalStore.swift */,
 				238D3BF42F8E560500C97EA7 /* CategoryRecord.swift */,
+				C6E4851D6D4B4FDEAD1FB348 /* CategoryMapper.swift */,
 				238D3BF52F8E560500C97EA7 /* TransactionRecord.swift */,
+				4B912AEB174A4C22B75608C6 /* TransactionMapper.swift */,
 				238D3BF62F8E560500C97EA7 /* TransactionsLocalStore.swift */,
 			);
 			path = Local;
@@ -709,6 +715,8 @@
 				238D3C092F8E8C5200C97EA7 /* AuthState.swift in Sources */,
 				238D3BFC2F8E560500C97EA7 /* AccountRecord.swift in Sources */,
 				77464B2F1E7349D8AA177F5E /* AccountMapper.swift in Sources */,
+				A3E2DF17D79E4A9C8368FA63 /* CategoryMapper.swift in Sources */,
+				AFA656F34AD5456C897A5BC3 /* TransactionMapper.swift in Sources */,
 				238D3BFD2F8E560500C97EA7 /* TransactionsLocalStore.swift in Sources */,
 				C178D0962721DA160091CB76 /* CategoryViewModel.swift in Sources */,
 				C132F5DA26139FE7004D889B /* String+Ext.swift in Sources */,

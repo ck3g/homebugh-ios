@@ -35,7 +35,7 @@ struct CategoriesLocalStore {
                 .order(Column("inactive"), Column("name"))
                 .limit(pageSize, offset: (page - 1) * pageSize)
                 .fetchAll(db)
-            return records.map { $0.toDomainModel() }
+            return records.map { CategoryMapper.toDomainModel($0) }
         }
     }
 
@@ -48,12 +48,12 @@ struct CategoriesLocalStore {
                 .order(Column("name"))
                 .limit(pageSize, offset: (page - 1) * pageSize)
                 .fetchAll(db)
-            return records.map { $0.toDomainModel() }
+            return records.map { CategoryMapper.toDomainModel($0) }
         }
     }
 
     func create(_ category: Category) throws {
-        var record = CategoryRecord(from: category)
+        var record = CategoryMapper.toRecord(category)
         record.isDirty = true
         try dbQueue.write { db in
             try record.insert(db)
@@ -61,7 +61,7 @@ struct CategoriesLocalStore {
     }
 
     func update(_ category: Category) throws {
-        var record = CategoryRecord(from: category)
+        var record = CategoryMapper.toRecord(category)
         record.updatedAt = Date()
         record.isDirty = true
         try dbQueue.write { db in
@@ -76,7 +76,7 @@ struct CategoriesLocalStore {
                 .filter(Column("status") != CategoryStatus.deleted.rawValue)
                 .order(Column("name"))
                 .fetchAll(db)
-            return records.map { $0.toDomainModel() }
+            return records.map { CategoryMapper.toDomainModel($0) }
         }
     }
 

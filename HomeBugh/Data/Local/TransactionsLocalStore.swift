@@ -25,8 +25,8 @@ struct TransactionsLocalStore {
                 .fetchAll(db)
 
             return try records.map { record in
-                let category = try CategoryRecord.fetchOne(db, key: record.categoryId)?
-                    .toDomainModel()
+                let category = try CategoryRecord.fetchOne(db, key: record.categoryId)
+                    .map { CategoryMapper.toDomainModel($0) }
                 let account = try AccountRecord.fetchOne(db, key: record.accountId)
                     .map { AccountMapper.toDomainModel($0) }
 
@@ -34,13 +34,13 @@ struct TransactionsLocalStore {
                     throw DatabaseError(message: "Missing category or account for transaction \(record.id)")
                 }
 
-                return record.toDomainModel(category: category, account: account)
+                return TransactionMapper.toDomainModel(record, category: category, account: account)
             }
         }
     }
 
     func create(_ transaction: Transaction) throws {
-        var record = TransactionRecord(from: transaction)
+        var record = TransactionMapper.toRecord(transaction)
         record.isDirty = true
         try dbQueue.write { db in
             try record.insert(db)
@@ -48,7 +48,7 @@ struct TransactionsLocalStore {
     }
 
     func update(_ transaction: Transaction) throws {
-        var record = TransactionRecord(from: transaction)
+        var record = TransactionMapper.toRecord(transaction)
         record.updatedAt = Date()
         record.isDirty = true
         try dbQueue.write { db in

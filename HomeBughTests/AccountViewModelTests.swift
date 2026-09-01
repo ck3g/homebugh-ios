@@ -199,4 +199,99 @@ final class AccountViewModelTests: XCTestCase {
             XCTFail("Expected .error, got \(sut.state)")
         }
     }
+
+    // MARK: - Update
+
+    func testUpdateAccountReflectsChanges() async {
+        let id = UUID()
+        mockRepository.accounts = [TestFactory.makeAccount(id: id, name: "Old Name")]
+        sut.loadMoreContent()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        var updated = TestFactory.makeAccount(id: id, name: "New Name")
+        updated.updatedAt = Date()
+        sut.update(updated)
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        if case .loaded(let items) = sut.state {
+            XCTAssertEqual(items.first?.name, "New Name")
+        } else {
+            XCTFail("Expected .loaded, got \(sut.state)")
+        }
+    }
+
+    func testUpdateAccountReSortsList() async {
+        let id = UUID()
+        mockRepository.accounts = [
+            TestFactory.makeAccount(id: id, name: "Alpha Bank"),
+            TestFactory.makeAccount(name: "Middle Bank"),
+        ]
+        sut.loadMoreContent()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        var updated = TestFactory.makeAccount(id: id, name: "Zebra Bank")
+        updated.updatedAt = Date()
+        sut.update(updated)
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        if case .loaded(let items) = sut.state {
+            XCTAssertEqual(items.map(\.name), ["Middle Bank", "Zebra Bank"])
+        } else {
+            XCTFail("Expected .loaded, got \(sut.state)")
+        }
+    }
+
+    func testUpdateAccountErrorTransitionsToError() async {
+        let id = UUID()
+        mockRepository.accounts = [TestFactory.makeAccount(id: id)]
+        sut.loadMoreContent()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        mockRepository.updateError = TestError.mock
+        sut.update(TestFactory.makeAccount(id: id, name: "New Name"))
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        if case .error = sut.state {
+        } else {
+            XCTFail("Expected .error, got \(sut.state)")
+        }
+    }
+
+    // MARK: - Delete
+
+    func testDeleteAccountRemovesFromList() async {
+        let id = UUID()
+        mockRepository.accounts = [
+            TestFactory.makeAccount(id: id, name: "ToDelete"),
+            TestFactory.makeAccount(name: "Keep"),
+        ]
+        sut.loadMoreContent()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        sut.delete(TestFactory.makeAccount(id: id, name: "ToDelete"))
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        if case .loaded(let items) = sut.state {
+            XCTAssertEqual(items.count, 1)
+            XCTAssertEqual(items.first?.name, "Keep")
+        } else {
+            XCTFail("Expected .loaded, got \(sut.state)")
+        }
+    }
+
+    func testDeleteAccountErrorTransitionsToError() async {
+        let id = UUID()
+        mockRepository.accounts = [TestFactory.makeAccount(id: id)]
+        sut.loadMoreContent()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        mockRepository.deleteError = TestError.mock
+        sut.delete(TestFactory.makeAccount(id: id))
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        if case .error = sut.state {
+        } else {
+            XCTFail("Expected .error, got \(sut.state)")
+        }
+    }
 }

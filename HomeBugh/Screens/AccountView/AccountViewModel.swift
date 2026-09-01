@@ -82,6 +82,33 @@ final class AccountViewModel: ObservableObject {
         }
     }
 
+    func update(_ account: Account) {
+        Task { @MainActor in
+            do {
+                try await repository.update(account)
+                if let index = items.firstIndex(where: { $0.id == account.id }) {
+                    items[index] = account
+                }
+                updateLoadedState()
+            } catch {
+                state = .error(error.localizedDescription)
+            }
+        }
+    }
+
+    /// Soft-delete. Fails if the account has a non-zero balance.
+    func delete(_ account: Account) {
+        Task { @MainActor in
+            do {
+                try await repository.delete(id: account.id)
+                items.removeAll { $0.id == account.id }
+                updateLoadedState()
+            } catch {
+                state = .error(error.localizedDescription)
+            }
+        }
+    }
+
     // MARK: - Private
 
     private func updateLoadedState() {

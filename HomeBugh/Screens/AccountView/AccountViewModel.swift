@@ -68,6 +68,15 @@ final class AccountViewModel: ObservableObject {
         }
     }
 
+    /// Reloads the list from the first page, discarding the current in-memory items.
+    /// Called when the screen reappears so balances changed elsewhere are reflected.
+    func refresh() {
+        items = []
+        page = 1
+        canLoadMorePages = true
+        loadMoreContent()
+    }
+
     // MARK: - CRUD
 
     func add(_ account: Account) {

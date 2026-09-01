@@ -184,4 +184,84 @@ final class TransactionsLocalStoreTests: XCTestCase {
         XCTAssertEqual(result.count, 1)
         XCTAssertEqual(result.first?.amount ?? 0, 20.0, accuracy: 0.01)
     }
+
+    // MARK: - Balance Side Effects
+
+    func testCreateExpenseSubtractsFromBalance() throws {
+        // testAccount starts at 1000.0, testCategory is an expense.
+        try sut.create(TestFactory.makeTransaction(
+            amount: 250.0,
+            category: testCategory,
+            account: testAccount
+        ))
+
+        XCTAssertEqual(try balance(of: testAccount), 750.0, accuracy: 0.01)
+    }
+
+    func testCreateIncomeAddsToBalance() throws {
+        let incomeCategory = TestFactory.makeCategory(name: "Salary", categoryType: .income)
+        try categoriesStore.create(incomeCategory)
+
+        try sut.create(TestFactory.makeTransaction(
+            amount: 500.0,
+            category: incomeCategory,
+            account: testAccount
+        ))
+
+        XCTAssertEqual(try balance(of: testAccount), 1500.0, accuracy: 0.01)
+    }
+
+    func testDeleteExpenseReversesBalance() throws {
+        let id = UUID()
+        try sut.create(TestFactory.makeTransaction(
+            id: id,
+            amount: 250.0,
+            category: testCategory,
+            account: testAccount
+        ))
+        XCTAssertEqual(try balance(of: testAccount), 750.0, accuracy: 0.01)
+
+        try sut.delete(id: id)
+
+        XCTAssertEqual(try balance(of: testAccount), 1000.0, accuracy: 0.01)
+    }
+
+    func testDeleteIncomeReversesBalance() throws {
+        let incomeCategory = TestFactory.makeCategory(name: "Salary", categoryType: .income)
+        try categoriesStore.create(incomeCategory)
+
+        let id = UUID()
+        try sut.create(TestFactory.makeTransaction(
+            id: id,
+            amount: 500.0,
+            category: incomeCategory,
+            account: testAccount
+        ))
+        XCTAssertEqual(try balance(of: testAccount), 1500.0, accuracy: 0.01)
+
+        try sut.delete(id: id)
+
+        XCTAssertEqual(try balance(of: testAccount), 1000.0, accuracy: 0.01)
+    }
+
+    func testCreateMarksAccountDirty() throws {
+        // Reset dirty by re-reading: create sets it, but verify balance write flags dirty.
+        try sut.create(TestFactory.makeTransaction(
+            amount: 10.0,
+            category: testCategory,
+            account: testAccount
+        ))
+
+        let account = try accountsStore.list(page: 1, pageSize: 20)
+            .first { $0.id == testAccount.id }
+        XCTAssertTrue(account?.isDirty ?? false)
+    }
+
+    // MARK: - Helpers
+
+    private func balance(of account: Account) throws -> Double {
+        let stored = try accountsStore.list(page: 1, pageSize: 50)
+            .first { $0.id == account.id }
+        return stored?.balance ?? .nan
+    }
 }

@@ -83,9 +83,7 @@ struct AccountView: View {
             Text(errorMessage)
         }
         .onAppear {
-            if case .idle = viewModel.state {
-                viewModel.loadMoreContent()
-            }
+            viewModel.refresh()
         }
     }
 }

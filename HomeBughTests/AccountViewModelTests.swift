@@ -294,4 +294,63 @@ final class AccountViewModelTests: XCTestCase {
             XCTFail("Expected .error, got \(sut.state)")
         }
     }
+
+    // MARK: - Refresh
+
+    func testRefreshReflectsUpdatedData() async {
+        let id = UUID()
+        mockRepository.accounts = [TestFactory.makeAccount(id: id, name: "Postbank", balance: 0.0)]
+        sut.loadMoreContent()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        // Simulate a balance change made elsewhere (e.g. a transaction).
+        mockRepository.accounts = [TestFactory.makeAccount(id: id, name: "Postbank", balance: 1450.0)]
+        sut.refresh()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        if case .loaded(let items) = sut.state {
+            XCTAssertEqual(items.count, 1)
+            XCTAssertEqual(items.first?.balance ?? 0, 1450.0, accuracy: 0.01)
+        } else {
+            XCTFail("Expected .loaded, got \(sut.state)")
+        }
+    }
+
+    func testRefreshDoesNotDuplicateItems() async {
+        mockRepository.accounts = [
+            TestFactory.makeAccount(name: "Alpha Bank"),
+            TestFactory.makeAccount(name: "Beta Bank"),
+        ]
+        sut.loadMoreContent()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        sut.refresh()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        if case .loaded(let items) = sut.state {
+            XCTAssertEqual(items.count, 2, "Refresh should reset the list, not append duplicates")
+        } else {
+            XCTFail("Expected .loaded, got \(sut.state)")
+        }
+    }
+
+    func testRefreshReflectsDeletedAccount() async {
+        mockRepository.accounts = [
+            TestFactory.makeAccount(name: "Alpha Bank"),
+            TestFactory.makeAccount(name: "Beta Bank"),
+        ]
+        sut.loadMoreContent()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        // Account removed elsewhere.
+        mockRepository.accounts = [TestFactory.makeAccount(name: "Alpha Bank")]
+        sut.refresh()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        if case .loaded(let items) = sut.state {
+            XCTAssertEqual(items.map(\.name), ["Alpha Bank"])
+        } else {
+            XCTFail("Expected .loaded, got \(sut.state)")
+        }
+    }
 }

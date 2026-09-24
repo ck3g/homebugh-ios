@@ -76,11 +76,14 @@ final class TransactionsViewModel: ObservableObject {
     }
 
     func delete(_ transaction: Transaction) {
-        items.removeAll { $0.id == transaction.id }
-        state = .loaded(items)
-
-        Task {
-            try? await repository.delete(id: transaction.id)
+        Task { @MainActor in
+            do {
+                try await repository.delete(id: transaction.id)
+                items.removeAll { $0.id == transaction.id }
+                state = .loaded(items)
+            } catch {
+                state = .error(error.localizedDescription)
+            }
         }
     }
 }

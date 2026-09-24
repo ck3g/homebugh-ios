@@ -218,6 +218,7 @@ final class TransactionsViewModelTests: XCTestCase {
         try? await Task.sleep(nanoseconds: 100_000_000)
 
         sut.delete(transaction)
+        try? await Task.sleep(nanoseconds: 100_000_000)
 
         if case .loaded(let items) = sut.state {
             XCTAssertEqual(items.count, 1)
@@ -235,11 +236,30 @@ final class TransactionsViewModelTests: XCTestCase {
         try? await Task.sleep(nanoseconds: 100_000_000)
 
         sut.delete(transaction)
+        try? await Task.sleep(nanoseconds: 100_000_000)
 
         if case .loaded(let items) = sut.state {
             XCTAssertTrue(items.isEmpty)
         } else {
             XCTFail("Expected .loaded, got \(sut.state)")
+        }
+    }
+
+    func testDeleteTransactionErrorTransitionsToError() async {
+        let id = UUID()
+        let transaction = TestFactory.makeTransaction(id: id)
+        mockRepository.transactions = [transaction]
+        sut.loadMoreContent()
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        mockRepository.deleteError = TestError.mock
+        sut.delete(transaction)
+        try? await Task.sleep(nanoseconds: 100_000_000)
+
+        if case .error = sut.state {
+            // pass
+        } else {
+            XCTFail("Expected .error, got \(sut.state)")
         }
     }
 }

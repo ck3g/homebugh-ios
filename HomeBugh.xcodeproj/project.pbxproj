@@ -35,9 +35,6 @@
 		238D3BFA2F8E560500C97EA7 /* CategoryRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF42F8E560500C97EA7 /* CategoryRecord.swift */; };
 		238D3BFB2F8E560500C97EA7 /* TransactionRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF52F8E560500C97EA7 /* TransactionRecord.swift */; };
 		238D3BFC2F8E560500C97EA7 /* AccountRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF02F8E560500C97EA7 /* AccountRecord.swift */; };
-		77464B2F1E7349D8AA177F5E /* AccountMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19CFF7F49F64A299054A559 /* AccountMapper.swift */; };
-		A3E2DF17D79E4A9C8368FA63 /* CategoryMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E4851D6D4B4FDEAD1FB348 /* CategoryMapper.swift */; };
-		AFA656F34AD5456C897A5BC3 /* TransactionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B912AEB174A4C22B75608C6 /* TransactionMapper.swift */; };
 		238D3BFD2F8E560500C97EA7 /* TransactionsLocalStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BF62F8E560500C97EA7 /* TransactionsLocalStore.swift */; };
 		238D3C052F8E837800C97EA7 /* RepositoryProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3C042F8E837800C97EA7 /* RepositoryProvider.swift */; };
 		238D3C072F8E8BE200C97EA7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3C062F8E8BE200C97EA7 /* LoginViewModel.swift */; };
@@ -55,7 +52,10 @@
 		3412B3C62525B61400DA446D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3412B3C52525B61400DA446D /* Preview Assets.xcassets */; };
 		3412B3DC2525B61400DA446D /* HomeBughUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3412B3DB2525B61400DA446D /* HomeBughUITests.swift */; };
 		749836D52708EDD900954765 /* AuthTokenStorageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749836D42708EDD900954765 /* AuthTokenStorageTests.swift */; };
+		77464B2F1E7349D8AA177F5E /* AccountMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D19CFF7F49F64A299054A559 /* AccountMapper.swift */; };
 		9D3627DB270AF60C006D0268 /* CategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D3627DA270AF60C006D0268 /* CategoryView.swift */; };
+		A3E2DF17D79E4A9C8368FA63 /* CategoryMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E4851D6D4B4FDEAD1FB348 /* CategoryMapper.swift */; };
+		AFA656F34AD5456C897A5BC3 /* TransactionMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B912AEB174A4C22B75608C6 /* TransactionMapper.swift */; };
 		C10153832547015A0082845C /* AuthTokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C10153822547015A0082845C /* AuthTokenStorage.swift */; };
 		C132F5DA26139FE7004D889B /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = C132F5D926139FE7004D889B /* String+Ext.swift */; };
 		C13FF73D29070C320015595E /* HBError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C13FF73C29070C320015595E /* HBError.swift */; };
@@ -135,9 +135,6 @@
 		238D3BE02F8D113F00C97EA7 /* TransactionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionData.swift; sourceTree = "<group>"; };
 		238D3BE12F8D113F00C97EA7 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		238D3BF02F8E560500C97EA7 /* AccountRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecord.swift; sourceTree = "<group>"; };
-		D19CFF7F49F64A299054A559 /* AccountMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountMapper.swift; sourceTree = "<group>"; };
-		C6E4851D6D4B4FDEAD1FB348 /* CategoryMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMapper.swift; sourceTree = "<group>"; };
-		4B912AEB174A4C22B75608C6 /* TransactionMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionMapper.swift; sourceTree = "<group>"; };
 		238D3BF12F8E560500C97EA7 /* AccountsLocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsLocalStore.swift; sourceTree = "<group>"; };
 		238D3BF22F8E560500C97EA7 /* AppDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
 		238D3BF32F8E560500C97EA7 /* CategoriesLocalStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesLocalStore.swift; sourceTree = "<group>"; };
@@ -165,6 +162,7 @@
 		3412B3D72525B61400DA446D /* HomeBughUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HomeBughUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3412B3DB2525B61400DA446D /* HomeBughUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBughUITests.swift; sourceTree = "<group>"; };
 		3412B3DD2525B61400DA446D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4B912AEB174A4C22B75608C6 /* TransactionMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionMapper.swift; sourceTree = "<group>"; };
 		749836D42708EDD900954765 /* AuthTokenStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenStorageTests.swift; sourceTree = "<group>"; };
 		9D3627DA270AF60C006D0268 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
 		C10153822547015A0082845C /* AuthTokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenStorage.swift; sourceTree = "<group>"; };
@@ -191,6 +189,8 @@
 		C1DA6CAE2587A55A00679706 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		C1E0BD9D25273D9000B2850C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C1E0BDC42527982000B2850C /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		C6E4851D6D4B4FDEAD1FB348 /* CategoryMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryMapper.swift; sourceTree = "<group>"; };
+		D19CFF7F49F64A299054A559 /* AccountMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountMapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -927,7 +927,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ck3g.tatarinteva.natalia.HomeBugh;
+				PRODUCT_BUNDLE_IDENTIFIER = info.homebugh.HomeBugh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -948,7 +948,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ck3g.tatarinteva.natalia.HomeBugh;
+				PRODUCT_BUNDLE_IDENTIFIER = info.homebugh.HomeBugh;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -967,7 +967,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ck3g.tatarinteva.natalia.HomeBughTests;
+				PRODUCT_BUNDLE_IDENTIFIER = info.homebugh.HomeBughTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -987,7 +987,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ck3g.tatarinteva.natalia.HomeBughTests;
+				PRODUCT_BUNDLE_IDENTIFIER = info.homebugh.HomeBughTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1005,7 +1005,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ck3g.tatarinteva.natalia.HomeBughUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = info.homebugh.HomeBughUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1023,7 +1023,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = ck3g.tatarinteva.natalia.HomeBughUITests;
+				PRODUCT_BUNDLE_IDENTIFIER = info.homebugh.HomeBughUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

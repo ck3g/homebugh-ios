@@ -9,11 +9,15 @@ import SwiftUI
 
 struct CategoryView: View {
 
-    @ObservedObject var viewModel: CategoryViewModel
+    @StateObject private var viewModel: CategoryViewModel
     @State private var showAddCategory = false
     @State private var categoryToEdit: Category?
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
+
+    init(viewModel: CategoryViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
 
     var body: some View {
         ZStack {
@@ -109,10 +113,8 @@ struct CategoryView: View {
         } message: {
             Text(errorMessage)
         }
-        .onAppear {
-            if case .idle = viewModel.state {
-                viewModel.loadMoreContent()
-            }
+        .task {
+            viewModel.refresh()
         }
     }
 }

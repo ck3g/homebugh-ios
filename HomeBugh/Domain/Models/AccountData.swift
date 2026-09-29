@@ -50,6 +50,12 @@ struct Account: Codable, Hashable, Identifiable {
         self.isDirty = isDirty
     }
 
+    /// Account name with its currency, e.g. "Наличные [EUR]". Used to distinguish
+    /// same-named accounts that differ only by currency.
+    var displayName: String {
+        "\(name) [\(currency.unit)]"
+    }
+
     enum CodingKeys: String, CodingKey {
         case remoteId = "id"
         case name

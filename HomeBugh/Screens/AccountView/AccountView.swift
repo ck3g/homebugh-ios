@@ -8,11 +8,15 @@
 import SwiftUI
 
 struct AccountView: View {
-    @ObservedObject var viewModel: AccountViewModel
+    @StateObject private var viewModel: AccountViewModel
     @State private var showAddAccount = false
     @State private var accountToEdit: Account?
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
+
+    init(viewModel: AccountViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
 
     var body: some View {
         ZStack {
@@ -82,7 +86,7 @@ struct AccountView: View {
         } message: {
             Text(errorMessage)
         }
-        .onAppear {
+        .task {
             viewModel.refresh()
         }
     }

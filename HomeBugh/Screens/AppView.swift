@@ -13,17 +13,19 @@ struct AppView: View {
     @EnvironmentObject var userLoggedIn: UserLoggedIn
     @EnvironmentObject var auth: Auth
 
+    @State private var settingsPath = NavigationPath()
+
     var body: some View {
         TabView {
-            TransactionsView(viewModel: TransactionsViewModel(
-                repository: repositoryProvider.transactionsRepository()
-            ))
-            .tabItem {
-                Image(systemName: "list.dash")
-                Text("Transactions")
-            }
+            TransactionsView(viewModel: repositoryProvider.makeTransactionsViewModel())
+                .tabItem {
+                    Image(systemName: "list.dash")
+                    Text("Transactions")
+                }
 
-            SettingsView().environmentObject(auth).environmentObject(userLoggedIn)
+            SettingsView(path: $settingsPath)
+                .environmentObject(auth)
+                .environmentObject(userLoggedIn)
                 .tabItem {
                     Image(systemName: "square.and.pencil")
                     Text("Settings")

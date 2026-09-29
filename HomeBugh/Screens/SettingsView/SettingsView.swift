@@ -9,28 +9,22 @@ import SwiftUI
 
 struct SettingsView: View {
 
+    enum Destination: Hashable {
+        case accounts
+        case categories
+    }
+
     @EnvironmentObject var repositoryProvider: RepositoryProvider
     @EnvironmentObject var userLoggedIn: UserLoggedIn
     @EnvironmentObject var auth: Auth
 
-    var body: some View {
-        NavigationView {
-            List {
-                NavigationLink(destination: AccountView(
-                    viewModel: AccountViewModel(
-                        repository: repositoryProvider.accountsRepository()
-                    )
-                )) {
-                    Text("Accounts")
-                }
+    @Binding var path: NavigationPath
 
-                NavigationLink(destination: CategoryView(
-                    viewModel: CategoryViewModel(
-                        repository: repositoryProvider.categoriesRepository()
-                    )
-                )) {
-                    Text("Categories")
-                }
+    var body: some View {
+        NavigationStack(path: $path) {
+            List {
+                NavigationLink("Accounts", value: Destination.accounts)
+                NavigationLink("Categories", value: Destination.categories)
 
                 Button(action: {
                     self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: false)
@@ -39,14 +33,27 @@ struct SettingsView: View {
                     LogoutButton()
                 }
             }
-            .navigationBarTitle("Settings")
+            .navigationTitle("Settings")
+            .navigationDestination(for: Destination.self) { destination in
+                switch destination {
+                case .accounts:
+                    AccountView(viewModel: repositoryProvider.makeAccountViewModel())
+                case .categories:
+                    CategoryView(viewModel: repositoryProvider.makeCategoryViewModel())
+                }
+            }
+        }
+        .onDisappear {
+            // Reset to the root menu off-screen when leaving the tab, so returning
+            // shows Settings instantly with no visible pop animation.
+            path = NavigationPath()
         }
     }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsView(path: .constant(NavigationPath()))
     }
 }
 

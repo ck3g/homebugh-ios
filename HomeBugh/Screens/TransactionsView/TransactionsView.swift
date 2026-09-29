@@ -10,10 +10,14 @@ import SwiftUI
 struct TransactionsView: View {
 
     @EnvironmentObject var repositoryProvider: RepositoryProvider
-    @ObservedObject var viewModel: TransactionsViewModel
+    @StateObject private var viewModel: TransactionsViewModel
 
     @State private var addTransactionViewVisible = false
     @State private var transactionToDelete: Transaction?
+
+    init(viewModel: TransactionsViewModel) {
+        _viewModel = StateObject(wrappedValue: viewModel)
+    }
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
 
@@ -72,11 +76,7 @@ struct TransactionsView: View {
         .navigationViewStyle(StackNavigationViewStyle())
         .sheet(isPresented: $addTransactionViewVisible) {
             AddTransactionView(viewModel: {
-                let vm = AddTransactionViewModel(
-                    transactionsRepository: repositoryProvider.transactionsRepository(),
-                    accountsRepository: repositoryProvider.accountsRepository(),
-                    categoriesRepository: repositoryProvider.categoriesRepository()
-                )
+                let vm = repositoryProvider.makeAddTransactionViewModel()
                 vm.onTransactionAdded = { transaction in
                     viewModel.add(transaction)
                 }
@@ -106,10 +106,8 @@ struct TransactionsView: View {
         } message: {
             Text(errorMessage)
         }
-        .onAppear {
-            if case .idle = viewModel.state {
-                viewModel.loadMoreContent()
-            }
+        .task {
+            viewModel.refresh()
         }
     }
 }

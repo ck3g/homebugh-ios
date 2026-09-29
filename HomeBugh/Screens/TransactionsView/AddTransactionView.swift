@@ -23,7 +23,7 @@ struct AddTransactionView: View {
                         Picker("Account", selection: $viewModel.selectedAccountId) {
                             Text("Select account").tag(nil as UUID?)
                             ForEach(viewModel.accounts, id: \.id) { account in
-                                Text(account.name).tag(account.id as UUID?)
+                                Text(account.displayName).tag(account.id as UUID?)
                             }
                         }
                         .pickerStyle(MenuPickerStyle())

@@ -80,6 +80,9 @@
 		C1DA6CAF2587A55A00679706 /* AccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1DA6CAE2587A55A00679706 /* AccountView.swift */; };
 		C1E0BD9E25273D9000B2850C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0BD9D25273D9000B2850C /* LoginView.swift */; };
 		C1E0BDC52527982000B2850C /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1E0BDC42527982000B2850C /* SignUpView.swift */; };
+		D9B16FC5A6D0414CA943AE3A /* RecentSelectionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14A6A9024F564F11B17D125C /* RecentSelectionStore.swift */; };
+		E8027CF0DBA649F3A9B668D3 /* AddTransactionViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FD1963666444E82B67C3BB9 /* AddTransactionViewModelTests.swift */; };
+		FEF44296797E481A891EAC8C /* RecentSelectionStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35E60853C5CC4DFABC15F98B /* RecentSelectionStoreTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +116,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		14A6A9024F564F11B17D125C /* RecentSelectionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSelectionStore.swift; sourceTree = "<group>"; };
 		230B4D9B2FB211B6004D65AB /* DateTextFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateTextFormatter.swift; sourceTree = "<group>"; };
 		230B4DA02FB21AD6004D65AB /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		230B4DA22FB22028004D65AB /* MoneyFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyFormatter.swift; sourceTree = "<group>"; };
@@ -162,6 +166,8 @@
 		3412B3D72525B61400DA446D /* HomeBughUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HomeBughUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3412B3DB2525B61400DA446D /* HomeBughUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeBughUITests.swift; sourceTree = "<group>"; };
 		3412B3DD2525B61400DA446D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		35E60853C5CC4DFABC15F98B /* RecentSelectionStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentSelectionStoreTests.swift; sourceTree = "<group>"; };
+		3FD1963666444E82B67C3BB9 /* AddTransactionViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionViewModelTests.swift; sourceTree = "<group>"; };
 		4B912AEB174A4C22B75608C6 /* TransactionMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionMapper.swift; sourceTree = "<group>"; };
 		749836D42708EDD900954765 /* AuthTokenStorageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthTokenStorageTests.swift; sourceTree = "<group>"; };
 		9D3627DA270AF60C006D0268 /* CategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryView.swift; sourceTree = "<group>"; };
@@ -395,6 +401,8 @@
 			children = (
 				23537A332FC85C15004DFD72 /* AccountsLocalStoreTests.swift */,
 				23537A342FC85C15004DFD72 /* AccountViewModelTests.swift */,
+				3FD1963666444E82B67C3BB9 /* AddTransactionViewModelTests.swift */,
+				35E60853C5CC4DFABC15F98B /* RecentSelectionStoreTests.swift */,
 				23537A352FC85C15004DFD72 /* CategoriesLocalStoreTests.swift */,
 				23537A362FC85C15004DFD72 /* CategoryViewModelTests.swift */,
 				23537A372FC85C15004DFD72 /* DateTextFormatterTests.swift */,
@@ -470,6 +478,7 @@
 				230B4D9C2FB211B6004D65AB /* Formatting */,
 				238D3C082F8E8C5200C97EA7 /* AuthState.swift */,
 				C17CC2F426138BA1000C5F74 /* AppState.swift */,
+				14A6A9024F564F11B17D125C /* RecentSelectionStore.swift */,
 				C10153822547015A0082845C /* AuthTokenStorage.swift */,
 				C13FF73B29070BC10015595E /* Alerts */,
 				C132F5E72613B5A3004D889B /* Extensions */,
@@ -692,6 +701,7 @@
 				C1E0BD9E25273D9000B2850C /* LoginView.swift in Sources */,
 				238D3C0F2F8FD5EB00C97EA7 /* AddAccountView.swift in Sources */,
 				C17CC2F526138BA1000C5F74 /* AppState.swift in Sources */,
+				D9B16FC5A6D0414CA943AE3A /* RecentSelectionStore.swift in Sources */,
 				C17CC2EB26138966000C5F74 /* ApiEndpoint.swift in Sources */,
 				C1E0BDC52527982000B2850C /* SignUpView.swift in Sources */,
 				C17CC2F026138999000C5F74 /* HttpMethod.swift in Sources */,
@@ -754,6 +764,8 @@
 				23537A3E2FC85C15004DFD72 /* TransactionsViewModelTests.swift in Sources */,
 				23537A3F2FC85C15004DFD72 /* TestFactories.swift in Sources */,
 				23537A402FC85C15004DFD72 /* AccountViewModelTests.swift in Sources */,
+				E8027CF0DBA649F3A9B668D3 /* AddTransactionViewModelTests.swift in Sources */,
+				FEF44296797E481A891EAC8C /* RecentSelectionStoreTests.swift in Sources */,
 				23537A412FC85C15004DFD72 /* TransactionsLocalStoreTests.swift in Sources */,
 				23537A422FC85C15004DFD72 /* MoneyFormatterTests.swift in Sources */,
 				23537A432FC85C15004DFD72 /* MockRepositories.swift in Sources */,
@@ -842,7 +854,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -901,7 +913,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -922,7 +934,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"HomeBugh/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = HomeBugh/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -943,7 +955,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"HomeBugh/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = HomeBugh/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -961,7 +973,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = HomeBughTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -981,7 +993,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = HomeBughTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

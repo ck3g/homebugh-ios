@@ -12,6 +12,8 @@ import GRDB
 final class RepositoryProvider: ObservableObject {
 
     private let database: AppDatabase
+    /// Session-scoped recency tracker shared across Add Transaction form instances.
+    let recentSelectionStore = RecentSelectionStore()
 
     init(database: AppDatabase) {
         self.database = database
@@ -39,5 +41,28 @@ final class RepositoryProvider: ObservableObject {
     func categoriesRepository() -> CategoriesRepository {
         let localStore = CategoriesLocalStore(dbQueue: database.dbQueue)
         return LocalCategoriesRepository(localStore: localStore)
+    }
+
+    // MARK: - View model factories
+
+    func makeTransactionsViewModel() -> TransactionsViewModel {
+        TransactionsViewModel(repository: transactionsRepository())
+    }
+
+    func makeAccountViewModel() -> AccountViewModel {
+        AccountViewModel(repository: accountsRepository())
+    }
+
+    func makeCategoryViewModel() -> CategoryViewModel {
+        CategoryViewModel(repository: categoriesRepository())
+    }
+
+    func makeAddTransactionViewModel() -> AddTransactionViewModel {
+        AddTransactionViewModel(
+            transactionsRepository: transactionsRepository(),
+            accountsRepository: accountsRepository(),
+            categoriesRepository: categoriesRepository(),
+            recentSelection: recentSelectionStore
+        )
     }
 }

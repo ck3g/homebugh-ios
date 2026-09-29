@@ -68,6 +68,15 @@ final class TransactionsViewModel: ObservableObject {
         }
     }
 
+    /// Reloads the list from the first page, discarding current in-memory items.
+    /// Called when the screen appears so changes made elsewhere are reflected.
+    func refresh() {
+        items = []
+        page = 1
+        canLoadMorePages = true
+        loadMoreContent()
+    }
+
     // MARK: - CRUD
 
     func add(_ transaction: Transaction) {

@@ -1,16 +1,16 @@
 //
-//  MockRepositories.swift
+//  FakeRepositories.swift
 //  HomeBughTests
 //
-//  Mock implementations of repository protocols for unit tests.
+//  Fake (in-memory) implementations of repository protocols for unit tests.
 //
 
 import Foundation
 @testable import HomeBugh
 
-// MARK: - MockCategoriesRepository
+// MARK: - FakeCategoriesRepository
 
-final class MockCategoriesRepository: CategoriesRepository {
+final class FakeCategoriesRepository: CategoriesRepository {
 
     var categories: [HomeBugh.Category] = []
     var activeCategories: [HomeBugh.Category] = []
@@ -56,9 +56,9 @@ final class MockCategoriesRepository: CategoriesRepository {
     }
 }
 
-// MARK: - MockAccountsRepository
+// MARK: - FakeAccountsRepository
 
-final class MockAccountsRepository: AccountsRepository {
+final class FakeAccountsRepository: AccountsRepository {
 
     var accounts: [Account] = []
     var createError: Error?
@@ -92,9 +92,9 @@ final class MockAccountsRepository: AccountsRepository {
     }
 }
 
-// MARK: - MockTransactionsRepository
+// MARK: - FakeTransactionsRepository
 
-final class MockTransactionsRepository: TransactionsRepository {
+final class FakeTransactionsRepository: TransactionsRepository {
 
     var transactions: [Transaction] = []
     var createError: Error?

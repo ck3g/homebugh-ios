@@ -5,24 +5,28 @@
 //  Unit tests for AccountViewModel.
 //
 
+import Combine
 import XCTest
 @testable import HomeBugh
 
 @MainActor
 final class AccountViewModelTests: XCTestCase {
 
-    private var mockRepository: MockAccountsRepository!
+    private var fakeRepository: FakeAccountsRepository!
     private var sut: AccountViewModel!
+    private var cancellables: Set<AnyCancellable>!
 
     override func setUp() {
         super.setUp()
-        mockRepository = MockAccountsRepository()
-        sut = AccountViewModel(useCase: DefaultAccountsUseCase(repository: mockRepository))
+        fakeRepository = FakeAccountsRepository()
+        sut = AccountViewModel(useCase: DefaultAccountsUseCase(repository: fakeRepository))
+        cancellables = []
     }
 
     override func tearDown() {
+        cancellables = nil
         sut = nil
-        mockRepository = nil
+        fakeRepository = nil
         super.tearDown()
     }
 
@@ -39,41 +43,31 @@ final class AccountViewModelTests: XCTestCase {
 
     func testLoadContentTransitionsToLoaded() async {
         let account = TestFactory.makeAccount(name: "Deutsche Bank")
-        mockRepository.accounts = [account]
+        fakeRepository.accounts = [account]
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
-        if case .loaded(let items) = sut.state {
-            XCTAssertEqual(items.count, 1)
-            XCTAssertEqual(items.first?.name, "Deutsche Bank")
-        } else {
-            XCTFail("Expected .loaded, got \(sut.state)")
-        }
+        let items = loadedItems()
+        XCTAssertEqual(items.count, 1)
+        XCTAssertEqual(items.first?.name, "Deutsche Bank")
     }
 
     func testLoadContentSortsAlphabetically() async {
-        mockRepository.accounts = [
+        fakeRepository.accounts = [
             TestFactory.makeAccount(name: "Zebra Bank"),
             TestFactory.makeAccount(name: "Alpha Bank"),
             TestFactory.makeAccount(name: "Middle Bank"),
         ]
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
-        if case .loaded(let items) = sut.state {
-            XCTAssertEqual(items.map(\.name), ["Alpha Bank", "Middle Bank", "Zebra Bank"])
-        } else {
-            XCTFail("Expected .loaded, got \(sut.state)")
-        }
+        XCTAssertEqual(loadedItems().map(\.name), ["Alpha Bank", "Middle Bank", "Zebra Bank"])
     }
 
     func testLoadContentErrorTransitionsToError() async {
-        mockRepository.listError = TestError.mock
+        fakeRepository.listError = TestError.mock
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenError { sut.loadMoreContent() }
 
         if case .error(let message) = sut.state {
             XCTAssertEqual(message, "Mock error")
@@ -83,58 +77,38 @@ final class AccountViewModelTests: XCTestCase {
     }
 
     func testLoadEmptyListTransitionsToLoadedEmpty() async {
-        mockRepository.accounts = []
+        fakeRepository.accounts = []
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
-        if case .loaded(let items) = sut.state {
-            XCTAssertTrue(items.isEmpty)
-        } else {
-            XCTFail("Expected .loaded, got \(sut.state)")
-        }
+        XCTAssertTrue(loadedItems().isEmpty)
     }
 
     // MARK: - Pagination
 
     func testLoadMoreContentIfNeededWithNilTriggersLoad() async {
-        mockRepository.accounts = [TestFactory.makeAccount()]
+        fakeRepository.accounts = [TestFactory.makeAccount()]
 
-        sut.loadMoreContentIfNeeded(currentItem: nil)
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContentIfNeeded(currentItem: nil) }
 
-        if case .loaded(let items) = sut.state {
-            XCTAssertEqual(items.count, 1)
-        } else {
-            XCTFail("Expected .loaded, got \(sut.state)")
-        }
+        XCTAssertEqual(loadedItems().count, 1)
     }
 
     func testLoadMoreContentIfNeededDoesNotLoadWhenBelowThreshold() async {
         // Load fewer items than the pagination threshold (5)
-        mockRepository.accounts = [
+        fakeRepository.accounts = [
             TestFactory.makeAccount(name: "A"),
             TestFactory.makeAccount(name: "B"),
         ]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
         // Calling with the last item should not trigger another load
         // because count (2) < threshold (5)
-        if case .loaded(let items) = sut.state {
-            let lastItem = items.last!
-            sut.loadMoreContentIfNeeded(currentItem: lastItem)
-            try? await Task.sleep(nanoseconds: 100_000_000)
+        let lastItem = loadedItems().last
+        sut.loadMoreContentIfNeeded(currentItem: lastItem)
 
-            // State should still be loaded with 2 items (no extra load)
-            if case .loaded(let updatedItems) = sut.state {
-                XCTAssertEqual(updatedItems.count, 2)
-            } else {
-                XCTFail("Expected .loaded, got \(sut.state)")
-            }
-        } else {
-            XCTFail("Expected .loaded, got \(sut.state)")
-        }
+        // State should still be loaded with 2 items (no extra load)
+        XCTAssertEqual(loadedItems().count, 2)
     }
 
     func testLoadMoreContentIfNeededTriggersLoadAtThreshold() async {
@@ -144,26 +118,18 @@ final class AccountViewModelTests: XCTestCase {
         for i in 1...6 {
             accounts.append(TestFactory.makeAccount(name: "Account \(i)"))
         }
-        mockRepository.accounts = accounts
+        fakeRepository.accounts = accounts
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
-        if case .loaded(let items) = sut.state {
-            XCTAssertEqual(items.count, 6)
-            // The threshold item is at index (count - 5) = 1
-            let thresholdItem = items[items.count - 5]
-            sut.loadMoreContentIfNeeded(currentItem: thresholdItem)
-            try? await Task.sleep(nanoseconds: 100_000_000)
+        let items = loadedItems()
+        XCTAssertEqual(items.count, 6)
+        // The threshold item is at index (count - 5) = 1
+        let thresholdItem = items[items.count - 5]
+        await whenLoaded { sut.loadMoreContentIfNeeded(currentItem: thresholdItem) }
 
-            // Should have tried to load page 2 (which returns empty since
-            // mock only has 6 items and pageSize is 6)
-            if case .loaded = sut.state {
-                // pass — load was triggered
-            } else {
-                XCTFail("Expected .loaded, got \(sut.state)")
-            }
-        } else {
+        // Load was triggered and completed (mock only has 6 items, pageSize 6).
+        if case .loaded = sut.state {} else {
             XCTFail("Expected .loaded, got \(sut.state)")
         }
     }
@@ -171,31 +137,24 @@ final class AccountViewModelTests: XCTestCase {
     // MARK: - Add
 
     func testAddAccountAppendsAndSorts() async {
-        mockRepository.accounts = [TestFactory.makeAccount(name: "Zebra Bank")]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.accounts = [TestFactory.makeAccount(name: "Zebra Bank")]
+        await whenLoaded { sut.loadMoreContent() }
 
         let newAccount = TestFactory.makeAccount(name: "Alpha Bank")
-        sut.add(newAccount)
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.add(newAccount) }
 
-        if case .loaded(let items) = sut.state {
-            XCTAssertEqual(items.count, 2)
-            XCTAssertEqual(items.first?.name, "Alpha Bank")
-            XCTAssertEqual(items.last?.name, "Zebra Bank")
-        } else {
-            XCTFail("Expected .loaded, got \(sut.state)")
-        }
+        let items = loadedItems()
+        XCTAssertEqual(items.count, 2)
+        XCTAssertEqual(items.first?.name, "Alpha Bank")
+        XCTAssertEqual(items.last?.name, "Zebra Bank")
     }
 
     func testAddAccountErrorTransitionsToError() async {
-        mockRepository.createError = TestError.mock
+        fakeRepository.createError = TestError.mock
 
-        sut.add(TestFactory.makeAccount())
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenError { sut.add(TestFactory.makeAccount()) }
 
-        if case .error = sut.state {
-        } else {
+        if case .error = sut.state {} else {
             XCTFail("Expected .error, got \(sut.state)")
         }
     }
@@ -204,55 +163,40 @@ final class AccountViewModelTests: XCTestCase {
 
     func testUpdateAccountReflectsChanges() async {
         let id = UUID()
-        mockRepository.accounts = [TestFactory.makeAccount(id: id, name: "Old Name")]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.accounts = [TestFactory.makeAccount(id: id, name: "Old Name")]
+        await whenLoaded { sut.loadMoreContent() }
 
         var updated = TestFactory.makeAccount(id: id, name: "New Name")
         updated.updatedAt = Date()
-        sut.update(updated)
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.update(updated) }
 
-        if case .loaded(let items) = sut.state {
-            XCTAssertEqual(items.first?.name, "New Name")
-        } else {
-            XCTFail("Expected .loaded, got \(sut.state)")
-        }
+        XCTAssertEqual(loadedItems().first?.name, "New Name")
     }
 
     func testUpdateAccountReSortsList() async {
         let id = UUID()
-        mockRepository.accounts = [
+        fakeRepository.accounts = [
             TestFactory.makeAccount(id: id, name: "Alpha Bank"),
             TestFactory.makeAccount(name: "Middle Bank"),
         ]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
         var updated = TestFactory.makeAccount(id: id, name: "Zebra Bank")
         updated.updatedAt = Date()
-        sut.update(updated)
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.update(updated) }
 
-        if case .loaded(let items) = sut.state {
-            XCTAssertEqual(items.map(\.name), ["Middle Bank", "Zebra Bank"])
-        } else {
-            XCTFail("Expected .loaded, got \(sut.state)")
-        }
+        XCTAssertEqual(loadedItems().map(\.name), ["Middle Bank", "Zebra Bank"])
     }
 
     func testUpdateAccountErrorTransitionsToError() async {
         let id = UUID()
-        mockRepository.accounts = [TestFactory.makeAccount(id: id)]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.accounts = [TestFactory.makeAccount(id: id)]
+        await whenLoaded { sut.loadMoreContent() }
 
-        mockRepository.updateError = TestError.mock
-        sut.update(TestFactory.makeAccount(id: id, name: "New Name"))
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.updateError = TestError.mock
+        await whenError { sut.update(TestFactory.makeAccount(id: id, name: "New Name")) }
 
-        if case .error = sut.state {
-        } else {
+        if case .error = sut.state {} else {
             XCTFail("Expected .error, got \(sut.state)")
         }
     }
@@ -261,36 +205,28 @@ final class AccountViewModelTests: XCTestCase {
 
     func testDeleteAccountRemovesFromList() async {
         let id = UUID()
-        mockRepository.accounts = [
+        fakeRepository.accounts = [
             TestFactory.makeAccount(id: id, name: "ToDelete"),
             TestFactory.makeAccount(name: "Keep"),
         ]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
-        sut.delete(TestFactory.makeAccount(id: id, name: "ToDelete"))
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.delete(TestFactory.makeAccount(id: id, name: "ToDelete")) }
 
-        if case .loaded(let items) = sut.state {
-            XCTAssertEqual(items.count, 1)
-            XCTAssertEqual(items.first?.name, "Keep")
-        } else {
-            XCTFail("Expected .loaded, got \(sut.state)")
-        }
+        let items = loadedItems()
+        XCTAssertEqual(items.count, 1)
+        XCTAssertEqual(items.first?.name, "Keep")
     }
 
     func testDeleteAccountErrorTransitionsToError() async {
         let id = UUID()
-        mockRepository.accounts = [TestFactory.makeAccount(id: id)]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.accounts = [TestFactory.makeAccount(id: id)]
+        await whenLoaded { sut.loadMoreContent() }
 
-        mockRepository.deleteError = TestError.mock
-        sut.delete(TestFactory.makeAccount(id: id))
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.deleteError = TestError.mock
+        await whenError { sut.delete(TestFactory.makeAccount(id: id)) }
 
-        if case .error = sut.state {
-        } else {
+        if case .error = sut.state {} else {
             XCTFail("Expected .error, got \(sut.state)")
         }
     }
@@ -299,58 +235,84 @@ final class AccountViewModelTests: XCTestCase {
 
     func testRefreshReflectsUpdatedData() async {
         let id = UUID()
-        mockRepository.accounts = [TestFactory.makeAccount(id: id, name: "Postbank", balance: 0.0)]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.accounts = [TestFactory.makeAccount(id: id, name: "Postbank", balance: 0.0)]
+        await whenLoaded { sut.loadMoreContent() }
 
         // Simulate a balance change made elsewhere (e.g. a transaction).
-        mockRepository.accounts = [TestFactory.makeAccount(id: id, name: "Postbank", balance: 1450.0)]
-        sut.refresh()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.accounts = [TestFactory.makeAccount(id: id, name: "Postbank", balance: 1450.0)]
+        await whenLoaded { sut.refresh() }
 
-        if case .loaded(let items) = sut.state {
-            XCTAssertEqual(items.count, 1)
-            XCTAssertEqual(items.first?.balance ?? 0, 1450.0, accuracy: 0.01)
-        } else {
-            XCTFail("Expected .loaded, got \(sut.state)")
-        }
+        let items = loadedItems()
+        XCTAssertEqual(items.count, 1)
+        XCTAssertEqual(items.first?.balance ?? 0, 1450.0, accuracy: 0.01)
     }
 
     func testRefreshDoesNotDuplicateItems() async {
-        mockRepository.accounts = [
+        fakeRepository.accounts = [
             TestFactory.makeAccount(name: "Alpha Bank"),
             TestFactory.makeAccount(name: "Beta Bank"),
         ]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
-        sut.refresh()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.refresh() }
 
-        if case .loaded(let items) = sut.state {
-            XCTAssertEqual(items.count, 2, "Refresh should reset the list, not append duplicates")
-        } else {
-            XCTFail("Expected .loaded, got \(sut.state)")
-        }
+        XCTAssertEqual(loadedItems().count, 2, "Refresh should reset the list, not append duplicates")
     }
 
     func testRefreshReflectsDeletedAccount() async {
-        mockRepository.accounts = [
+        fakeRepository.accounts = [
             TestFactory.makeAccount(name: "Alpha Bank"),
             TestFactory.makeAccount(name: "Beta Bank"),
         ]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
         // Account removed elsewhere.
-        mockRepository.accounts = [TestFactory.makeAccount(name: "Alpha Bank")]
-        sut.refresh()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.accounts = [TestFactory.makeAccount(name: "Alpha Bank")]
+        await whenLoaded { sut.refresh() }
 
-        if case .loaded(let items) = sut.state {
-            XCTAssertEqual(items.map(\.name), ["Alpha Bank"])
-        } else {
-            XCTFail("Expected .loaded, got \(sut.state)")
+        XCTAssertEqual(loadedItems().map(\.name), ["Alpha Bank"])
+    }
+
+    // MARK: - Helpers
+
+    /// Runs `action`, then waits until the view model reaches `.loaded`.
+    private func whenLoaded(_ action: () -> Void, timeout: TimeInterval = 1.0) async {
+        let exp = expectation(description: "loaded")
+        exp.assertForOverFulfill = false
+        var cancellable: AnyCancellable?
+        cancellable = sut.$state.dropFirst().sink { state in
+            if case .loaded = state {
+                exp.fulfill()
+                cancellable?.cancel()
+            }
         }
+        action()
+        await fulfillment(of: [exp], timeout: timeout)
+        cancellable?.cancel()
+    }
+
+    /// Runs `action`, then waits until the view model reaches `.error`.
+    private func whenError(_ action: () -> Void, timeout: TimeInterval = 1.0) async {
+        let exp = expectation(description: "error")
+        exp.assertForOverFulfill = false
+        var cancellable: AnyCancellable?
+        cancellable = sut.$state.dropFirst().sink { state in
+            if case .error = state {
+                exp.fulfill()
+                cancellable?.cancel()
+            }
+        }
+        action()
+        await fulfillment(of: [exp], timeout: timeout)
+        cancellable?.cancel()
+    }
+
+    /// Returns the items from the current `.loaded` state, or fails.
+    private func loadedItems(file: StaticString = #filePath, line: UInt = #line) -> [Account] {
+        guard case .loaded(let items) = sut.state else {
+            XCTFail("Expected .loaded, got \(sut.state)", file: file, line: line)
+            return []
+        }
+        return items
     }
 }

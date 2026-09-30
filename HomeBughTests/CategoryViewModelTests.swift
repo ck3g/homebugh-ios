@@ -5,24 +5,28 @@
 //  Unit tests for CategoryViewModel.
 //
 
+import Combine
 import XCTest
 @testable import HomeBugh
 
 @MainActor
 final class CategoryViewModelTests: XCTestCase {
 
-    private var mockRepository: MockCategoriesRepository!
+    private var fakeRepository: FakeCategoriesRepository!
     private var sut: CategoryViewModel!
+    private var cancellables: Set<AnyCancellable>!
 
     override func setUp() {
         super.setUp()
-        mockRepository = MockCategoriesRepository()
-        sut = CategoryViewModel(useCase: DefaultCategoriesUseCase(repository: mockRepository))
+        fakeRepository = FakeCategoriesRepository()
+        sut = CategoryViewModel(useCase: DefaultCategoriesUseCase(repository: fakeRepository))
+        cancellables = []
     }
 
     override func tearDown() {
+        cancellables = nil
         sut = nil
-        mockRepository = nil
+        fakeRepository = nil
         super.tearDown()
     }
 
@@ -40,12 +44,9 @@ final class CategoryViewModelTests: XCTestCase {
 
     func testLoadContentTransitionsToLoaded() async {
         let category = TestFactory.makeCategory(name: "Food")
-        mockRepository.categories = [category]
+        fakeRepository.categories = [category]
 
-        sut.loadMoreContent()
-
-        // Wait for async task to complete
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
         if case .loaded(let active, let inactive) = sut.state {
             XCTAssertEqual(active.count, 1)
@@ -57,14 +58,13 @@ final class CategoryViewModelTests: XCTestCase {
     }
 
     func testLoadContentSplitsActiveAndInactive() async {
-        mockRepository.categories = [
+        fakeRepository.categories = [
             TestFactory.makeCategory(name: "Food", inactive: false),
             TestFactory.makeCategory(name: "Old Gym", inactive: true),
             TestFactory.makeCategory(name: "Salary", categoryType: .income, inactive: false),
         ]
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
         if case .loaded(let active, let inactive) = sut.state {
             XCTAssertEqual(active.count, 2)
@@ -76,14 +76,13 @@ final class CategoryViewModelTests: XCTestCase {
     }
 
     func testLoadContentSortsAlphabetically() async {
-        mockRepository.categories = [
+        fakeRepository.categories = [
             TestFactory.makeCategory(name: "Zebra"),
             TestFactory.makeCategory(name: "Alpha"),
             TestFactory.makeCategory(name: "Middle"),
         ]
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
         if case .loaded(let active, _) = sut.state {
             XCTAssertEqual(active.map(\.name), ["Alpha", "Middle", "Zebra"])
@@ -93,10 +92,9 @@ final class CategoryViewModelTests: XCTestCase {
     }
 
     func testLoadContentErrorTransitionsToError() async {
-        mockRepository.listError = TestError.mock
+        fakeRepository.listError = TestError.mock
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenError { sut.loadMoreContent() }
 
         if case .error(let message) = sut.state {
             XCTAssertEqual(message, "Mock error")
@@ -106,7 +104,7 @@ final class CategoryViewModelTests: XCTestCase {
     }
 
     func testLoadContentDoesNotLoadWhileAlreadyLoading() {
-        mockRepository.categories = [TestFactory.makeCategory()]
+        fakeRepository.categories = [TestFactory.makeCategory()]
 
         sut.loadMoreContent()
         sut.loadMoreContent() // second call should be ignored
@@ -117,10 +115,9 @@ final class CategoryViewModelTests: XCTestCase {
     // MARK: - Pagination
 
     func testLoadMoreContentIfNeededWithNilTriggersLoad() async {
-        mockRepository.categories = [TestFactory.makeCategory()]
+        fakeRepository.categories = [TestFactory.makeCategory()]
 
-        sut.loadMoreContentIfNeeded(currentItem: nil)
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContentIfNeeded(currentItem: nil) }
 
         if case .loaded(let active, _) = sut.state {
             XCTAssertEqual(active.count, 1)
@@ -130,17 +127,15 @@ final class CategoryViewModelTests: XCTestCase {
     }
 
     func testLoadMoreContentIfNeededDoesNotLoadWhenBelowThreshold() async {
-        mockRepository.categories = [
+        fakeRepository.categories = [
             TestFactory.makeCategory(name: "A"),
             TestFactory.makeCategory(name: "B"),
         ]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
         if case .loaded(let active, _) = sut.state {
             let lastItem = active.last!
             sut.loadMoreContentIfNeeded(currentItem: lastItem)
-            try? await Task.sleep(nanoseconds: 100_000_000)
 
             if case .loaded(let updatedActive, _) = sut.state {
                 XCTAssertEqual(updatedActive.count, 2)
@@ -158,18 +153,16 @@ final class CategoryViewModelTests: XCTestCase {
         for i in 1...20 {
             categories.append(TestFactory.makeCategory(name: "Cat \(String(format: "%02d", i))"))
         }
-        mockRepository.categories = categories
+        fakeRepository.categories = categories
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
         if case .loaded(let active, _) = sut.state {
             XCTAssertEqual(active.count, 20)
 
             // The threshold item is at index (count - 5) = 15
             let thresholdItem = active[active.count - 5]
-            sut.loadMoreContentIfNeeded(currentItem: thresholdItem)
-            try? await Task.sleep(nanoseconds: 100_000_000)
+            await whenLoaded { sut.loadMoreContentIfNeeded(currentItem: thresholdItem) }
 
             // Load was triggered for page 2 (returns empty), state stays .loaded
             if case .loaded = sut.state {
@@ -187,16 +180,14 @@ final class CategoryViewModelTests: XCTestCase {
         for i in 1...20 {
             categories.append(TestFactory.makeCategory(name: "Cat \(String(format: "%02d", i))"))
         }
-        mockRepository.categories = categories
+        fakeRepository.categories = categories
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
         if case .loaded(let active, _) = sut.state {
             // Pick an item NOT at the threshold (e.g., first item)
             let firstItem = active.first!
             sut.loadMoreContentIfNeeded(currentItem: firstItem)
-            try? await Task.sleep(nanoseconds: 100_000_000)
 
             // Count should remain 20 — no extra page loaded
             if case .loaded(let updatedActive, _) = sut.state {
@@ -212,13 +203,11 @@ final class CategoryViewModelTests: XCTestCase {
     // MARK: - Add
 
     func testAddCategoryAppendsAndSorts() async {
-        mockRepository.categories = [TestFactory.makeCategory(name: "Zebra")]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.categories = [TestFactory.makeCategory(name: "Zebra")]
+        await whenLoaded { sut.loadMoreContent() }
 
         let newCategory = TestFactory.makeCategory(name: "Alpha")
-        sut.add(newCategory)
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.add(newCategory) }
 
         if case .loaded(let active, _) = sut.state {
             XCTAssertEqual(active.first?.name, "Alpha")
@@ -229,10 +218,9 @@ final class CategoryViewModelTests: XCTestCase {
     }
 
     func testAddCategoryErrorTransitionsToError() async {
-        mockRepository.createError = TestError.mock
+        fakeRepository.createError = TestError.mock
 
-        sut.add(TestFactory.makeCategory())
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenError { sut.add(TestFactory.makeCategory()) }
 
         if case .error = sut.state {
             // pass
@@ -245,14 +233,12 @@ final class CategoryViewModelTests: XCTestCase {
 
     func testUpdateCategoryReflectsChanges() async {
         let id = UUID()
-        mockRepository.categories = [TestFactory.makeCategory(id: id, name: "Old Name")]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.categories = [TestFactory.makeCategory(id: id, name: "Old Name")]
+        await whenLoaded { sut.loadMoreContent() }
 
         var updated = TestFactory.makeCategory(id: id, name: "New Name")
         updated.updatedAt = Date()
-        sut.update(updated)
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.update(updated) }
 
         if case .loaded(let active, _) = sut.state {
             XCTAssertEqual(active.first?.name, "New Name")
@@ -265,15 +251,13 @@ final class CategoryViewModelTests: XCTestCase {
 
     func testDeleteCategoryRemovesFromList() async {
         let id = UUID()
-        mockRepository.categories = [
+        fakeRepository.categories = [
             TestFactory.makeCategory(id: id, name: "ToDelete"),
             TestFactory.makeCategory(name: "Keep"),
         ]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
-        sut.delete(TestFactory.makeCategory(id: id, name: "ToDelete"))
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.delete(TestFactory.makeCategory(id: id, name: "ToDelete")) }
 
         if case .loaded(let active, _) = sut.state {
             XCTAssertEqual(active.count, 1)
@@ -285,18 +269,50 @@ final class CategoryViewModelTests: XCTestCase {
 
     func testDeleteCategoryErrorTransitionsToError() async {
         let id = UUID()
-        mockRepository.categories = [TestFactory.makeCategory(id: id)]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.categories = [TestFactory.makeCategory(id: id)]
+        await whenLoaded { sut.loadMoreContent() }
 
-        mockRepository.deleteError = TestError.mock
-        sut.delete(TestFactory.makeCategory(id: id))
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.deleteError = TestError.mock
+        await whenError { sut.delete(TestFactory.makeCategory(id: id)) }
 
         if case .error = sut.state {
             // pass
         } else {
             XCTFail("Expected .error, got \(sut.state)")
         }
+    }
+
+    // MARK: - Helpers
+
+    /// Runs `action`, then waits until the view model reaches `.loaded`.
+    private func whenLoaded(_ action: () -> Void, timeout: TimeInterval = 1.0) async {
+        let exp = expectation(description: "loaded")
+        exp.assertForOverFulfill = false
+        var cancellable: AnyCancellable?
+        cancellable = sut.$state.dropFirst().sink { state in
+            if case .loaded = state {
+                exp.fulfill()
+                cancellable?.cancel()
+            }
+        }
+        action()
+        await fulfillment(of: [exp], timeout: timeout)
+        cancellable?.cancel()
+    }
+
+    /// Runs `action`, then waits until the view model reaches `.error`.
+    private func whenError(_ action: () -> Void, timeout: TimeInterval = 1.0) async {
+        let exp = expectation(description: "error")
+        exp.assertForOverFulfill = false
+        var cancellable: AnyCancellable?
+        cancellable = sut.$state.dropFirst().sink { state in
+            if case .error = state {
+                exp.fulfill()
+                cancellable?.cancel()
+            }
+        }
+        action()
+        await fulfillment(of: [exp], timeout: timeout)
+        cancellable?.cancel()
     }
 }

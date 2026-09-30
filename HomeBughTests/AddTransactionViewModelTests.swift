@@ -5,23 +5,25 @@
 //  Unit tests for AddTransactionViewModel recency ordering and preselection.
 //
 
+import Combine
 import XCTest
 @testable import HomeBugh
 
 @MainActor
 final class AddTransactionViewModelTests: XCTestCase {
 
-    private var transactionsRepo: MockTransactionsRepository!
-    private var accountsRepo: MockAccountsRepository!
-    private var categoriesRepo: MockCategoriesRepository!
+    private var transactionsRepo: FakeTransactionsRepository!
+    private var accountsRepo: FakeAccountsRepository!
+    private var categoriesRepo: FakeCategoriesRepository!
     private var recent: RecentSelectionStore!
     private var sut: AddTransactionViewModel!
+    private var cancellables: Set<AnyCancellable>!
 
     override func setUp() {
         super.setUp()
-        transactionsRepo = MockTransactionsRepository()
-        accountsRepo = MockAccountsRepository()
-        categoriesRepo = MockCategoriesRepository()
+        transactionsRepo = FakeTransactionsRepository()
+        accountsRepo = FakeAccountsRepository()
+        categoriesRepo = FakeCategoriesRepository()
         recent = RecentSelectionStore()
         sut = AddTransactionViewModel(
             transactionsUseCase: DefaultTransactionsUseCase(repository: transactionsRepo),
@@ -29,9 +31,11 @@ final class AddTransactionViewModelTests: XCTestCase {
             categoriesUseCase: DefaultCategoriesUseCase(repository: categoriesRepo),
             recentSelection: recent
         )
+        cancellables = []
     }
 
     override func tearDown() {
+        cancellables = nil
         sut = nil
         recent = nil
         categoriesRepo = nil
@@ -52,8 +56,7 @@ final class AddTransactionViewModelTests: XCTestCase {
             TestFactory.makeCategory(name: "Rent"),
         ]
 
-        sut.loadData()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenDataLoaded { sut.loadData() }
 
         XCTAssertEqual(sut.selectedAccountId, sut.accounts.first?.id)
         XCTAssertEqual(sut.selectedCategoryId, sut.categories.first?.id)
@@ -73,8 +76,7 @@ final class AddTransactionViewModelTests: XCTestCase {
         recent.recordAccount(beta.id)
         recent.recordCategory(rent.id)
 
-        sut.loadData()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenDataLoaded { sut.loadData() }
 
         XCTAssertEqual(sut.accounts.first?.id, beta.id, "Most recently used account should be first")
         XCTAssertEqual(sut.categories.first?.id, rent.id, "Most recently used category should be first")
@@ -96,8 +98,7 @@ final class AddTransactionViewModelTests: XCTestCase {
             TestFactory.makeTransaction(category: food, account: alpha),
         ]
 
-        sut.loadData()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenDataLoaded { sut.loadData() }
 
         XCTAssertEqual(sut.accounts.first?.id, beta.id, "Seeded recency should put latest-used account first")
         XCTAssertEqual(sut.categories.first?.id, rent.id, "Seeded recency should put latest-used category first")
@@ -112,8 +113,7 @@ final class AddTransactionViewModelTests: XCTestCase {
 
         recent.recordAccount(gamma.id)
 
-        sut.loadData()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenDataLoaded { sut.loadData() }
 
         XCTAssertEqual(sut.accounts.count, 3, "Ordering must not drop items")
         XCTAssertEqual(sut.accounts.first?.id, gamma.id)
@@ -134,12 +134,29 @@ final class AddTransactionViewModelTests: XCTestCase {
         accountsRepo.accounts = [eur, usd]
         categoriesRepo.categories = [TestFactory.makeCategory(name: "Food")]
 
-        sut.loadData()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenDataLoaded { sut.loadData() }
 
         XCTAssertEqual(sut.accounts.count, 2, "Both same-named accounts must appear")
         XCTAssertEqual(eur.displayName, "Cash [EUR]")
         XCTAssertEqual(usd.displayName, "Cash [USD]")
         XCTAssertNotEqual(eur.displayName, usd.displayName, "Currency makes them distinguishable")
+    }
+
+    // MARK: - Helpers
+
+    /// Runs `action`, then waits until the view model's `accounts` are populated.
+    private func whenDataLoaded(_ action: () -> Void, timeout: TimeInterval = 1.0) async {
+        let exp = expectation(description: "loaded")
+        exp.assertForOverFulfill = false
+        var cancellable: AnyCancellable?
+        cancellable = sut.$accounts.dropFirst().sink { accounts in
+            if !accounts.isEmpty {
+                exp.fulfill()
+                cancellable?.cancel()
+            }
+        }
+        action()
+        await fulfillment(of: [exp], timeout: timeout)
+        cancellable?.cancel()
     }
 }

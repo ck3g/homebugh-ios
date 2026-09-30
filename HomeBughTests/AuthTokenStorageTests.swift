@@ -10,18 +10,18 @@ import XCTest
 
 final class AuthTokenStorageTests: XCTestCase {
 
-    private var mockStorage: MockUnderlyingStorage!
+    private var fakeStorage: FakeUnderlyingStorage!
     private var sut: AuthTokenStorage!
 
     override func setUp() {
         super.setUp()
-        mockStorage = MockUnderlyingStorage()
-        sut = AuthTokenStorage(mockStorage)
+        fakeStorage = FakeUnderlyingStorage()
+        sut = AuthTokenStorage(fakeStorage)
     }
 
     override func tearDown() {
         sut = nil
-        mockStorage = nil
+        fakeStorage = nil
         super.tearDown()
     }
 
@@ -53,7 +53,7 @@ final class AuthTokenStorageTests: XCTestCase {
         sut.setToken(Token(token: "persisted"))
 
         // Create a new instance with the same underlying storage
-        let newInstance = AuthTokenStorage(mockStorage)
+        let newInstance = AuthTokenStorage(fakeStorage)
         XCTAssertTrue(newInstance.checkToken())
         XCTAssertEqual(newInstance.getToken(), "persisted")
     }
@@ -68,14 +68,14 @@ final class AuthTokenStorageTests: XCTestCase {
         sut.setToken(Token(token: "old"))
         sut.setToken(Token(token: "new"))
 
-        let newInstance = AuthTokenStorage(mockStorage)
+        let newInstance = AuthTokenStorage(fakeStorage)
         XCTAssertEqual(newInstance.getToken(), "new")
     }
 }
 
-// MARK: - Mock
+// MARK: - Fake
 
-private final class MockUnderlyingStorage: UnderlyingStorage {
+private final class FakeUnderlyingStorage: UnderlyingStorage {
 
     private var objects: [String: Any] = [:]
 

@@ -5,24 +5,28 @@
 //  Unit tests for TransactionsViewModel.
 //
 
+import Combine
 import XCTest
 @testable import HomeBugh
 
 @MainActor
 final class TransactionsViewModelTests: XCTestCase {
 
-    private var mockRepository: MockTransactionsRepository!
+    private var fakeRepository: FakeTransactionsRepository!
     private var sut: TransactionsViewModel!
+    private var cancellables: Set<AnyCancellable>!
 
     override func setUp() {
         super.setUp()
-        mockRepository = MockTransactionsRepository()
-        sut = TransactionsViewModel(useCase: DefaultTransactionsUseCase(repository: mockRepository))
+        fakeRepository = FakeTransactionsRepository()
+        sut = TransactionsViewModel(useCase: DefaultTransactionsUseCase(repository: fakeRepository))
+        cancellables = []
     }
 
     override func tearDown() {
+        cancellables = nil
         sut = nil
-        mockRepository = nil
+        fakeRepository = nil
         super.tearDown()
     }
 
@@ -40,10 +44,9 @@ final class TransactionsViewModelTests: XCTestCase {
 
     func testLoadContentTransitionsToLoaded() async {
         let transaction = TestFactory.makeTransaction(amount: 10.0)
-        mockRepository.transactions = [transaction]
+        fakeRepository.transactions = [transaction]
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
         if case .loaded(let items) = sut.state {
             XCTAssertEqual(items.count, 1)
@@ -54,10 +57,9 @@ final class TransactionsViewModelTests: XCTestCase {
     }
 
     func testLoadContentErrorTransitionsToError() async {
-        mockRepository.listError = TestError.mock
+        fakeRepository.listError = TestError.mock
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenError { sut.loadMoreContent() }
 
         if case .error(let message) = sut.state {
             XCTAssertEqual(message, "Mock error")
@@ -67,10 +69,9 @@ final class TransactionsViewModelTests: XCTestCase {
     }
 
     func testLoadEmptyListTransitionsToLoadedEmpty() async {
-        mockRepository.transactions = []
+        fakeRepository.transactions = []
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
         if case .loaded(let items) = sut.state {
             XCTAssertTrue(items.isEmpty)
@@ -82,10 +83,9 @@ final class TransactionsViewModelTests: XCTestCase {
     // MARK: - Pagination
 
     func testLoadMoreContentIfNeededWithNilTriggersLoad() async {
-        mockRepository.transactions = [TestFactory.makeTransaction()]
+        fakeRepository.transactions = [TestFactory.makeTransaction()]
 
-        sut.loadMoreContentIfNeeded(currentItem: nil)
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContentIfNeeded(currentItem: nil) }
 
         if case .loaded(let items) = sut.state {
             XCTAssertEqual(items.count, 1)
@@ -95,17 +95,15 @@ final class TransactionsViewModelTests: XCTestCase {
     }
 
     func testLoadMoreContentIfNeededDoesNotLoadWhenBelowThreshold() async {
-        mockRepository.transactions = [
+        fakeRepository.transactions = [
             TestFactory.makeTransaction(amount: 1.0),
             TestFactory.makeTransaction(amount: 2.0),
         ]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
         if case .loaded(let items) = sut.state {
             let lastItem = items.last!
             sut.loadMoreContentIfNeeded(currentItem: lastItem)
-            try? await Task.sleep(nanoseconds: 100_000_000)
 
             if case .loaded(let updatedItems) = sut.state {
                 XCTAssertEqual(updatedItems.count, 2)
@@ -123,18 +121,16 @@ final class TransactionsViewModelTests: XCTestCase {
         for i in 1...10 {
             transactions.append(TestFactory.makeTransaction(amount: Double(i)))
         }
-        mockRepository.transactions = transactions
+        fakeRepository.transactions = transactions
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
         if case .loaded(let items) = sut.state {
             XCTAssertEqual(items.count, 10)
 
             // The threshold item is at index (count - 5) = 5
             let thresholdItem = items[items.count - 5]
-            sut.loadMoreContentIfNeeded(currentItem: thresholdItem)
-            try? await Task.sleep(nanoseconds: 100_000_000)
+            await whenLoaded { sut.loadMoreContentIfNeeded(currentItem: thresholdItem) }
 
             if case .loaded = sut.state {
                 // pass — pagination was triggered
@@ -151,15 +147,13 @@ final class TransactionsViewModelTests: XCTestCase {
         for i in 1...10 {
             transactions.append(TestFactory.makeTransaction(amount: Double(i)))
         }
-        mockRepository.transactions = transactions
+        fakeRepository.transactions = transactions
 
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.loadMoreContent() }
 
         if case .loaded(let items) = sut.state {
             let firstItem = items.first!
             sut.loadMoreContentIfNeeded(currentItem: firstItem)
-            try? await Task.sleep(nanoseconds: 100_000_000)
 
             if case .loaded(let updatedItems) = sut.state {
                 XCTAssertEqual(updatedItems.count, 10)
@@ -175,9 +169,8 @@ final class TransactionsViewModelTests: XCTestCase {
 
     func testAddTransactionInsertsAtTop() async {
         let older = TestFactory.makeTransaction(amount: 1.0)
-        mockRepository.transactions = [older]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.transactions = [older]
+        await whenLoaded { sut.loadMoreContent() }
 
         let newer = TestFactory.makeTransaction(amount: 99.0)
         sut.add(newer)
@@ -192,9 +185,8 @@ final class TransactionsViewModelTests: XCTestCase {
     }
 
     func testAddTransactionToEmptyList() async {
-        mockRepository.transactions = []
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.transactions = []
+        await whenLoaded { sut.loadMoreContent() }
 
         let transaction = TestFactory.makeTransaction(amount: 50.0)
         sut.add(transaction)
@@ -213,12 +205,10 @@ final class TransactionsViewModelTests: XCTestCase {
         let id = UUID()
         let transaction = TestFactory.makeTransaction(id: id, amount: 10.0)
         let keeper = TestFactory.makeTransaction(amount: 20.0)
-        mockRepository.transactions = [transaction, keeper]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.transactions = [transaction, keeper]
+        await whenLoaded { sut.loadMoreContent() }
 
-        sut.delete(transaction)
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.delete(transaction) }
 
         if case .loaded(let items) = sut.state {
             XCTAssertEqual(items.count, 1)
@@ -231,12 +221,10 @@ final class TransactionsViewModelTests: XCTestCase {
     func testDeleteLastTransactionResultsInEmptyLoaded() async {
         let id = UUID()
         let transaction = TestFactory.makeTransaction(id: id)
-        mockRepository.transactions = [transaction]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.transactions = [transaction]
+        await whenLoaded { sut.loadMoreContent() }
 
-        sut.delete(transaction)
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        await whenLoaded { sut.delete(transaction) }
 
         if case .loaded(let items) = sut.state {
             XCTAssertTrue(items.isEmpty)
@@ -248,18 +236,50 @@ final class TransactionsViewModelTests: XCTestCase {
     func testDeleteTransactionErrorTransitionsToError() async {
         let id = UUID()
         let transaction = TestFactory.makeTransaction(id: id)
-        mockRepository.transactions = [transaction]
-        sut.loadMoreContent()
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.transactions = [transaction]
+        await whenLoaded { sut.loadMoreContent() }
 
-        mockRepository.deleteError = TestError.mock
-        sut.delete(transaction)
-        try? await Task.sleep(nanoseconds: 100_000_000)
+        fakeRepository.deleteError = TestError.mock
+        await whenError { sut.delete(transaction) }
 
         if case .error = sut.state {
             // pass
         } else {
             XCTFail("Expected .error, got \(sut.state)")
         }
+    }
+
+    // MARK: - Helpers
+
+    /// Runs `action`, then waits until the view model reaches `.loaded`.
+    private func whenLoaded(_ action: () -> Void, timeout: TimeInterval = 1.0) async {
+        let exp = expectation(description: "loaded")
+        exp.assertForOverFulfill = false
+        var cancellable: AnyCancellable?
+        cancellable = sut.$state.dropFirst().sink { state in
+            if case .loaded = state {
+                exp.fulfill()
+                cancellable?.cancel()
+            }
+        }
+        action()
+        await fulfillment(of: [exp], timeout: timeout)
+        cancellable?.cancel()
+    }
+
+    /// Runs `action`, then waits until the view model reaches `.error`.
+    private func whenError(_ action: () -> Void, timeout: TimeInterval = 1.0) async {
+        let exp = expectation(description: "error")
+        exp.assertForOverFulfill = false
+        var cancellable: AnyCancellable?
+        cancellable = sut.$state.dropFirst().sink { state in
+            if case .error = state {
+                exp.fulfill()
+                cancellable?.cancel()
+            }
+        }
+        action()
+        await fulfillment(of: [exp], timeout: timeout)
+        cancellable?.cancel()
     }
 }

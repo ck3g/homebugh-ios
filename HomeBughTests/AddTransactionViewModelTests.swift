@@ -24,9 +24,9 @@ final class AddTransactionViewModelTests: XCTestCase {
         categoriesRepo = MockCategoriesRepository()
         recent = RecentSelectionStore()
         sut = AddTransactionViewModel(
-            transactionsRepository: transactionsRepo,
-            accountsRepository: accountsRepo,
-            categoriesRepository: categoriesRepo,
+            transactionsUseCase: DefaultTransactionsUseCase(repository: transactionsRepo),
+            accountsUseCase: DefaultAccountsUseCase(repository: accountsRepo),
+            categoriesUseCase: DefaultCategoriesUseCase(repository: categoriesRepo),
             recentSelection: recent
         )
     }

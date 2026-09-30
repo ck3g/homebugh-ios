@@ -23,7 +23,7 @@ final class AccountViewModel: ObservableObject {
 
     @Published private(set) var state: ViewState = .idle
 
-    private let repository: AccountsRepository
+    private let useCase: AccountsUseCase
     private var items: [Account] = []
     private var page = 1
     private var canLoadMorePages = true
@@ -32,8 +32,8 @@ final class AccountViewModel: ObservableObject {
         return false
     }
 
-    init(repository: AccountsRepository) {
-        self.repository = repository
+    init(useCase: AccountsUseCase) {
+        self.useCase = useCase
     }
 
     // MARK: - Loading
@@ -57,7 +57,7 @@ final class AccountViewModel: ObservableObject {
 
         Task { @MainActor in
             do {
-                let newItems = try await repository.list(page: page, pageSize: Constants.pageSize)
+                let newItems = try await useCase.list(page: page, pageSize: Constants.pageSize)
                 items.append(contentsOf: newItems)
                 canLoadMorePages = newItems.count == Constants.pageSize
                 page += 1
@@ -82,7 +82,7 @@ final class AccountViewModel: ObservableObject {
     func add(_ account: Account) {
         Task { @MainActor in
             do {
-                try await repository.create(account)
+                try await useCase.create(account)
                 items.append(account)
                 updateLoadedState()
             } catch {
@@ -94,7 +94,7 @@ final class AccountViewModel: ObservableObject {
     func update(_ account: Account) {
         Task { @MainActor in
             do {
-                try await repository.update(account)
+                try await useCase.update(account)
                 if let index = items.firstIndex(where: { $0.id == account.id }) {
                     items[index] = account
                 }
@@ -109,7 +109,7 @@ final class AccountViewModel: ObservableObject {
     func delete(_ account: Account) {
         Task { @MainActor in
             do {
-                try await repository.delete(id: account.id)
+                try await useCase.delete(id: account.id)
                 items.removeAll { $0.id == account.id }
                 updateLoadedState()
             } catch {

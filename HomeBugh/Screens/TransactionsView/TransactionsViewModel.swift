@@ -23,7 +23,7 @@ final class TransactionsViewModel: ObservableObject {
 
     @Published private(set) var state: ViewState = .idle
 
-    private let repository: TransactionsRepository
+    private let useCase: TransactionsUseCase
     private var items: [Transaction] = []
     private var page = 1
     private var canLoadMorePages = true
@@ -32,8 +32,8 @@ final class TransactionsViewModel: ObservableObject {
         return false
     }
 
-    init(repository: TransactionsRepository) {
-        self.repository = repository
+    init(useCase: TransactionsUseCase) {
+        self.useCase = useCase
     }
 
     // MARK: - Loading
@@ -57,7 +57,7 @@ final class TransactionsViewModel: ObservableObject {
 
         Task { @MainActor in
             do {
-                let newItems = try await repository.list(page: page, pageSize: Constants.pageSize)
+                let newItems = try await useCase.list(page: page, pageSize: Constants.pageSize)
                 items.append(contentsOf: newItems)
                 canLoadMorePages = newItems.count == Constants.pageSize
                 page += 1
@@ -87,7 +87,7 @@ final class TransactionsViewModel: ObservableObject {
     func delete(_ transaction: Transaction) {
         Task { @MainActor in
             do {
-                try await repository.delete(id: transaction.id)
+                try await useCase.delete(id: transaction.id)
                 items.removeAll { $0.id == transaction.id }
                 state = .loaded(items)
             } catch {

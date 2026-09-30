@@ -21,9 +21,9 @@ final class AddTransactionViewModel: ObservableObject {
     @Published var comment = ""
     @Published var errorMessage = ""
 
-    private let transactionsRepository: TransactionsRepository
-    private let accountsRepository: AccountsRepository
-    private let categoriesRepository: CategoriesRepository
+    private let transactionsUseCase: TransactionsUseCase
+    private let accountsUseCase: AccountsUseCase
+    private let categoriesUseCase: CategoriesUseCase
     private let recentSelection: RecentSelectionTracking
     let moneyFormatter: MoneyFormatterProtocol
 
@@ -31,15 +31,15 @@ final class AddTransactionViewModel: ObservableObject {
     var onTransactionAdded: ((Transaction) -> Void)?
 
     init(
-        transactionsRepository: TransactionsRepository,
-        accountsRepository: AccountsRepository,
-        categoriesRepository: CategoriesRepository,
+        transactionsUseCase: TransactionsUseCase,
+        accountsUseCase: AccountsUseCase,
+        categoriesUseCase: CategoriesUseCase,
         recentSelection: RecentSelectionTracking = RecentSelectionStore(),
         moneyFormatter: MoneyFormatterProtocol = MoneyFormatter()
     ) {
-        self.transactionsRepository = transactionsRepository
-        self.accountsRepository = accountsRepository
-        self.categoriesRepository = categoriesRepository
+        self.transactionsUseCase = transactionsUseCase
+        self.accountsUseCase = accountsUseCase
+        self.categoriesUseCase = categoriesUseCase
         self.recentSelection = recentSelection
         self.moneyFormatter = moneyFormatter
     }
@@ -54,11 +54,11 @@ final class AddTransactionViewModel: ObservableObject {
     func loadData() {
         Task { @MainActor in
             do {
-                let loadedAccounts = try await accountsRepository.list(page: 1, pageSize: Constants.maxPickerItems)
-                let loadedCategories = try await categoriesRepository.listActive(page: 1, pageSize: Constants.maxPickerItems)
+                let loadedAccounts = try await accountsUseCase.list(page: 1, pageSize: Constants.maxPickerItems)
+                let loadedCategories = try await categoriesUseCase.listActive(page: 1, pageSize: Constants.maxPickerItems)
 
                 // Seed recency from transaction history (newest first) once per session.
-                let recentTransactions = try await transactionsRepository.list(page: 1, pageSize: Constants.maxPickerItems)
+                let recentTransactions = try await transactionsUseCase.list(page: 1, pageSize: Constants.maxPickerItems)
                 recentSelection.seedIfNeeded(
                     accountIds: recentTransactions.map { $0.account.id },
                     categoryIds: recentTransactions.map { $0.category.id }
@@ -101,7 +101,7 @@ final class AddTransactionViewModel: ObservableObject {
 
         Task { @MainActor in
             do {
-                try await transactionsRepository.create(transaction)
+                try await transactionsUseCase.create(transaction)
                 recentSelection.recordAccount(account.id)
                 recentSelection.recordCategory(category.id)
                 onTransactionAdded?(transaction)

@@ -17,7 +17,7 @@ final class CategoryViewModelTests: XCTestCase {
     override func setUp() {
         super.setUp()
         mockRepository = MockCategoriesRepository()
-        sut = CategoryViewModel(repository: mockRepository)
+        sut = CategoryViewModel(useCase: DefaultCategoriesUseCase(repository: mockRepository))
     }
 
     override func tearDown() {

@@ -23,7 +23,9 @@
 		238D3BD72F8CF80E00C97EA7 /* AccountsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BD02F8CF80E00C97EA7 /* AccountsRepository.swift */; };
 		238D3BD82F8CF80E00C97EA7 /* TransactionsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BD22F8CF80E00C97EA7 /* TransactionsRepository.swift */; };
 		238D3BDA2F8CF80E00C97EA7 /* CategoriesRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BD12F8CF80E00C97EA7 /* CategoriesRepository.swift */; };
-		238D3BDB2F8CF80E00C97EA7 /* TransactionsUseCases.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BD42F8CF80E00C97EA7 /* TransactionsUseCases.swift */; };
+		238D3BDB2F8CF80E00C97EA7 /* TransactionsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BD42F8CF80E00C97EA7 /* TransactionsUseCase.swift */; };
+		56E60A3BCEEF4989B6319F58 /* AccountsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = E339D475FD664B1C960B3D26 /* AccountsUseCase.swift */; };
+		063B3A3460A14B778C1365A1 /* CategoriesUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62BAF787CB7540D09C4FDBFB /* CategoriesUseCase.swift */; };
 		238D3BE22F8D113F00C97EA7 /* CategoryData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BDF2F8D113F00C97EA7 /* CategoryData.swift */; };
 		238D3BE32F8D113F00C97EA7 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BE12F8D113F00C97EA7 /* User.swift */; };
 		238D3BE42F8D113F00C97EA7 /* AccountData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238D3BDE2F8D113F00C97EA7 /* AccountData.swift */; };
@@ -133,7 +135,9 @@
 		238D3BD02F8CF80E00C97EA7 /* AccountsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsRepository.swift; sourceTree = "<group>"; };
 		238D3BD12F8CF80E00C97EA7 /* CategoriesRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesRepository.swift; sourceTree = "<group>"; };
 		238D3BD22F8CF80E00C97EA7 /* TransactionsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsRepository.swift; sourceTree = "<group>"; };
-		238D3BD42F8CF80E00C97EA7 /* TransactionsUseCases.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsUseCases.swift; sourceTree = "<group>"; };
+		238D3BD42F8CF80E00C97EA7 /* TransactionsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionsUseCase.swift; sourceTree = "<group>"; };
+		E339D475FD664B1C960B3D26 /* AccountsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountsUseCase.swift; sourceTree = "<group>"; };
+		62BAF787CB7540D09C4FDBFB /* CategoriesUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesUseCase.swift; sourceTree = "<group>"; };
 		238D3BDE2F8D113F00C97EA7 /* AccountData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountData.swift; sourceTree = "<group>"; };
 		238D3BDF2F8D113F00C97EA7 /* CategoryData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryData.swift; sourceTree = "<group>"; };
 		238D3BE02F8D113F00C97EA7 /* TransactionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionData.swift; sourceTree = "<group>"; };
@@ -311,7 +315,9 @@
 		238D3BD52F8CF80E00C97EA7 /* UseCases */ = {
 			isa = PBXGroup;
 			children = (
-				238D3BD42F8CF80E00C97EA7 /* TransactionsUseCases.swift */,
+				238D3BD42F8CF80E00C97EA7 /* TransactionsUseCase.swift */,
+				E339D475FD664B1C960B3D26 /* AccountsUseCase.swift */,
+				62BAF787CB7540D09C4FDBFB /* CategoriesUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -709,7 +715,9 @@
 				238D3BD72F8CF80E00C97EA7 /* AccountsRepository.swift in Sources */,
 				238D3BD82F8CF80E00C97EA7 /* TransactionsRepository.swift in Sources */,
 				238D3BDA2F8CF80E00C97EA7 /* CategoriesRepository.swift in Sources */,
-				238D3BDB2F8CF80E00C97EA7 /* TransactionsUseCases.swift in Sources */,
+				238D3BDB2F8CF80E00C97EA7 /* TransactionsUseCase.swift in Sources */,
+				56E60A3BCEEF4989B6319F58 /* AccountsUseCase.swift in Sources */,
+				063B3A3460A14B778C1365A1 /* CategoriesUseCase.swift in Sources */,
 				C19D875F252B315700B2433F /* ContentView.swift in Sources */,
 				C1DA6CAF2587A55A00679706 /* AccountView.swift in Sources */,
 				C153C11C253226EA0064BD6D /* SettingsView.swift in Sources */,

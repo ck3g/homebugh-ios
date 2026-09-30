@@ -23,7 +23,7 @@ final class CategoryViewModel: ObservableObject {
 
     @Published private(set) var state: ViewState = .idle
 
-    private let repository: CategoriesRepository
+    private let useCase: CategoriesUseCase
     private var items: [Category] = []
     private var page = 1
     private var canLoadMorePages = true
@@ -32,8 +32,8 @@ final class CategoryViewModel: ObservableObject {
         return false
     }
 
-    init(repository: CategoriesRepository) {
-        self.repository = repository
+    init(useCase: CategoriesUseCase) {
+        self.useCase = useCase
     }
 
     // MARK: - Loading
@@ -57,7 +57,7 @@ final class CategoryViewModel: ObservableObject {
 
         Task { @MainActor in
             do {
-                let newItems = try await repository.list(page: page, pageSize: Constants.pageSize)
+                let newItems = try await useCase.list(page: page, pageSize: Constants.pageSize)
                 items.append(contentsOf: newItems)
                 canLoadMorePages = newItems.count == Constants.pageSize
                 page += 1
@@ -82,7 +82,7 @@ final class CategoryViewModel: ObservableObject {
     func add(_ category: Category) {
         Task { @MainActor in
             do {
-                try await repository.create(category)
+                try await useCase.create(category)
                 items.append(category)
                 updateLoadedState()
             } catch {
@@ -94,7 +94,7 @@ final class CategoryViewModel: ObservableObject {
     func update(_ category: Category) {
         Task { @MainActor in
             do {
-                try await repository.update(category)
+                try await useCase.update(category)
                 if let index = items.firstIndex(where: { $0.id == category.id }) {
                     items[index] = category
                 }
@@ -109,7 +109,7 @@ final class CategoryViewModel: ObservableObject {
     func delete(_ category: Category) {
         Task { @MainActor in
             do {
-                try await repository.delete(id: category.id)
+                try await useCase.delete(id: category.id)
                 items.removeAll { $0.id == category.id }
                 updateLoadedState()
             } catch {

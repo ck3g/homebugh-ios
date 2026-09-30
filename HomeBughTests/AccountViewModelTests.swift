@@ -17,7 +17,7 @@ final class AccountViewModelTests: XCTestCase {
     override func setUp() {
         super.setUp()
         mockRepository = MockAccountsRepository()
-        sut = AccountViewModel(repository: mockRepository)
+        sut = AccountViewModel(useCase: DefaultAccountsUseCase(repository: mockRepository))
     }
 
     override func tearDown() {

@@ -17,7 +17,7 @@ final class TransactionsViewModelTests: XCTestCase {
     override func setUp() {
         super.setUp()
         mockRepository = MockTransactionsRepository()
-        sut = TransactionsViewModel(repository: mockRepository)
+        sut = TransactionsViewModel(useCase: DefaultTransactionsUseCase(repository: mockRepository))
     }
 
     override func tearDown() {

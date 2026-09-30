@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import SwiftUI
 
 struct Transaction: Codable, Hashable, Identifiable {
     var id: UUID

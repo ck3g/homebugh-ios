@@ -43,25 +43,39 @@ final class RepositoryProvider: ObservableObject {
         return LocalCategoriesRepository(localStore: localStore)
     }
 
+    // MARK: - Use case factories
+
+    private func accountsUseCase() -> AccountsUseCase {
+        DefaultAccountsUseCase(repository: accountsRepository())
+    }
+
+    private func categoriesUseCase() -> CategoriesUseCase {
+        DefaultCategoriesUseCase(repository: categoriesRepository())
+    }
+
+    private func transactionsUseCase() -> TransactionsUseCase {
+        DefaultTransactionsUseCase(repository: transactionsRepository())
+    }
+
     // MARK: - View model factories
 
     func makeTransactionsViewModel() -> TransactionsViewModel {
-        TransactionsViewModel(repository: transactionsRepository())
+        TransactionsViewModel(useCase: transactionsUseCase())
     }
 
     func makeAccountViewModel() -> AccountViewModel {
-        AccountViewModel(repository: accountsRepository())
+        AccountViewModel(useCase: accountsUseCase())
     }
 
     func makeCategoryViewModel() -> CategoryViewModel {
-        CategoryViewModel(repository: categoriesRepository())
+        CategoryViewModel(useCase: categoriesUseCase())
     }
 
     func makeAddTransactionViewModel() -> AddTransactionViewModel {
         AddTransactionViewModel(
-            transactionsRepository: transactionsRepository(),
-            accountsRepository: accountsRepository(),
-            categoriesRepository: categoriesRepository(),
+            transactionsUseCase: transactionsUseCase(),
+            accountsUseCase: accountsUseCase(),
+            categoriesUseCase: categoriesUseCase(),
             recentSelection: recentSelectionStore
         )
     }

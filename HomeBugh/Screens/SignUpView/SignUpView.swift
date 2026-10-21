@@ -58,7 +58,7 @@ struct SignInButton: View {
             .foregroundColor(.green)
             .padding()
             .frame(width: 220, height: 60)
-            .background(Color.white)
+            .background(Color(.systemBackground))
     }
 }
 

@@ -15,22 +15,34 @@ struct SettingsView: View {
     }
 
     @EnvironmentObject var repositoryProvider: RepositoryProvider
-    @EnvironmentObject var userLoggedIn: UserLoggedIn
-    @EnvironmentObject var auth: Auth
 
     @Binding var path: NavigationPath
+
+    @State private var showLogin = false
+    @State private var isLoggedIn = false
 
     var body: some View {
         NavigationStack(path: $path) {
             List {
-                NavigationLink("Accounts", value: Destination.accounts)
-                NavigationLink("Categories", value: Destination.categories)
+                Section {
+                    NavigationLink("Accounts", value: Destination.accounts)
+                    NavigationLink("Categories", value: Destination.categories)
+                }
 
-                Button(action: {
-                    self.userLoggedIn.setUserLoggedIn(isUserLoggedIn: false)
-                    self.auth.setAuthView(view: "Login")
-                }) {
-                    LogoutButton()
+                Section(header: Text("Server")) {
+                    if isLoggedIn {
+                        Label("Connected", systemImage: "checkmark.circle.fill")
+                            .foregroundColor(.green)
+                        Button(role: .destructive) {
+                            disconnect()
+                        } label: {
+                            Text("Disconnect")
+                        }
+                    } else {
+                        Button("Connect to Server") {
+                            showLogin = true
+                        }
+                    }
                 }
             }
             .navigationTitle("Settings")
@@ -43,10 +55,25 @@ struct SettingsView: View {
                 }
             }
         }
+        .sheet(isPresented: $showLogin, onDismiss: refreshLoginState) {
+            LoginView(viewModel: repositoryProvider.makeLoginViewModel())
+        }
+        .onAppear(perform: refreshLoginState)
         .onDisappear {
             // Reset to the root menu off-screen when leaving the tab, so returning
             // shows Settings instantly with no visible pop animation.
             path = NavigationPath()
+        }
+    }
+
+    private func refreshLoginState() {
+        isLoggedIn = repositoryProvider.isLoggedIn
+    }
+
+    private func disconnect() {
+        Task {
+            try? await repositoryProvider.authUseCase().logout()
+            refreshLoginState()
         }
     }
 }
@@ -54,12 +81,5 @@ struct SettingsView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView(path: .constant(NavigationPath()))
-    }
-}
-
-struct LogoutButton: View {
-    var body: some View {
-        Text("Logout")
-            .foregroundColor(.blue)
     }
 }

@@ -15,6 +15,11 @@ final class RepositoryProvider: ObservableObject {
     /// Session-scoped recency tracker shared across Add Transaction form instances.
     let recentSelectionStore = RecentSelectionStore()
 
+    // MARK: - Auth infrastructure (shared instances)
+
+    private let tokenStore: TokenStore = KeychainTokenStore()
+    private let serverConfig: ServerConfigStoring = ServerConfigStore()
+
     init(database: AppDatabase) {
         self.database = database
     }
@@ -57,7 +62,29 @@ final class RepositoryProvider: ObservableObject {
         DefaultTransactionsUseCase(repository: transactionsRepository())
     }
 
+    // MARK: - Auth
+
+    func authUseCase() -> AuthUseCase {
+        DefaultAuthUseCase(
+            tokenStore: tokenStore,
+            serverConfig: serverConfig,
+            makeAuthService: { baseURL in
+                AuthService(httpClient: URLSessionHTTPClient(baseURL: baseURL.appendingPathComponent("api/v1")))
+            }
+        )
+    }
+
+    /// Whether a server session is currently active (token present).
+    var isLoggedIn: Bool {
+        tokenStore.hasToken
+    }
+
     // MARK: - View model factories
+
+    @MainActor
+    func makeLoginViewModel() -> LoginViewModel {
+        LoginViewModel(authUseCase: authUseCase())
+    }
 
     func makeTransactionsViewModel() -> TransactionsViewModel {
         TransactionsViewModel(useCase: transactionsUseCase())

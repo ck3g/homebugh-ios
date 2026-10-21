@@ -100,4 +100,41 @@ struct CategoriesLocalStore {
             }
         }
     }
+
+    // MARK: - Sync support
+
+    /// Returns all records with pending local changes (including soft-deleted ones).
+    func dirtyRecords() throws -> [CategoryRecord] {
+        try dbQueue.read { db in
+            try CategoryRecord.filter(Column("isDirty") == true).fetchAll(db)
+        }
+    }
+
+    /// Marks a record as synced: stores the server id and clears the dirty flag.
+    func markSynced(id: String, remoteId: Int) throws {
+        try dbQueue.write { db in
+            if var record = try CategoryRecord.fetchOne(db, key: id) {
+                record.remoteId = remoteId
+                record.isDirty = false
+                try record.update(db)
+            }
+        }
+    }
+
+    /// Clears the dirty flag without changing the remote id (for updates).
+    func clearDirty(id: String) throws {
+        try dbQueue.write { db in
+            if var record = try CategoryRecord.fetchOne(db, key: id) {
+                record.isDirty = false
+                try record.update(db)
+            }
+        }
+    }
+
+    /// Permanently removes a record (after a confirmed server delete).
+    func hardDelete(id: String) throws {
+        try dbQueue.write { db in
+            _ = try CategoryRecord.deleteOne(db, key: id)
+        }
+    }
 }

@@ -79,4 +79,41 @@ struct AccountsLocalStore {
             }
         }
     }
+
+    // MARK: - Sync support
+
+    /// Returns all records with pending local changes (including soft-deleted ones).
+    func dirtyRecords() throws -> [AccountRecord] {
+        try dbQueue.read { db in
+            try AccountRecord.filter(Column("isDirty") == true).fetchAll(db)
+        }
+    }
+
+    /// Marks a record as synced: stores the server id and clears the dirty flag.
+    func markSynced(id: String, remoteId: Int) throws {
+        try dbQueue.write { db in
+            if var record = try AccountRecord.fetchOne(db, key: id) {
+                record.remoteId = remoteId
+                record.isDirty = false
+                try record.update(db)
+            }
+        }
+    }
+
+    /// Clears the dirty flag without changing the remote id (for updates).
+    func clearDirty(id: String) throws {
+        try dbQueue.write { db in
+            if var record = try AccountRecord.fetchOne(db, key: id) {
+                record.isDirty = false
+                try record.update(db)
+            }
+        }
+    }
+
+    /// Permanently removes a record (after a confirmed server delete).
+    func hardDelete(id: String) throws {
+        try dbQueue.write { db in
+            _ = try AccountRecord.deleteOne(db, key: id)
+        }
+    }
 }

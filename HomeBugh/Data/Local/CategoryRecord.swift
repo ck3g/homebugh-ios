@@ -13,6 +13,8 @@ struct CategoryRecord: Codable, FetchableRecord, PersistableRecord {
 
     var id: String          // UUID as string
     var remoteId: Int?
+    var clientUuid: String
+    var remoteServerId: String?
     var name: String
     var categoryTypeId: Int
     var inactive: Bool

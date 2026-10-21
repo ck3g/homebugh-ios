@@ -15,6 +15,10 @@ enum CategoryStatus: String, Codable, Hashable {
 struct Category: Codable, Hashable, Identifiable {
     var id: UUID
     var remoteId: Int?
+    /// Locally generated UUID sent to the server for sync idempotency.
+    var clientUuid: UUID
+    /// Identifier of the server this record is synced with (nil until synced).
+    var remoteServerId: String?
     var name: String
     var categoryType: CategoryType
     var inactive: Bool
@@ -27,6 +31,8 @@ struct Category: Codable, Hashable, Identifiable {
     init(
         id: UUID = UUID(),
         remoteId: Int? = nil,
+        clientUuid: UUID = UUID(),
+        remoteServerId: String? = nil,
         name: String,
         categoryType: CategoryType,
         inactive: Bool,
@@ -38,6 +44,8 @@ struct Category: Codable, Hashable, Identifiable {
     ) {
         self.id = id
         self.remoteId = remoteId
+        self.clientUuid = clientUuid
+        self.remoteServerId = remoteServerId
         self.name = name
         self.categoryType = categoryType
         self.inactive = inactive

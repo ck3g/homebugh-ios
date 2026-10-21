@@ -13,6 +13,8 @@ struct TransactionRecord: Codable, FetchableRecord, PersistableRecord {
 
     var id: String          // UUID as string
     var remoteId: Int?
+    var clientUuid: String
+    var remoteServerId: String?
     var amount: Double
     var comment: String
     var categoryId: String  // UUID of the related category

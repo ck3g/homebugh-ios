@@ -14,6 +14,10 @@ enum AccountStatus {
 struct Account: Codable, Hashable, Identifiable {
     var id: UUID
     var remoteId: Int?
+    /// Locally generated UUID sent to the server for sync idempotency.
+    var clientUuid: UUID
+    /// Identifier of the server this record is synced with (nil until synced).
+    var remoteServerId: String?
     var name: String
     var balance: Double
     var currency: Currency
@@ -27,6 +31,8 @@ struct Account: Codable, Hashable, Identifiable {
     init(
         id: UUID = UUID(),
         remoteId: Int? = nil,
+        clientUuid: UUID = UUID(),
+        remoteServerId: String? = nil,
         name: String,
         balance: Double,
         currency: Currency,
@@ -39,6 +45,8 @@ struct Account: Codable, Hashable, Identifiable {
     ) {
         self.id = id
         self.remoteId = remoteId
+        self.clientUuid = clientUuid
+        self.remoteServerId = remoteServerId
         self.name = name
         self.balance = balance
         self.currency = currency

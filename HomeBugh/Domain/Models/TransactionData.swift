@@ -10,6 +10,10 @@ import Foundation
 struct Transaction: Codable, Hashable, Identifiable {
     var id: UUID
     var remoteId: Int?
+    /// Locally generated UUID sent to the server for sync idempotency.
+    var clientUuid: UUID
+    /// Identifier of the server this record is synced with (nil until synced).
+    var remoteServerId: String?
     var amount: Double
     var comment: String
     var category: Category
@@ -22,6 +26,8 @@ struct Transaction: Codable, Hashable, Identifiable {
     init(
         id: UUID = UUID(),
         remoteId: Int? = nil,
+        clientUuid: UUID = UUID(),
+        remoteServerId: String? = nil,
         amount: Double,
         comment: String,
         category: Category,
@@ -33,6 +39,8 @@ struct Transaction: Codable, Hashable, Identifiable {
     ) {
         self.id = id
         self.remoteId = remoteId
+        self.clientUuid = clientUuid
+        self.remoteServerId = remoteServerId
         self.amount = amount
         self.comment = comment
         self.category = category

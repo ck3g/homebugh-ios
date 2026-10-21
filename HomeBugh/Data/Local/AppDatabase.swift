@@ -54,6 +54,8 @@ struct AppDatabase {
             try db.create(table: "categories") { t in
                 t.column("id", .text).notNull().primaryKey()
                 t.column("remoteId", .integer)
+                t.column("clientUuid", .text).notNull()
+                t.column("remoteServerId", .text)
                 t.column("name", .text).notNull()
                 t.column("categoryTypeId", .integer).notNull()
                 t.column("inactive", .boolean).notNull().defaults(to: false)
@@ -68,6 +70,8 @@ struct AppDatabase {
             try db.create(table: "accounts") { t in
                 t.column("id", .text).notNull().primaryKey()
                 t.column("remoteId", .integer)
+                t.column("clientUuid", .text).notNull()
+                t.column("remoteServerId", .text)
                 t.column("name", .text).notNull()
                 t.column("balance", .double).notNull().defaults(to: 0.0)
                 t.column("currencyId", .integer).notNull()
@@ -85,6 +89,8 @@ struct AppDatabase {
             try db.create(table: "transactions") { t in
                 t.column("id", .text).notNull().primaryKey()
                 t.column("remoteId", .integer)
+                t.column("clientUuid", .text).notNull()
+                t.column("remoteServerId", .text)
                 t.column("amount", .double).notNull()
                 t.column("comment", .text).notNull().defaults(to: "")
                 t.column("categoryId", .text).notNull()
@@ -95,6 +101,12 @@ struct AppDatabase {
                 t.column("updatedAt", .datetime).notNull()
                 t.column("deletedAt", .datetime)
                 t.column("isDirty", .boolean).notNull().defaults(to: false)
+            }
+
+            // Sync metadata — single row holding the global last-synced timestamp.
+            try db.create(table: "sync_metadata") { t in
+                t.column("id", .integer).notNull().primaryKey()
+                t.column("lastSyncedAt", .datetime)
             }
         }
 

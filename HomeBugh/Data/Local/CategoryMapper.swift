@@ -13,6 +13,8 @@ enum CategoryMapper {
         CategoryRecord(
             id: category.id.uuidString,
             remoteId: category.remoteId,
+            clientUuid: category.clientUuid.uuidString,
+            remoteServerId: category.remoteServerId,
             name: category.name,
             categoryTypeId: category.categoryType.rawValue,
             inactive: category.inactive,
@@ -28,6 +30,8 @@ enum CategoryMapper {
         Category(
             id: UUID(uuidString: record.id) ?? UUID(),
             remoteId: record.remoteId,
+            clientUuid: UUID(uuidString: record.clientUuid) ?? UUID(),
+            remoteServerId: record.remoteServerId,
             name: record.name,
             categoryType: CategoryType(rawValue: record.categoryTypeId) ?? .expense,
             inactive: record.inactive,

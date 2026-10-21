@@ -13,6 +13,8 @@ enum TransactionMapper {
         TransactionRecord(
             id: transaction.id.uuidString,
             remoteId: transaction.remoteId,
+            clientUuid: transaction.clientUuid.uuidString,
+            remoteServerId: transaction.remoteServerId,
             amount: transaction.amount,
             comment: transaction.comment,
             categoryId: transaction.category.id.uuidString,
@@ -33,6 +35,8 @@ enum TransactionMapper {
         Transaction(
             id: UUID(uuidString: record.id) ?? UUID(),
             remoteId: record.remoteId,
+            clientUuid: UUID(uuidString: record.clientUuid) ?? UUID(),
+            remoteServerId: record.remoteServerId,
             amount: record.amount,
             comment: record.comment,
             category: category,

@@ -13,6 +13,8 @@ enum AccountMapper {
         AccountRecord(
             id: account.id.uuidString,
             remoteId: account.remoteId,
+            clientUuid: account.clientUuid.uuidString,
+            remoteServerId: account.remoteServerId,
             name: account.name,
             balance: account.balance,
             currencyId: account.currency.id,
@@ -31,6 +33,8 @@ enum AccountMapper {
         Account(
             id: UUID(uuidString: record.id) ?? UUID(),
             remoteId: record.remoteId,
+            clientUuid: UUID(uuidString: record.clientUuid) ?? UUID(),
+            remoteServerId: record.remoteServerId,
             name: record.name,
             balance: record.balance,
             currency: Currency(

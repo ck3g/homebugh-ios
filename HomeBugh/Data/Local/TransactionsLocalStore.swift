@@ -113,6 +113,31 @@ struct TransactionsLocalStore {
         }
     }
 
+    /// Inserts or updates a record pulled from the server, keyed by remoteId.
+    /// Last-write-wins: skips the update if the local copy is newer. The record's
+    /// foreign keys must already be local UUID strings.
+    func upsertFromServer(_ record: TransactionRecord) throws {
+        try dbQueue.write { db in
+            if let existing = try TransactionRecord
+                .filter(Column("remoteId") == record.remoteId)
+                .fetchOne(db) {
+                guard record.updatedAt >= existing.updatedAt else { return }
+                var merged = record
+                merged.id = existing.id
+                try merged.update(db)
+            } else {
+                try record.insert(db)
+            }
+        }
+    }
+
+    /// Removes a record identified by its server id (from a pull deletion).
+    func hardDeleteByRemoteId(_ remoteId: Int) throws {
+        try dbQueue.write { db in
+            _ = try TransactionRecord.filter(Column("remoteId") == remoteId).deleteAll(db)
+        }
+    }
+
     // MARK: - Balance side effects
 
     /// Signed amount to apply to the account balance: income adds, expense subtracts.

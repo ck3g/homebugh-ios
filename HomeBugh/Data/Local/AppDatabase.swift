@@ -103,6 +103,14 @@ struct AppDatabase {
                 t.column("isDirty", .boolean).notNull().defaults(to: false)
             }
 
+            // Currencies cache — populated from GET /currencies so pulled accounts
+            // can resolve currency name/unit from their currency_id.
+            try db.create(table: "currencies") { t in
+                t.column("id", .integer).notNull().primaryKey()
+                t.column("name", .text).notNull()
+                t.column("unit", .text).notNull()
+            }
+
             // Sync metadata — single row holding the global last-synced timestamp.
             try db.create(table: "sync_metadata") { t in
                 t.column("id", .integer).notNull().primaryKey()

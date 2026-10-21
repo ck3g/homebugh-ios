@@ -137,4 +137,28 @@ struct CategoriesLocalStore {
             _ = try CategoryRecord.deleteOne(db, key: id)
         }
     }
+
+    /// Inserts or updates a record pulled from the server, keyed by remoteId.
+    /// Last-write-wins: skips the update if the local copy is newer.
+    func upsertFromServer(_ record: CategoryRecord) throws {
+        try dbQueue.write { db in
+            if let existing = try CategoryRecord
+                .filter(Column("remoteId") == record.remoteId)
+                .fetchOne(db) {
+                guard record.updatedAt >= existing.updatedAt else { return }
+                var merged = record
+                merged.id = existing.id
+                try merged.update(db)
+            } else {
+                try record.insert(db)
+            }
+        }
+    }
+
+    /// Removes a record identified by its server id (from a pull deletion).
+    func hardDeleteByRemoteId(_ remoteId: Int) throws {
+        try dbQueue.write { db in
+            _ = try CategoryRecord.filter(Column("remoteId") == remoteId).deleteAll(db)
+        }
+    }
 }

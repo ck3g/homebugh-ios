@@ -116,4 +116,28 @@ struct AccountsLocalStore {
             _ = try AccountRecord.deleteOne(db, key: id)
         }
     }
+
+    /// Inserts or updates a record pulled from the server, keyed by remoteId.
+    /// Last-write-wins: skips the update if the local copy is newer.
+    func upsertFromServer(_ record: AccountRecord) throws {
+        try dbQueue.write { db in
+            if let existing = try AccountRecord
+                .filter(Column("remoteId") == record.remoteId)
+                .fetchOne(db) {
+                guard record.updatedAt >= existing.updatedAt else { return }
+                var merged = record
+                merged.id = existing.id // preserve local primary key
+                try merged.update(db)
+            } else {
+                try record.insert(db)
+            }
+        }
+    }
+
+    /// Removes a record identified by its server id (from a pull deletion).
+    func hardDeleteByRemoteId(_ remoteId: Int) throws {
+        try dbQueue.write { db in
+            _ = try AccountRecord.filter(Column("remoteId") == remoteId).deleteAll(db)
+        }
+    }
 }

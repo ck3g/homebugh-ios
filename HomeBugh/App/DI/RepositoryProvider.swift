@@ -79,11 +79,67 @@ final class RepositoryProvider: ObservableObject {
         tokenStore.hasToken
     }
 
+    // MARK: - Sync
+
+    /// Builds a sync service for the current session, or nil if not connected
+    /// to a server (no token or no base URL configured).
+    func makeSyncService() -> SyncServicing? {
+        guard let token = tokenStore.read(),
+              let baseURL = serverConfig.baseURL else {
+            return nil
+        }
+
+        let httpClient = URLSessionHTTPClient(baseURL: baseURL.appendingPathComponent("api/v1"))
+        let transport = HTTPSyncTransport(httpClient: httpClient, token: token)
+
+        let accountsStore = AccountsLocalStore(dbQueue: database.dbQueue)
+        let categoriesStore = CategoriesLocalStore(dbQueue: database.dbQueue)
+        let transactionsStore = TransactionsLocalStore(dbQueue: database.dbQueue)
+        let currenciesStore = CurrenciesLocalStore(dbQueue: database.dbQueue)
+        let metadataStore = SyncMetadataStore(dbQueue: database.dbQueue)
+
+        let pushService = SyncPushService(
+            accountsStore: accountsStore,
+            categoriesStore: categoriesStore,
+            transactionsStore: transactionsStore,
+            transport: transport
+        )
+        let pullService = SyncPullService(
+            accountsStore: accountsStore,
+            categoriesStore: categoriesStore,
+            transactionsStore: transactionsStore,
+            currenciesStore: currenciesStore,
+            metadataStore: metadataStore,
+            transport: transport
+        )
+
+        return SyncService(
+            pushService: pushService,
+            pullService: pullService,
+            currenciesService: CurrenciesService(httpClient: httpClient),
+            currenciesStore: currenciesStore,
+            metadataStore: metadataStore,
+            token: token
+        )
+    }
+
+    func lastSyncedAt() -> Date? {
+        try? SyncMetadataStore(dbQueue: database.dbQueue).lastSyncedAt()
+    }
+
     // MARK: - View model factories
 
     @MainActor
     func makeLoginViewModel() -> LoginViewModel {
         LoginViewModel(authUseCase: authUseCase())
+    }
+
+    @MainActor
+    func makeSyncViewModel() -> SyncViewModel {
+        SyncViewModel(
+            makeSyncService: { [weak self] in self?.makeSyncService() },
+            lastSyncedProvider: { [weak self] in self?.lastSyncedAt() }
+        )
     }
 
     func makeTransactionsViewModel() -> TransactionsViewModel {
